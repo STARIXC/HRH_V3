@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>How to get all dates between two dates using moment js</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<body>
+    <h1>How to get all dates between two dates using moment js</h1>
+    <div id="displayDates"></div>
+</body>
+<script type="text/javascript">
+    
+    function getTwoDatesBetweenDates (start, end) {
+        var now = start.clone();
+        var getDates = [];
+  
+        while (now.isSameOrBefore(end)) {
+            getDates.push(now.format('MM/DD/YYYY') + "<br>");
+            now.add(1, 'days');
+        }
+        return getDates;
+    };
+  
+    var start = moment('2022-02-13');
+    var end = moment('2022-02-26');
+  
+    var dateList = getTwoDatesBetweenDates(start, end);
+    $('#displayDates').html(dateList);
+         
+</script>
+</html>
