@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
         <link href="../assets/vendor/swal2/sweetalert2.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="../assets/vendor/calender/lib/jquery-ui.min.css" />
-        <link rel="stylesheet" href="../assets/vendor/calender/lib/bootstrap-datepicker.css" />
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
         <link rel="stylesheet" href="../assets/css/style.css">
@@ -59,7 +59,7 @@
                             <form accept-charset="UTF-8" id="attendanceSummaryReport" >
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-8">
                                         <div class="form-group">
                                             <label class="control-label" for="email">Month<span class="validateRq">*</span></label>
                                             <div class="input-group">
@@ -68,12 +68,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-2">
+<!--                                    <div class="col-2">
 
 
                                         <input type="submit" id="filter"  class="btn btn-info " value="Filter"/>
 
-                                    </div>
+                                    </div>-->
 
 
                                 </div>
@@ -105,6 +105,7 @@
 <script src="../assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
 <script src="../assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="../assets/vendor/swal2/sweetalert2.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>

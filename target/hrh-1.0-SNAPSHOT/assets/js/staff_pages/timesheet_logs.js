@@ -2,12 +2,12 @@
 $(document).ready(function () {
   var emp_no = document.getElementById("__STAFFID").value;
   var tableName = '#timesheetLogs';
-
+let app="/hrh";
 
   // handleSearchDatatable(tbl);
 //load all the facilities first to enable one to filter by county
   $.ajax({
-    url: './ManageTimesheet?emp_no=' + emp_no,
+    url: app+'/timesheetController?emp_no=' + emp_no+'&action=timesheetLogEmp',
     type: 'get',
     dataType: 'html',
     cache: true,
@@ -35,7 +35,7 @@ $(document).ready(function () {
 //,"onleave_hours":"","holiday":"","extra_hours_worked":"","Thours_worked":"0.0","expected_hrs":"","monthName":"April"}]
   $('#timesheetLogs').DataTable({
     "ajax": {
-      "url": './ManageTimesheet?emp_no=' + emp_no,
+      "url": app+'/timesheetController?emp_no=' + emp_no+'&action=timesheetLogEmp',
       "type": "GET",
       dataType: "json",
       dataSrc: "",

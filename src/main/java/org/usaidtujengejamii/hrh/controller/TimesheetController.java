@@ -63,14 +63,24 @@ public class TimesheetController extends HttpServlet {
                 String year_ = request.getParameter("year");
                 String month_ = request.getParameter("month");
                 List<Timesheet> timesheetData_ = dao.getTimesheetData(year_, month_);
-                 // Create a JSON object for the response
+                // Create a JSON object for the response
                 JSONObject jsonResponse = new JSONObject();
-              
+
 //                jsonResponse.put("data", timesheetData_);
                 out.println(JSONConverter.convert(timesheetData_));
                 break;
             case "approve":
 //                approveTimesheetEntries(request, response);
+                break;
+            case "timesheetLogEmp":
+                out = response.getWriter();
+                // setting the response type
+                response.setContentType("application/json");
+                request.getParameter("action");
+                emp_no = request.getParameter("emp_no");
+                List<Timesheet> logs = dao.getActivityByStaffID(emp_no);
+                System.out.print(logs);
+                out.println(JSONConverter.convert(logs));
                 break;
             default:
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

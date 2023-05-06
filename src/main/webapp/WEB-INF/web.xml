@@ -20,6 +20,10 @@
         <servlet-name>LeaveDays</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.LeaveDays</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetHours</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.GetHours</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StatServlet</servlet-name>
         <url-pattern>/StatServlet</url-pattern>
@@ -133,6 +137,10 @@
         <servlet-class>org.usaidtujengejamii.hrh.controller.StaffUpdate</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LogTimesheet</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.LogTimesheet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>updateEarnLeaveConfigure</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.updateEarnLeaveConfigure</servlet-class>
     </servlet>
@@ -206,6 +214,10 @@
     <servlet-mapping>
         <servlet-name>LeaveApplication</servlet-name>
         <url-pattern>/LeaveApplication</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogTimesheet</servlet-name>
+        <url-pattern>/LogTimesheet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MonthlyTimesheet</servlet-name>
@@ -346,6 +358,10 @@
     <servlet-mapping>
         <servlet-name>LeaveDays</servlet-name>
         <url-pattern>/LeaveDays</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetHours</servlet-name>
+        <url-pattern>/getHours</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

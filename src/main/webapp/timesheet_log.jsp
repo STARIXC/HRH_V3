@@ -14,7 +14,8 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
         <link href="./assets/vendor/swal2/sweetalert2.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="./assets/vendor/calender/lib/jquery-ui.min.css" />
-        <link rel="stylesheet" href="./assets/vendor/calender/lib/bootstrap-datepicker.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="./assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
         <link rel="stylesheet" href="./assets/css/style.css">
@@ -72,7 +73,7 @@
                                 <label class="control-label" for="email">Month<span class="validateRq">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control monthField required" readonly placeholder="Month"  name="month" id="monthyear" onchange="retrivetimesheet();gethours();" />
+                                    <input type="text" class="form-control monthField required" readonly placeholder="Month"  name="month" id="monthyear" />
                                 </div>
                             </div>
                         </div>
@@ -209,6 +210,7 @@
 <script src="./assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
 <script src="./assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="./assets/vendor/swal2/sweetalert2.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
@@ -222,14 +224,6 @@
 <script src="./assets/js/app.js"></script>
 <script src="./assets/js/main.js"></script>
 
-<script type="text/javascript">
-                                        $(document).ready(function () {
-                                            var app = "/hrh";
-//            
-
-                                        });
-
-</script>
  <script src="./assets/js/staff_pages/timesheet.js" type="text/javascript"></script>
 <%@include file="/_includes/include_footer.jsp"%>
 </body>

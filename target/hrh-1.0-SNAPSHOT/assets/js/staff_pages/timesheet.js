@@ -3,6 +3,7 @@ $(document).ready(function () {
     var now = new Date();
     var month = (now.getMonth() + 1);
     var hourTotal = 0;
+//    gethours();
     var day = now.getDate();
     if (month < 10)
         month = "0" + month;
@@ -55,15 +56,13 @@ $(document).ready(function () {
 
 
     function gethours() {
-
         const str = document.getElementById("monthyear").value;
         const split = str.split('-');
         var year = split[0];
         var month = split[split.length - 1];
-        var firstDay = new Date(year, month, 1);
-        var lastDay = new Date(year, month + 1, 0);
+//        console.log("year :"+year+"-Month:" +month);
         $.ajax({
-            url: app + "/GetHours?year=" + year + "&&month=" + month,
+            url: app + "/getHours?year=" + year + "&month=" + month,
             type: 'get',
             dataType: 'html',
             success: function (data) {
@@ -140,6 +139,7 @@ $(document).ready(function () {
                     calculateLeaveTotalHours();
                     calculateHolidayTotalHours();
                     calculateExtraTotalHours();
+                    gethours();
                 });
 
             }

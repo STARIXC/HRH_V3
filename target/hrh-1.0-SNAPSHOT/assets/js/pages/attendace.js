@@ -1,4 +1,6 @@
-$(function () {
+$(document).ready(function (e) {
+    "use strict";
+
     getDefaultMonth();
 
     var now = new Date();
@@ -14,9 +16,11 @@ $(function () {
 
 
     //   $(".select2").select2();
-    $('#myTable').DataTable({
-        "ordering": false,
-    });
+//    $('#timesheet_table').DataTable({
+//        "ordering": false,
+//    });
+    //               $('#timesheet_table').DataTable(
+//                       );
 
     $(".alert-success").delay(2000).fadeOut("slow");
     //   $(".alert-danger").delay(2000).fadeOut("slow");
@@ -66,59 +70,84 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response && response.length) {
-                    // Create the table data object with dates as keys and employees' hours worked as values
+                    // Create the table data object with employee names as keys and data as values
                     var tableData = {};
-                    var employeeNames = {};
                     response.forEach(function (record) {
-                        var date = record.date_field;
                         var fullName = record.firstName + ' ' + record.surname;
-                        employeeNames[fullName] = true;
+                        var date = record.date_field;
                         var hoursWorked = record.hours_worked;
-                        if (!tableData[date]) {
-                            tableData[date] = {};
+                        var leaveHours = record.leave_hours;
+                        var publicHoliday = record.public_holiday;
+                        if (!tableData[fullName]) {
+                            tableData[fullName] = {
+                                totalHours: 0,
+                                leaveHours: 0,
+                                publicHoliday: 0
+                            };
                         }
-                        tableData[date][fullName] = hoursWorked;
+                        if (hoursWorked) {
+                            tableData[fullName].totalHours += hoursWorked;
+                        }
+                        if (leaveHours) {
+                            tableData[fullName].leaveHours += leaveHours;
+                        }
+                        if (publicHoliday) {
+                            tableData[fullName].publicHoliday += publicHoliday;
+                        }
+                        tableData[fullName][date] = hoursWorked || '-';
                     });
-
-// Create the table header row with the dates
-                    var dates = Object.keys(tableData).sort();
+                    console.log(tableData);
+                    // Create the table header row with the dates and total hours column
+                    var dates = Object.keys(response.reduce(function (acc, record) {
+                        acc[record.date_field] = true;
+                        return acc;
+                    }, {}));
+                    dates.sort();
                     var headerRow = '<tr><th>Employee Name</th>';
                     dates.forEach(function (date) {
-                        headerRow += '<th>' + date + '</th>';
+                        var trimmedDate = date.substring(5); // extract the month and date from the date string
+                        headerRow += '<th>' + trimmedDate + '</th>';
                     });
-                    headerRow += '</tr>';
-   $("#timesheet_table thead").html(headerRow);
-// Create the table data rows with the hours worked
+                    headerRow += '<th>Total Hours</th><th>Leave Hours</th><th>Total Hours Worked</th></tr>';
+
+// Create the table data rows with the hours worked, leave hours, and total hours
                     var tableRows = '';
-                    Object.keys(employeeNames).forEach(function (employeeName) {
+                    Object.keys(tableData).forEach(function (employeeName) {
+                        var totalHours = 0;
+                        var leaveHours = 0;
                         tableRows += '<tr><td>' + employeeName + '</td>';
                         dates.forEach(function (date) {
-                            var hoursWorked = tableData[date][employeeName] || '';
+                            var hoursWorked = tableData[employeeName][date];
+                            if (hoursWorked && hoursWorked !== '-') {
+                                totalHours += parseInt(hoursWorked, 10);
+                            }
+                            var leave = tableData[employeeName].leaveHours;
+                            if (leave && leave !== '-') {
+                                leaveHours += parseInt(leave, 10);
+                            }
                             tableRows += '<td>' + hoursWorked + '</td>';
                         });
-                        tableRows += '</tr>';
+                        tableRows += '<td>' + (totalHours + leaveHours) + '</td>';
+                        tableRows += '<td>' + leaveHours + '</td>';
+                        tableRows += '<td>' + totalHours + '</td></tr>';
                     });
+
+// Populate the table with the header row and data rows
+                    $("#timesheet_table thead").html(headerRow);
                     $("#timesheet_table tbody").html(tableRows);
+
+
+
                 }
-            },
-            complete: function () {
-                var table = $('#timesheet_table').DataTable(
-                        {
-                            responsive: true,
-                            processing: true
-                        });
-                new $.fn.dataTable.FixedHeader(table);
-//                $('#spinner-div').hide(); //Request is complete so hide spinner
-            },
+            }
+            ,
             error: function () {
                 alert("Error fetching timesheet data.");
             }
 
 
         });
-        // if (day < 10)
-        //    day = "0" + day;
-        // var today =  + '-' + month;
+
 
     }
     ;
@@ -130,65 +159,90 @@ $(function () {
         var year = dt.getFullYear();
         var month = (dt.getMonth() < 10 ? '0' : '') + (dt.getMonth() + 1);
 
+
         $.ajax({
             url: app + "/timesheetController?year=" + year + "&month=" + month + "&action=getAllEntries",
             type: 'get',
             dataType: "json",
             success: function (response) {
                 if (response && response.length) {
-                    console.log(response);
+                    // Create the table data object with employee names as keys and data as values
+                    var tableData = {};
+                    response.forEach(function (record) {
+                        var fullName = record.firstName + ' ' + record.surname;
+                        var date = record.date_field;
+                        var hoursWorked = record.hours_worked;
+                        var leaveHours = record.leave_hours;
+                        var publicHoliday = record.public_holiday;
+                        if (!tableData[fullName]) {
+                            tableData[fullName] = {
+                                totalHours: 0,
+                                leaveHours: 0,
+                                publicHoliday: 0
+                            };
+                        }
+                        if (hoursWorked) {
+                            tableData[fullName].totalHours += hoursWorked;
+                        }
+                        if (leaveHours) {
+                            tableData[fullName].leaveHours += leaveHours;
+                        }
+                        if (publicHoliday) {
+                            tableData[fullName].publicHoliday += publicHoliday;
+                        }
+                        tableData[fullName][date] = hoursWorked || '-';
+                    });
+                    console.log(tableData);
+                    // Create the table header row with the dates
+                    var dates = Object.keys(response.reduce(function (acc, record) {
+                        if (record.isWeekday) {
+                            acc[record.date_field] = true;
+                        }
+                        return acc;
+                    }, {}));
+                    dates.sort();
+                    var headerRow = '<tr><th>Employee Name</th>';
+                    dates.forEach(function (date) {
+                        headerRow += '<th>' + date + '</th>';
+                    });
+                    headerRow += '<th>Total Hours</th><th>Leave Hours</th><th>Public Holiday</th></tr>';
+// Create the table data rows with the hours worked, leave hours, and public holidays
+                    var tableRows = '';
+                    Object.keys(tableData).forEach(function (employeeName) {
+                        tableRows += '<tr><td>' + employeeName + '</td>';
+                        dates.forEach(function (date) {
+                            var hoursWorked = tableData[employeeName][date];
+                            tableRows += '<td>' + hoursWorked + '</td>';
+                        });
+                        tableRows += '<td>' + tableData[employeeName].totalHours + '</td>';
+                        tableRows += '<td>' + tableData[employeeName].leaveHours + '</td>';
+                        tableRows += '<td>' + tableData[employeeName].publicHoliday + '</td></tr>';
+                    });
+// Populate the table with the header row and data rows
+                    $("#timesheet_table thead").html(headerRow);
+                    $("#timesheet_table tbody").html(tableRows);
                 }
-                // Get the unique dates from the response
-//                var dates = [];
-//                for (var i = 0; i < response.length; i++) {
-//                    var date = response[i].date_field;
-//                    if (!dates.includes(date)) {
-//                        dates.push(date);
-//                    }
-//                }
-//                console.log(dates);
-//                // Sort the dates in ascending order
-//                dates.sort();
-//                var size_=dates.length;
-//                console.log(size_);
-                // Create the table header row with the dates as column headers
-                var headerRow = "<tr><th>Date</th><th>Employee ID</th><th>First Name</th><th>Last Name</th>";
-//                for (var i = 0; i < dates.length; i++) {
-//                    headerRow += "<th>" + dates[i] + "</th>";
-//                }
-//                headerRow += "</tr>";
-//
-//                // Create the table body rows with the corresponding hours worked as cell values
-//                var bodyRows = "";
-//                for (var i = 0; i < response.length; i++) {
-//                    var rowData = response[i];
-//                    var date = rowData.date_field;
-//                    var hoursWorked = rowData.hours_worked;
-//                    var rowIndex = dates.indexOf(date) + 1;
-//                    if (rowIndex === 1) {
-//                        bodyRows += "<tr><td>" + rowData.date_name + "</td>";
-//                    }
-//                    if (rowIndex > 1) {
-//                        bodyRows += "<td>" + hoursWorked + "</td>";
-//                    }
-//                    if (rowIndex === dates.length) {
-//                        bodyRows += "</tr>";
-//                    }
-//                }
-//
-//                // Combine the table header and body rows and add it to the table element
-//                var tableHtml = "<table>" + headerRow + bodyRows + "</table>";
-//                $("#tableContainer").html(tableHtml);
             },
-            error: function (xhr, status, error) {
-                console.log("Error: " + error.message);
+            complete: function () {
+                let table = $('#timesheet_table').DataTable(
+                        );
+                new $.fn.dataTable.FixedHeader(table);
+//                $('#spinner-div').hide(); //Request is complete so hide spinner
+            },
+            error: function () {
+                alert("Error fetching timesheet data.");
             }
 
 
-
         });
+
+
     }
     ;
+
+//               $('#timesheet_table').DataTable(
+//                       );
+//                new $.fn.dataTable.FixedHeader(table);
 });
 
 
