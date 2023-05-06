@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
         <link rel="stylesheet" href="../assets/css/style.css">
-          <style type="text/css">
+        <style type="text/css">
             .notif:hover {
                 background-color: rgba(0, 0, 0, 0.1);
             }
@@ -128,7 +128,7 @@
 <script src="../assets/js/pages/leave_type.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
+        var app_ = "/hrh";
         $(document).on('click', '.delete_leave_type', function (e) {
             e.preventDefault();
             var typeId = $(this).data('id');
@@ -161,82 +161,83 @@
             }
         });
 
-    });
 
-    function SwalDelete(typeId) {
 
-        swal({
-            title: 'Are you sure?',
-            text: "It will be deleted permanently",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6', //sweetalert confirm dialouge 
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-            showLoaderOnConfirm: true,
+        function SwalDelete(typeId) {
 
-            preConfirm: function () {
-                return new Promise(function (resolve) {    //Promise() function take care delete process done by ajax
-                    var action = "delete";
-                    var data = "deleteId=" + typeId + "&action=" + action;
-                    var url = url;
-                    $.ajax({
-                        url: './ProcessLeaves', //ajax codes start for delete data
-                        type: 'POST',
-                        data: data,
-                        dataType: 'JSON'
-                    })
-                            .done(function (response) {
-                                swal('Deleted!', response.message, response.status);    //after process done on delete.jsp file get JSON response display message "Fruit Delete Successfully"
-                                var url_ = "manage_leave_type.jsp";
-                                $(location).attr('href', url_);
-                                //  readFruit();
-                            })
-                            .fail(function () {
-                                swal('Oops...', 'Something went wrong with ajax !', 'error');    //if process fail on delete.jsp file get JSON response display message "Unable to delete fruit"
-                            });
-                });
-            },
-            allowOutsideClick: false
-        });
-    }
-    function OpenBootstrapPopup(id) {
-        var type_id = id;
+            swal({
+                title: 'Are you sure?',
+                text: "It will be deleted permanently",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6', //sweetalert confirm dialouge 
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                showLoaderOnConfirm: true,
+
+                preConfirm: function () {
+                    return new Promise(function (resolve) {    //Promise() function take care delete process done by ajax
+                        var action = "delete";
+                        var data = "deleteId=" + typeId + "&action=" + action;
+                        var url = url;
+                        $.ajax({
+                            url: app_ + '/ProcessLeaves', //ajax codes start for delete data
+                            type: 'POST',
+                            data: data,
+                            dataType: 'JSON'
+                        })
+                                .done(function (response) {
+                                    swal('Deleted!', response.message, response.status);    //after process done on delete.jsp file get JSON response display message "Fruit Delete Successfully"
+                                    var url_ = "manage_leave_type.jsp";
+                                    $(location).attr('href', url_);
+                                    //  readFruit();
+                                })
+                                .fail(function () {
+                                    swal('Oops...', 'Something went wrong with ajax !', 'error');    //if process fail on delete.jsp file get JSON response display message "Unable to delete fruit"
+                                });
+                    });
+                },
+                allowOutsideClick: false
+            });
+        }
+        function OpenBootstrapPopup(id) {
+
+            var type_id = id;
 //         $('#simpleModalLeaveType form').attr('id', 'editRecordForm');
-        $('#simpleModalLeaveType .modal-title').text('Edit Record');
-        $('#simpleModalLeaveType .btn_save').text('Save Changes');
-        $.ajax({
-            type: "GET",
-            url: './ProcessLeaves?action=getLeave&id=' + type_id,
-            contentType: "application/json; charset-utf-8",
-            dataType: "json",
+            $('#simpleModalLeaveType .modal-title').text('Edit Record');
+            $('#simpleModalLeaveType .btn_save').text('Save Changes');
+            $.ajax({
+                type: "GET",
+                url: app_ + '/ProcessLeaves?action=getLeave&id=' + type_id,
+                contentType: "application/json; charset-utf-8",
+                dataType: "json",
 //                            data: {
 //                                'id': holiday_id
 //                            },
-            success: function (data) {
-                console.log(eval(data));
-                document.getElementById('type_id').value = data.leave_id;
-                document.getElementById('leave_name').value = data.leave_type;
-                document.getElementById('leave_description').value = data.description;
-                let accrued = data.is_accrued;
-                let accrued_value = 0;
-                if (accrued === true) {
-                    accrued_value = 1;
+                success: function (data) {
+                    console.log(eval(data));
+                    document.getElementById('type_id').value = data.leave_id;
+                    document.getElementById('leave_name').value = data.leave_type;
+                    document.getElementById('leave_description').value = data.description;
+                    let accrued = data.is_accrued;
+                    let accrued_value = 0;
+                    if (accrued === true) {
+                        accrued_value = 1;
 
-                } else {
-                    accrued_value;
-                }
-                $('#is_accrued option[value="' + accrued_value + '"]').attr("selected", "selected");
-                document.getElementById('max_days').value = data.max_days;
+                    } else {
+                        accrued_value;
+                    }
+                    $('#is_accrued option[value="' + accrued_value + '"]').attr("selected", "selected");
+                    document.getElementById('max_days').value = data.max_days;
 //                        document.getElementById('comment').value = data.comment;
-            },
-            complete: function () {
-                $("#simpleModalLeaveType").modal('show');
-            }
-        });
+                },
+                complete: function () {
+                    $("#simpleModalLeaveType").modal('show');
+                }
+            });
 
-    }
-
+        }
+    });
 </script>
 <%@include file="/_includes/include_footer.jsp"%>
 </body>

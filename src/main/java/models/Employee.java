@@ -44,7 +44,11 @@ public class Employee {
     private String standardId;
     private String cadreTypeName;
     private String typeId;
+    private String supervisor;
 //    private List<EmploymentHistory> employmentHistoryList;
+
+    public Employee() {
+    }
 
     // Getters and setters
     public String getId() {
@@ -373,6 +377,14 @@ public class Employee {
 
     public void setTypeId(String typeId) {
         this.typeId = typeId;
+    }
+
+    public String getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(String supervisor) {
+        this.supervisor = supervisor;
     }
 
 }

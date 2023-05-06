@@ -106,7 +106,8 @@
                         <div class="card-header">
                             <h6 class="mb-0">Personal Information</h6>
                         </div>
-                        <table class="table table-hover" width="100%">
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover" width="100%">
 
                             <tr>
                                 <th>Name</th>
@@ -133,6 +134,7 @@
                                 <td>2456</td>
                             </tr>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

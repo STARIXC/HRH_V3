@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-var app="/hrh";
+    var app = "/hrh";
 //;
     "use strict";
     var i = 1;
@@ -18,13 +18,14 @@ var app="/hrh";
     getDocs();
     getEmpDet();
     function getEmpDet() {
-
+        var url_ = app + "/employee?action=getEmployee&emp_no=" + emp_no;
+        var encodedUrl = encodeURIComponent(url_);
 //    var emp_no = $("#employee_id").val();
         console.log("emp_no:" + emp_no);
         $.ajax({
             type: "GET",
-            url: app+"/employee",
-            data: {emp_no: emp_no, action: "getEmployee"},
+            url: url_,
+//            data: { action: "getEmployee"},
             dataType: "json",
             success: function (data) {
 //                console.log(eval(data));
@@ -199,7 +200,7 @@ var app="/hrh";
 
 
         $.ajax({
-            url: app+'/loadCounty',
+            url: app + '/loadCounty',
             type: 'post',
             dataType: 'html',
             success: function (data) {
@@ -216,7 +217,7 @@ var app="/hrh";
         //var county = $('#county').val();
 
         $.ajax({
-            url: app+'/GetsubcountyServlet?county=' + county,
+            url: app + '/GetsubcountyServlet?county=' + county,
             type: 'GET',
             contentType: "application/json; charset-utf-8",
             dataType: "json",
@@ -237,7 +238,7 @@ var app="/hrh";
 
         var subcounty = document.getElementById("wddlSubcounty").value;
         $.ajax({
-            url: app+'/GetFacility?subcounty=' + subcounty,
+            url: app + '/GetFacility?subcounty=' + subcounty,
             type: 'GET',
             contentType: "application/json; charset-utf-8",
             dataType: "json",
@@ -260,13 +261,10 @@ var app="/hrh";
     function getDocs() {
         let action = "get_all_docs";
         $.ajax({
-            url: app+"/documentUploads",
+
+            url: `${app}/documentUploads?emp_no=${emp_no}&action=${action}`,
             method: "GET",
             dataType: "json",
-            data: {
-                emp_no: emp_no,
-                action: action
-            },
             success: function (response) {
                 if (response && response.length > 0) {
 

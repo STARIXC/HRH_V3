@@ -6,6 +6,7 @@ $(document).ready(function (e) {
     
     "use strict";
         var app = "/hrh";
+        var leave_id=$("#leave_id").val();
     function holidaycalculation() {
      
         var date1 = new Date($('#start_date').val());
@@ -149,4 +150,79 @@ function leavetypechange(id) {
         $('.num_aprv_day').val(diffDays + 1);
     }
     $('.leave_aprv_strt_date,.leave_aprv_end_date').change(leavecalculation);
+    
+    getLeaveDet();
+    function getLeaveDet() {
+
+        console.log("leave_id:" + leave_id);
+        $.ajax({
+            type: "GET",
+            url: app+'/LeaveApplication?action=getleavedetails',
+            data: { id: leave_id},
+            dataType: "json",
+            success: function (data) {
+//                var data = data;
+//                if (data.employee.gender === "Female") {
+//                    document.getElementById("emp_image").src = "assets/images/female.png";
+//                } else {
+//                    document.getElementById("emp_image").src = "assets/images/male.png";
+//                }
+////                console.log("|Processing 2 Done:");
+//                let status_active = '<span class="label label-success">Active</span>';
+//                let status_not_active = '<span class="label label-danger">In Active</span>';
+//                let status_terminated = '<span class="label label-danger">Terminated</span>';
+//                let status_deceased = '<span class="label label-warning">Deceased</span>';
+//                let status_resigned = '<span class="label label-warning">Resigned</span>';
+//                let status_not_defined = '<span class="label label-info">Not Defined</span>';
+//                let status = data.employee.isActive;
+//                let staff_status = "";
+////                console.log(status);
+//                if (status === "Active") {
+//                    staff_status = status_active;
+//                } else if (status === "Inactive") {
+//                    staff_status = status_not_active;
+//                } else if (status === "Terminated") {
+//                    staff_status = status_terminated;
+//                } else if (status === "Deceased") {
+//                    staff_status = status_deceased;
+//                } else if (status === "Resigned") {
+//                    staff_status = status_resigned;
+//                } else {
+//                    staff_status = status_not_defined;
+//                }
+////                console.log("|Processing 3 Starts:");
+//                var full_name = data.employee.surname + " " + data.employee.first_name;
+////            console.log("Title:" + jobTitle);
+//                $("#emp_name").text(data.employee.surname + " " + data.employee.first_name);
+//                $(".text_info").text(data.employee.surname + " " + data.employee.first_name);
+//                $("#sum_name").text(data.employee.surname + " " + data.employee.first_name);
+//                $("#full_name").text(full_name);
+//                var position = data.employee.positionTitle;
+//                if (position === null || position === "") {
+//                    $("#designation").text("N/A");
+//                    $("#_designation").text("N/A");
+//                    $("#designation_").text("N/A");
+//                } else {
+//                    $("#designation").text(position);
+//                    $("#_designation").text(position);
+//                    $("#designation_").text(position);
+//                }
+////                $("#designation").text();
+////                $("#_designation").text(data.currentPosition.position);
+//                $("#fname").text(data.employee.first_name);
+//                $("#lname").text(data.employee.surname);
+//                $("#employeeNo").text(data.employee.emp_no);
+//                $("#wemp_record").val(data.employee.emp_no);
+//                $("#doc_emp_record").val(data.employee.emp_no);
+//                $("#email").text(data.employee.email);
+        
+
+            },
+            error: function (error) {
+                console.log("Error: " + error);
+            }
+        });
+    }
+  
+    
 });

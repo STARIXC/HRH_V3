@@ -38,7 +38,6 @@ PrintWriter out;
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     out = response.getWriter();
-
     // setting the response type
     response.setContentType("application/json");
     //request.getParameter("action");

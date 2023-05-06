@@ -6,7 +6,7 @@ package org.usaidtujengejamii.hrh.controller;
 
 
 import utils.JSONConverter;
-import utils.SupervisorDAO;
+import utils.SupervisorsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import models.FacilitySupervisors;
+import models.Supervisor;
 
 /**
  *
@@ -27,11 +27,11 @@ public class SupervisorsServlet extends HttpServlet {
     HttpSession session = null;
     PrintWriter out;
     public JSONConverter json;
-    public SupervisorDAO dao;
+    public SupervisorsDAO dao;
 
     public SupervisorsServlet() {
         super();
-        dao = new SupervisorDAO();
+        dao = new SupervisorsDAO();
     }
     
     
@@ -42,7 +42,7 @@ public class SupervisorsServlet extends HttpServlet {
     String mflcode = request.getParameter("mflcode");
     
     // Get the supervisors for the selected facility
-    List<FacilitySupervisors> supervisors = dao.getSupervisors(mflcode);
+    List<Supervisor> supervisors = dao.getSupervisors();
      // Convert the list of supervisors to a JSON string
     String supervisorsJSON = json.convert(supervisors);
         System.out.println(supervisorsJSON);

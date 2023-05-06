@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -103,4 +104,10 @@ public class IdGen {
         String decoded = new String(asBytes, StandardCharsets.UTF_8);
         return decoded;
     }
+//
+public boolean isBase64(String input) {
+    final String regex = "^[a-zA-Z0-9+/]*={0,2}$";
+    return Pattern.matches(regex, input);
+}
+
 }

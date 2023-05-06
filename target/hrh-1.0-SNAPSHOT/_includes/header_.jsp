@@ -1,3 +1,20 @@
+<%
+response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+if (session.getAttribute("user_login")==null || session.getAttribute("user_login")=="") {
+        response.sendRedirect("login.jsp");
+    }
+      // Get the current date
+    java.util.Date date = new java.util.Date();
+
+    // Define the date format
+    String pattern = "EEEE d'st', MMMM yyyy";
+
+    // Create a date formatter
+    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(pattern);
+
+    // Format the date as a string
+    String formattedDate = sdf.format(date);
+%>
 <div id="app">
     <div id="sidebar" class='active'>
         <div class="sidebar-wrapper active">
@@ -10,9 +27,6 @@
         </div>
     </div>
     <div id="main">
-
-        <input type="hidden" name="StaffID" id="StaffID" value="">
-
         <nav class="navbar navbar-header navbar-expand navbar-light">
             <a class="sidebar-toggler" href="#"><span
                     class="navbar-toggler-icon"></span></a>
@@ -57,7 +71,7 @@
                                 <img src="assets/images/admin.png" alt="" srcset="">
                             </div>
 
-                            <div class="d-none d-md-block d-lg-inline-block welcome">Hi, Admin</div>
+                            <div class="d-none d-md-block d-lg-inline-block welcome">Hi, <%=session.getAttribute("user_login")%></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="#"><i data-feather="user"></i>

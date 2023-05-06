@@ -1183,7 +1183,7 @@
                     <form   id="publicHolidayForm" class="form-horizontal" autocomplete="off">
                         <div class="modal-body">
 
-                            
+
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-offset-2 col-md-12">
@@ -1256,3 +1256,4 @@
 
     </div>
 </div>
+

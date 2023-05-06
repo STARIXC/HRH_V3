@@ -24,6 +24,10 @@ public class EmployeeData {
         this.loginDetails=loginDetails;
     }
 
+    public EmployeeData(Employee employee, List<EmploymentHistory> history, Login loginDetails) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public Employee getEmployee() {
         return employee;
     }

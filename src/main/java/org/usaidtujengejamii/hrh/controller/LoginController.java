@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.usaidtujengejamii.hrh.db.DatabaseConnection;
+import utils.FyDAO;
 
 /**
  *
@@ -35,21 +36,25 @@ public class LoginController extends HttpServlet {
     private String mname;
     private String lname;
     private String userId;
+    private String pno;
     private String pass;
+    private String facility;
+    private int supervisor;
+    private int to_;
     private String fullname;
     private String position;
     private String status;
-    private String nextPage;
-    private String userSession;
     private int level;
     private int empType;
-    private final IdGen idGen;
+
+    private final FyDAO fyear;
 
     public LoginController() {
         super();
         conn = new DatabaseConnection();
         obj = new JSONObject();
-        idGen = new IdGen();
+//        idGen = new IdGen();
+        fyear = new FyDAO();
     }
 
     @Override
@@ -134,30 +139,63 @@ public class LoginController extends HttpServlet {
                         userId = conn.rs.getString("userid");
 
 //                        userid, fname, mname, lname, username, email, phone, password, level_, facility, scounty, status, created_at, updated_at
-                        String query = "SELECT l.userid as emp_no,l.level as level, l.fname, as firstname, IFNULL(l.lname,'') as surname, IFNULL(l.mname,'') as middlename,"
-                                + "u.username,u.fullname,u.position,l.emp_type,l.status "
-                                + "FROM hrh.tbl_login l JOIN hrh.tbl_user u ON l.userid=u.userid WHERE l.userid=?";
+                        String query = "SELECT \n"
+                                + "  u.userid AS emp_no,\n"
+                                + "  u.level_ AS level,\n"
+                                + "  u.fname AS firstname,\n"
+                                + "  IFNULL(u.lname, '') AS surname,\n"
+                                + "  IFNULL(u.mname, '') AS middlename,\n"
+                                + "  u.username,\n"
+                                + "  p.position_title AS position,\n"
+                                + "  ct.id AS emp_type,\n"
+                                + "  f.facility_id AS mfl,\n"
+                                + "  fs.supervisor_id AS supervisor_id,\n"
+                                + "  t.technical_monitor_id AS technical_monitor_id,\n"
+                                + "  u.status AS status\n"
+                                + "FROM hrh.tbl_user u\n"
+                                + "JOIN hrh.tbl_employee_position_relations e ON u.userid = e.emp_no\n"
+                                + "JOIN hrh.tbl_user_facility f ON f.user_id = u.userid\n"
+                                + "JOIN hrh.tbl_facility_supervisor fs ON fs.mflc = f.facility_id\n"
+                                + "JOIN hrh.subpartnera fac ON fac.CentreSanteId = f.facility_id\n"
+                                + "JOIN district s ON fac.DistrictID = s.districtID\n"
+                                + "JOIN mdtregion r ON s.regionID = r.id\n"
+                                + "JOIN technical_monitors t ON t.mdtregion = r.id\n"
+                                + "JOIN hrh.cadre_positions p ON p.id = e.position_id\n"
+                                + "JOIN hrh.standardized_cadre sc ON sc.id = p.standardized_cadre_id\n"
+                                + "JOIN hrh.cadre_type ct ON ct.id = sc.carder_type_id\n"
+                                + "WHERE u.userid = ?";
                         conn.pst = conn.conn.prepareStatement(query);
                         conn.pst.setString(1, userId);
                         conn.rs = conn.pst.executeQuery();
                         if (conn.rs.next()) {
+                            financialYear = getFinancialYear();
                             fname = conn.rs.getString("firstname");
+                            pno = conn.rs.getString("emp_no");
                             mname = conn.rs.getString("middlename");
                             lname = conn.rs.getString("surname");
                             empType = conn.rs.getInt("emp_type");
+                            to_ = conn.rs.getInt("technical_monitor_id");
+                            supervisor = conn.rs.getInt("supervisor_id");
                             status = conn.rs.getString("status");
                             position = conn.rs.getString("position");
+                            facility = conn.rs.getString("mfl");
                             fullname = fname + " " + mname + " " + lname;
                             session.setAttribute("username", username.toUpperCase());
-                            session.setAttribute("userid", userId);
-                            session.setAttribute("admin_login", fullname);
+                            session.setAttribute("emp_no", pno);
+                            session.setAttribute("user_id", pno);
+                            session.setAttribute("user_login", fullname);
                             session.setAttribute("level_", level);
                             session.setAttribute("empType", empType);
                             session.setAttribute("position", position);
                             session.setAttribute("status", status);
+                            session.setAttribute("fy", financialYear);
+                            session.setAttribute("supervisor_id", supervisor);
+                            session.setAttribute("technical_monitor_id", to_);
+                            session.setAttribute("facility", facility);
+                            session.setAttribute("message", "Welcome " + fullname + "!");
                             obj.put("success", true);
-                            obj.put("message", "Welcome " + fullname + "!");
-                            obj.put("nextPage", "index.jsp");
+//                            obj.put("message", "Welcome " + fullname + "!");
+                            obj.put("nextPage", "/index.jsp");
 
                         }
 
@@ -172,6 +210,7 @@ public class LoginController extends HttpServlet {
                         fname = conn.rs.getString("fname");
                         mname = conn.rs.getString("mname");
                         lname = conn.rs.getString("lname");
+                        financialYear = getFinancialYear();
                         //                    empType = conn.rs.getInt("emp_type");
                         status = conn.rs.getString("status");
                         //                    position = conn.rs.getString("position");
@@ -180,9 +219,11 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("userid", userId);
                         session.setAttribute("admin_login", fullname);
                         session.setAttribute("level_", level);
+                        session.setAttribute("message", "Welcome " + fullname + "!");
                         //                    session.setAttribute("empType", empType);
 //                    session.setAttribute("position", position);
                         session.setAttribute("status", status);
+                        session.setAttribute("fy", financialYear);
                         obj.put("success", true);
                         obj.put("message", "Welcome " + fullname + "!");
                         obj.put("nextPage", "/admin/index.jsp");
@@ -194,6 +235,7 @@ public class LoginController extends HttpServlet {
                         fname = conn.rs.getString("fname");
                         mname = conn.rs.getString("mname");
                         lname = conn.rs.getString("lname");
+                        financialYear = getFinancialYear();
                         //                    empType = conn.rs.getInt("emp_type");
                         status = conn.rs.getString("status");
                         //                    position = conn.rs.getString("position");
@@ -202,9 +244,11 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("userid", userId);
                         session.setAttribute("admin_login", fullname);
                         session.setAttribute("level_", level);
+                        session.setAttribute("message", "Welcome " + fullname + "!");
                         //                    session.setAttribute("empType", empType);
 //                    session.setAttribute("position", position);
                         session.setAttribute("status", status);
+                        session.setAttribute("fy", financialYear);
                         obj.put("success", true);
                         obj.put("message", "Welcome " + fullname + "!");
                         obj.put("nextPage", "/supervisors/index.jsp");
@@ -216,6 +260,7 @@ public class LoginController extends HttpServlet {
                         fname = conn.rs.getString("fname");
                         mname = conn.rs.getString("mname");
                         lname = conn.rs.getString("lname");
+                        financialYear = getFinancialYear();
                         //                    empType = conn.rs.getInt("emp_type");
                         status = conn.rs.getString("status");
                         //                    position = conn.rs.getString("position");
@@ -224,12 +269,39 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("userid", userId);
                         session.setAttribute("admin_login", fullname);
                         session.setAttribute("level_", level);
+                        session.setAttribute("message", "Welcome " + fullname + "!");
                         //                    session.setAttribute("empType", empType);
 //                    session.setAttribute("position", position);
                         session.setAttribute("status", status);
+                        session.setAttribute("fy", financialYear);
                         obj.put("success", true);
                         obj.put("message", "Welcome " + fullname + "!");
                         obj.put("nextPage", "/payroll/index.jsp");
+                        break;
+                    case 5:
+                        //                    userid, fname, mname, lname, username, email, phone, password, level_, facility, scounty, status, created_at, updated_at
+
+                        userId = conn.rs.getString("userid");
+                        fname = conn.rs.getString("fname");
+                        mname = conn.rs.getString("mname");
+                        lname = conn.rs.getString("lname");
+                        financialYear = getFinancialYear();
+                        //                    empType = conn.rs.getInt("emp_type");
+                        status = conn.rs.getString("status");
+                        //                    position = conn.rs.getString("position");
+                        fullname = fname + " " + mname + " " + lname;
+                        session.setAttribute("username", username.toUpperCase());
+                        session.setAttribute("userid", userId);
+                        session.setAttribute("sup_login", fullname);
+                        session.setAttribute("level_", level);
+                        session.setAttribute("message", "Welcome " + fullname + "!");
+                        //                    session.setAttribute("empType", empType);
+//                    session.setAttribute("position", position);
+                        session.setAttribute("status", status);
+                        session.setAttribute("fy", financialYear);
+                        obj.put("success", true);
+                        obj.put("message", "Welcome " + fullname + "!");
+                        obj.put("nextPage", "/supervisors/index.jsp");
                         break;
                     default:
                         //                    userid, fname, mname, lname, username, email, phone, password, level_, facility, scounty, status, created_at, updated_at
@@ -238,6 +310,7 @@ public class LoginController extends HttpServlet {
                         fname = conn.rs.getString("fname");
                         mname = conn.rs.getString("mname");
                         lname = conn.rs.getString("lname");
+                        financialYear = getFinancialYear();
                         //                    empType = conn.rs.getInt("emp_type");
                         status = conn.rs.getString("status");
                         //                    position = conn.rs.getString("position");
@@ -246,8 +319,9 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("userid", userId);
                         session.setAttribute("admin_login", fullname);
                         session.setAttribute("level_", level);
+                        session.setAttribute("message", "Welcome " + fullname + "!");
                         //                    session.setAttribute("empType", empType);
-//                    session.setAttribute("position", position);
+                        session.setAttribute("fy", financialYear);
                         session.setAttribute("status", status);
                         obj.put("success", true);
                         obj.put("message", "Welcome " + fullname + "!");
@@ -279,4 +353,10 @@ public class LoginController extends HttpServlet {
         return sb.toString();
     }
 
+    private String getFinancialYear() {
+        String fY;
+        fY = fyear.getCurrentFy();
+        return fY;
+
+    }
 }

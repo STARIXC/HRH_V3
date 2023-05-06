@@ -48,8 +48,13 @@ public class ProcessFinancialYear extends HttpServlet {
             String result = JSONConverter.convert(fy_);
             out.println(result);
 
-        }  else {
-            String financialyear = json.convert(dao.getAllFY());
+        } else if (action.equalsIgnoreCase("getYears")) {
+           String financialyear = JSONConverter.convert(dao.getAllFY());
+//            System.out.println(financialyear);
+            out.println(financialyear);
+
+        } else {
+            String financialyear = JSONConverter.convert(dao.getAllFY());
 //            System.out.println(financialyear);
             out.println(financialyear);
         }

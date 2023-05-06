@@ -62,7 +62,21 @@ jQuery(document).ready(function () {
                 "targets": 0,
                 "data": "application_id",
                 "render": function (data, type, row, meta) {
-                    return 	'<a  data-id="'+data+'" href="javascript:void(0)" class="btn btn-danger m-s-20 hidden-xs hidden-sm waves-effect waves-light" id="reject"><i class="fa fa-times"></i></a>';
+                    var action='<div class="btn-group" role="group" >'
+                                +' <button type="button" id="actions" class="btn btn-primary  btn-flat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span>'
+                                +'</button>'
+                                +'<ul class="dropdown-menu" role="menu" aria-labelledby="actions">'
+                                +'    <li><a class="dropdown-item" href="https://amazingsoft.live/amazing-hrm-payroll-v3/hrm/application_lists/150"><i class="icon fa fa-file-alt"></i> Details</a></li>'
+
+                                +'     <li><a class="dropdown-item" href="https://amazingsoft.live/amazing-hrm-payroll-v3/hrm/application/download/150"><i class="icon fa fa-file-alt"></i> Download</a></li>'
+
+                                 +'   <li><a class="dropdown-item" href="https://amazingsoft.live/amazing-hrm-payroll-v3/hrm/leave_application/approved/150"><i class="icon fa fa-file-alt"></i> Approved</a></li>'
+
+                                  +'  <li><a class="dropdown-item" href="https://amazingsoft.live/amazing-hrm-payroll-v3/hrm/leave_application/not_approved/150"><i class="icon fa fa-file-alt"></i> Not Approed</a></li>'
+
+                               +' </ul>'
+                          +'  </div>';
+                    return 	action;
                 }
             }
         ]

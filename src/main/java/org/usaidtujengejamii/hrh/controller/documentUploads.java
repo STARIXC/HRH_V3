@@ -46,7 +46,7 @@ public class documentUploads extends HttpServlet {
     private final JSONConverter json;
 //    private final Document doc;
     private PrintWriter out;
-    private String myDrive = "";
+    private String myDrive, empNo = "";
 
     public documentUploads() {
         dao = new DocumentDAO();
@@ -68,7 +68,22 @@ public class documentUploads extends HttpServlet {
             if (action != null && action.equals("get_all_docs")) {
 
                 String empno = request.getParameter("emp_no");
-                String empNo = IG.Decode(empno);
+
+                if (IG.isBase64(empno) == true) {
+                    empNo = IG.Decode(empno);
+
+                } else {
+                    empNo = empno;
+                }
+                List<Document> documents = dao.getAllDocumentsForEmployee(empNo);
+                String docs = JSONConverter.convert(documents);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                out.println(docs);
+            } else if (action != null && action.equals("emp_docs")) {
+
+                String empno = request.getParameter("emp_no");
+                empNo = empno;
                 List<Document> documents = dao.getAllDocumentsForEmployee(empNo);
                 String docs = JSONConverter.convert(documents);
                 response.setContentType("application/json");
@@ -145,10 +160,9 @@ public class documentUploads extends HttpServlet {
                     if (Files.exists(filePath)) {
                         try {
                             byte[] fileContent = Files.readAllBytes(filePath);
-                            
-                            
+
                             String encodedData = Base64.getEncoder().encodeToString(fileContent);
-                             String decoded_data = IG.Decode(encodedData);
+                            String decoded_data = IG.Decode(encodedData);
 //                             System.out.println(decoded_data);
                             documentData.put("id", document.getId());
                             documentData.put("docIdentifier", document.getDocID());

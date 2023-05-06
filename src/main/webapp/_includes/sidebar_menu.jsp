@@ -68,11 +68,11 @@
                     <ul class="submenu" style="display: block;">
                         <li><a href="manage_holidays.jsp"><i class="fa fa-circle-notch"> </i> Public Holidays</a></li>
                         <li><a href="manage_leave_type.jsp"><i class="fa fa-circle-notch"></i> Manage Leave Type</a></li>
-                        <li><a href="earn_leave_config.jsp"><i class="fa fa-circle-notch"></i> Earn Leave Configure</a></li>
-                        <li><a href="requested_applications.jsp"><i class="fa fa-circle-notch"></i> Approve Application</a></li>
-                        <li><a href="leave_applications.jsp"><i class="fa fa-circle-notch"></i> Requested Application</a>
+                        <!--<li><a href="earn_leave_config.jsp"><i class="fa fa-circle-notch"></i> Earn Leave Configure</a></li>-->
+                        <li><a href="manage_leave_applications.jsp"><i class="fa fa-circle-notch"></i> Manage Application</a></li>
+                        <li><a href="leave_applications.jsp"><i class="fa fa-circle-notch"></i> Leave Application List</a>
                         <li><a href="leave_report.jsp"><i class="fa fa-circle-notch"></i> Leave Report</a>
-                        <li><a href="leave_summary_report.jsp"><i class="fa fa-circle-notch"></i> Summary Report</a></li>
+                        <!--<li><a href="leave_summary_report.jsp"><i class="fa fa-circle-notch"></i> Summary Report</a></li>-->
                     </ul>
                 </li>
                 <li class="sidebar-item  has-sub"><a href="javascript:void(0)" class='sidebar-link'>

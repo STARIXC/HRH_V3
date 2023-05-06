@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
     $('#all_leave_table').DataTable({
 
         "ajax": {
-            "url": app+'/LeaveApplication?action=allLeave',
+            "url":  app+'/LeaveApplication?action=all_leaves',
             "type": "GET",
             dataType: "json",
             dataSrc: "",
@@ -41,11 +41,11 @@ jQuery(document).ready(function () {
                 "targets": 0,
                 "data": "leave_status",
                 "render": function (data, type, row, meta) {
-                    if (data === 2) {
+                    if (data === 1) {
                         return '<span class="badge bg-success">Approved</span>';
-                    } else if (data === 1) {
+                    } else if (data === 0) {
                         return '<span class="badge bg-info">Pending</span>';
-                    } else if (data === 3) {
+                    } else if (data === 2) {
                         return ' <span class="badge bg-danger">Rejected</span>';
                     } else {
                         return '<span class="badge bg-danger">Not Applicable</span>';
@@ -55,44 +55,15 @@ jQuery(document).ready(function () {
                 "targets": 0,
                 "data": "application_id",
                 "render": function (data, type, row, meta) {
-                    return 	'';
+                    var action ='<td class="text-center"><a href="./leave_details.jsp?id='+data+'"><i class="icon fa fa-file-alt"></i> Details</a></td>';
+                    return 	action;
                 }
             }
         ]
 
     });
 
-    // jQuery ajax form submit example, runs when form is submitted
-    $("#positionForm").submit(function (e) {
-        e.preventDefault(); // prevent actual form submit
-        var form = $("#timesheetForm");
-        var action = "save_log";
-        var data = form.serialize() + "&action=" + action;
-        var url = app+'/PositionServlet'; //get submit url [replace url here if desired]
-        // screenLock();
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data, // serializes form input
-            beforeSend: function beforeSend() {
-                //	startLoader();
-                console.log(data);
-            },
-            success: function (data) {
-                var url_ = "manage_timesheet.jsp";
-                $(location).attr('href', url_);
-            },
-            error: function error(result) {
-
-            },
-            complete: function complete() {
-                //	stopLoader();
-
-            }
-        });
-
-    });
-
+ 
 });
 
 

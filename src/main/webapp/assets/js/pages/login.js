@@ -30,6 +30,7 @@ jQuery(document).ready(function () {
                 console.log(data);
                 var app ="/hrh";
                 var url_ = app +data.nextPage;
+//                var welcome=data.message;
                 $(location).attr('href', url_);
             },
             error: function error(result) {

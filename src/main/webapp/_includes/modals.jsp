@@ -1183,7 +1183,7 @@
                     <form   id="publicHolidayForm" class="form-horizontal" autocomplete="off">
                         <div class="modal-body">
 
-                            
+
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-offset-2 col-md-12">
@@ -1231,6 +1231,91 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+<div id="simpleModalLB" class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog" role="leave_balance">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update /Recreate Leave Balances</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <div class="row">
+                <div class="card__">
+                    <form   id="lbForm" class="form-horizontal" autocomplete="off">
+                        <div class="modal-body">
+
+
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-12">
+                                        <div class="form-group">
+                                            <label for="yearSelect">Select year:</label>
+                                            <div class="col">
+                                                <select id="yearSelect" name="year" class="form-control">
+                                                  
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            
+                                             <div class="col">
+                                            
+                                            <input  type="radio" id="allEmployeesRadio" name="employee" value="all" checked>
+                                            <label for="allEmployeesRadio">Update leave balance for all employees</label>
+                                             </div>
+                                            
+                                            <div class="col">
+                                            <input  type="radio" id="selectEmployeeRadio" name="employee" value="select">
+                                            <label for="selectEmployeeRadio">Update leave balance for a specific employee:</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            
+                                            <select class="from-control employeeSelect" id="employeeSelect" name="employeeId" disabled>
+                                                <option value="-1" selected>Select employee</option>
+                                                
+                                              
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                              
                             </div>
                             <div class="form-actions">
                                 <div class="row">

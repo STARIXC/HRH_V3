@@ -67,9 +67,68 @@ var app="/hrh";
     ;
     function get_leave_data() {
 
+//    $('#leave_app').DataTable({
+//
+//        "ajax": {
+//            "url":  app+'/LeaveApplication?action=all_leaves',
+//            "type": "GET",
+//            dataType: "json",
+//            dataSrc: "",
+//            "data": function (d) {
+//                $("#leave_application_data").html(d);
+//            }
+//        },
+//
+//        "columns": [
+//            {
+//                "data": null,
+//                "render": function (data, type, row, meta) {
+//                    return i++;
+//                }
+//            },
+//            {
+//                "data": "employee_name"
+//            }, {
+//                "data": "leave_type_name"
+//            }, {
+//                "data": "duration"
+//            },
+//            {
+//                "data": "date_of_application"
+//            },
+//            {
+//                "data": "number_days"
+//            },
+//            {
+//                "targets": 0,
+//                "data": "leave_status",
+//                "render": function (data, type, row, meta) {
+//                    if (data === 1) {
+//                        return '<span class="badge bg-success">Approved</span>';
+//                    } else if (data === 0) {
+//                        return '<span class="badge bg-info">Pending</span>';
+//                    } else if (data === 2) {
+//                        return ' <span class="badge bg-danger">Rejected</span>';
+//                    } else {
+//                        return '<span class="badge bg-danger">Not Applicable</span>';
+//                    }
+//                }
+//            }, {
+//                "targets": 0,
+//                "data": "application_id",
+//                "render": function (data, type, row, meta) {
+//                    var action ='<td class="text-center"><a href="./leave_details.jsp?id='+data+'"><i class="icon fa fa-file-alt"></i> Details</a></td>';
+//                    return 	action;
+//                }
+//            }
+//        ]
+//
+//    });
+
+ 
         $.ajax({
             type: 'GET',
-            url: app+'/LeaveApplication?action=allLeave',
+            url: app+'/LeaveApplication?action=all_leaves',
             dataType: 'json',
             success: function (data) {
                 var container__ = $('#leave_app');
@@ -80,9 +139,9 @@ var app="/hrh";
                     var status_approved = '<span class="label label-success">Approved</span>';
                     var status_rejected = '<span class="label label-danger">Rejected</span>';
                     var status_pending = '<span class="label label-info">Pending</span>';
-                    if (value.leave_status === 1) {
+                    if (value.leave_status === 0) {
                         var status = status_pending;
-                    } else if (value.leave_status === 2) {
+                    } else if (value.leave_status === 1) {
                         var status = status_approved;
                     } else {
                         var status = status_rejected;

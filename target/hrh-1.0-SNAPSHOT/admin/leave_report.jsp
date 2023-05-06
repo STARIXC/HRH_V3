@@ -126,10 +126,13 @@
                                         <thead class="tr_header">
                                             <tr>
                                                 <th style="width:100px;">S/L</th>
-                                                <th>Leave Type</th>
-                                                <th>Applied Date</th>
-                                                <th>Request Duration</th>
-                                                <th>Approve BY</th>
+                                                <th>Name</th>
+                                                <th>PFNo#</th>
+                                                <th>Total Months Worked</th>
+<!--                                                <th>Total Days Worked</th>-->
+                                                <th>Annual Leave</th>
+                                                <th>Sick Leave</th>
+                                                <th>Maternity/Paternity</th>
                                                 <th>Approve Date</th>
                                                 <th>Number of Day</th>
 

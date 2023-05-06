@@ -5,7 +5,7 @@
 package org.usaidtujengejamii.hrh.controller;
 
 import utils.JSONConverter;
-import utils.LeaveBalanceDAO;
+import utils.LeaveApplicationsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -28,14 +28,14 @@ public class ProcessLeaveApplications extends HttpServlet {
     PrintWriter out;
     private static final String INSERT_OR_EDIT = "leave_approval.jsp";
     int status, execute_activity = 0;
-    private final LeaveBalanceDAO dao;
+    private final LeaveApplicationsDAO dao;
     //  Gson gson = new Gson();
     String result, nextPage;
 //    private JSONConverter json;
 
     public ProcessLeaveApplications() {
         super();
-        dao = new LeaveBalanceDAO();
+        dao = new LeaveApplicationsDAO();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -60,8 +60,8 @@ public class ProcessLeaveApplications extends HttpServlet {
                 int application_id = Integer.parseInt(application_id1);
                 String remarks = "Approved";
                 int leave_status = 2;
-                String sql = "update tbl_leave_application set leave_status='" + leave_status + "',date_of_approval='" + todaysdate + "',remarks='" + remarks + "', supervisor_id='" + supervisor_id + "'  where application_id='" + application_id + "'";
-                dao.approveLeave(sql);
+                String sql = "update leave_requests set lstatus='" + leave_status + "',date_of_approval='" + todaysdate + "',remarks='" + remarks + "', supervisor_id='" + supervisor_id + "'  where application_id='" + application_id + "'";
+//                dao.approveLeave(sql);
                 //  dao.addActivityLog(sql);
             }
             //  int leave_id = Integer.parseInt(deleteId);
@@ -87,7 +87,7 @@ public class ProcessLeaveApplications extends HttpServlet {
             int application_id = Integer.parseInt(reject_id);
             int leave_status = 3;
              String sql = "update tbl_leave_application set leave_status='" + leave_status + "',date_of_approval='" + todaysdate + "',remarks='" + remarks + "', supervisor_id='" + supervisor_id + "'  where application_id='" + application_id + "'";
-               status = dao.approveLeave(sql);
+//               status = dao.approveLeave(sql);
             JSONObject obj = new JSONObject();   //create globally JSONObject and name is "obj"
             if (status != 0) {   //check if condition variable "i" not equal to zero after continue
                 obj.put("status", "success");
@@ -99,7 +99,7 @@ public class ProcessLeaveApplications extends HttpServlet {
             out.print(obj); //finally print the "obj" object
 
         } else {
-            String ccate = JSONConverter.convert(dao.getAllLeaves());
+            String ccate = JSONConverter.convert(dao.getAllApplied());
             System.out.println(ccate);
             out.println(ccate);
         }

@@ -1,3 +1,4 @@
+ var app="/hrh";
 $("#start_date").datepicker({
   dateFormat: "yy-mm-dd",
   numberOfMonths: 1,
@@ -11,8 +12,6 @@ $("#start_date").datepicker({
     $(this).change();
   }
 
-}).on("change", function () {
-  holidaycalculation();
 });
 $("#end_date").datepicker({
   dateFormat: "yy-mm-dd",
@@ -33,18 +32,19 @@ $("#end_date").datepicker({
 
 function holidaycalculation() {
   $('#days_applied').empty();
+   var app="/hrh";
   var start_date = document.getElementById("start_date").value;
   var end_date = document.getElementById("end_date").value;
   $.ajax({
-    url: "./LeaveDays?start_date=" + start_date + "&&end_date=" + end_date,
+    url: app+"/LeaveDays?start_date=" + start_date + "&&end_date=" + end_date,
     type: "get",
     dataType: "json",
     success: function (data) {
       var arr = eval(data);
       console.log(arr);
-      console.log(arr.no_weekdays);
+     
       //$('#days_applied').append(html_code);
-      var no_day = (arr.no_weekdays - arr.no_holidays);
+      var no_day = (arr);
       $("#days_applied").val(no_day);
     }
 
@@ -56,34 +56,11 @@ function holidaycalculation() {
 
 $("#enjoy").hide();
 $("#checkleave").hide();
-getLeaves();
-//leavetypechange();
-function leavetypechange_() {
-  var leave_type = $('#leave_type_id').val();
-  ;
-  var employee_id = $('#employee_id').val();
-  var base_url = $("#base_url").val();
-  $.ajax({
-    url: base_url + "AvailableDays",
-    method: 'get',
-    dataType: 'json',
-    data: {
-      'employee_id': employee_id,
-      'leave_type': leave_type
-    },
-    success: function (data) {
-      document.getElementById('enjoy').innerHTML = 'You Enjoyed : ' + data.enjoy + ' Ds';
-      document.getElementById('checkleave').innerHTML = 'Total Leave : ' + data.due + ' Ds';
-    },
-    error: function (jqXHR, textStatus, errorThrown)
-    {
-      alert('Error get data from ajax');
-    }
-  });
-}
+
 function leavetypechange() {
 //get the form data using another method 
-  var fy = 2022;
+  var fy = 2023;
+  var app="/hrh";
   var leave_type = document.getElementById("leave_type_id").value;
   var employee_id = document.getElementById("employee_id").value;
   dataString = "leave_type=" + leave_type + "&&employee_id=" + employee_id + "&&fy=" + fy;
@@ -91,15 +68,15 @@ function leavetypechange() {
   //meaning we are expecting JSON data in response from the server
   $.ajax({
     type: "GET",
-    url: "./AvailableDays",
+    url: app+"/availableDays",
     data: dataString,
     dataType: "json",
     //if received a response from the server
     success: function (data, textStatus, jqXHR) {
       //our country code was correct so we have some information to display
       if (data.success) {
-        document.getElementById('enjoy').innerHTML = 'You Enjoyed : ' + data.result.enjoyed + ' Ds';
-        document.getElementById('checkleave').innerHTML = 'Total Leave : ' + data.result.daysavailable + ' Ds';
+        document.getElementById('enjoy').innerHTML = 'You Enjoyed : ' + data.result.days_used + ' Ds';
+        document.getElementById('checkleave').innerHTML = 'Total Leave : ' + data.result.days_accrued + ' Ds';
         $("#enjoy").show();
         $("#checkleave").show();
       }
@@ -133,24 +110,35 @@ function leavetypechange() {
 // jQuery ajax form submit example, runs when form is submitted
 $("#leave_application").submit(function (e) {
   e.preventDefault(); // prevent actual form submit
+var app="/hrh";
+var today = new Date();
+var day = today.getDate();
+var month = today.getMonth() + 1; // January is 0
+var year = today.getFullYear();
 
+var application_date = year + '-' + month + '-' + day;
   var leave_type_id = $("#leave_type_id").val();
+  var supervisor_id = $("#supervisor_id").val();
+  var technical_monitor_id = $("#technical_monitor_id").val();
   var employee_id = $("#employee_id").val();
   var start_date = $("#start_date").val();
   var end_date = $("#end_date").val();
   var no_days = $("#days_applied").val();
-  var action = "save_log";
-  var leave_status = 1;
+  var action = "save_leave";
+  var leave_status = 0;
   var data = {
     action: action,
     leave_type_id: leave_type_id,
+    supervisor_id: supervisor_id,
+    technical_monitor_id: technical_monitor_id,
     employee_id: employee_id,
     start_date: start_date,
     end_date: end_date,
     no_days: no_days,
+    application_date:application_date,
     leave_status: leave_status
   };
-  var url = "./Leave"; //get submit url [replace url here if desired]
+  var url = app+"/LeaveApplication"; //get submit url [replace url here if desired]
   //screenLock();
    $.ajax({
     type: "POST",
@@ -188,50 +176,9 @@ $("#leave_application").submit(function (e) {
     }
 
   });
-//  $.ajax({
-//    type: "POST",
-//    url: url,
-//    data: data, // serializes form input
-//    beforeSend: function beforeSend() {
-//      //startLoader();
-//      console.log(data);
-//    },
-//    success: function (data) {
-//      //var resp = JSON.stringify(data);
-//      // console.log(resp.message);
-//      setTimeout(() => {
-//        if (data === 1) {
-//          var message = "Leave Saved Successfully.";
-//          toastr.success(message);
-//        } else if (data === 2) {
-//          message = "No change detected.";
-//          toastr.error(message);
-//        } else {
-//          var message = "Application could not be submited. There already exist another application for the same dates.";
-//          toastr.error(message);
-//        }
-//
-//      }, 5000);
-//    },
-//    error: function error(result) {
-//    },
-//    complete: function complete() {
-//      //stopLoader();
-//    }
-//  });
-  $("#leave_application")[0].reset();
+
+ 
 });
-function getLeaves() {
-  $.ajax({
-    url: "./LeaveType",
-    type: "get",
-    dataType: "html",
-    success: function (data) {
-      let collection = document.getElementsByName("basicSelectLeaveType");
-      $(collection).html(data.replace("<option value=''>Select Leave Type</option>", ""));
-    }
-  });
-}
 
 
 

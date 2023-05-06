@@ -5,18 +5,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
-        <link rel="stylesheet" href="assets/css/custom.css">
-        <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="assets/css/bootstrap.css">
-        <link rel="stylesheet" href="assets/css/bootstrap-toggle.min.css">
-        <link rel="stylesheet" href="assets/css/toggle.css">
+        <link rel="stylesheet" href="../assets/css/custom.css">
+        <link rel="shortcut icon" href="../assets/img/logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="../assets/css/bootstrap.css">
+        <link rel="stylesheet" href="../assets/css/bootstrap-toggle.min.css">
+        <link rel="stylesheet" href="../assets/css/toggle.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-        <link href="assets/vendor/swal2/sweetalert2.min.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="assets/vendor/calender/lib/jquery-ui.min.css" />
-        <link rel="stylesheet" href="assets/vendor/calender/lib/bootstrap-datepicker.css" />
+        <link href="../assets/vendor/swal2/sweetalert2.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../assets/vendor/calender/lib/jquery-ui.min.css" />
+        <link rel="stylesheet" href="../assets/vendor/calender/lib/bootstrap-datepicker.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+        <link rel="stylesheet" href="../assets/css/style.css">
            <style type="text/css">
             .notif:hover {
                 background-color: rgba(0, 0, 0, 0.1);
@@ -116,7 +116,7 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     </head>
     <body>
-          <%@include file="/_includes/header.jsp"%>
+          <%@include file="../_includes/header_sup.jsp"%>
    
 
     <div class="main-content">
@@ -138,7 +138,7 @@
                         <h3 class="box-title flex-shrink-0"> Total Employee </h3>
                         <ul class="list-group list-group-horizontal-sm two-part">
                             <li class="list-group-item border-0">
-                                <img class="dash_image" src="assets/img/employee.png">
+                                <img class="dash_image" src="../assets/img/employee.png">
                             </li>
                             <li class="text-end list-group-item border-0"><i class="ti-arrow-up text-success"></i> <span class="counter " ><h1 class="text-success" id="counter_emp">00</h1></span></li>
                         </ul>
@@ -152,7 +152,7 @@
                         <h3 class="box-title">Total Leave Requests</h3>
                         <ul class="list-group list-group-horizontal-sm two-part">
                             <li class="list-group-item border-0">
-                                <img class="dash_image" src="assets/img/department.png">
+                                <img class="dash_image" src="../assets/img/department.png">
                             </li>
                             <li class="text-end list-group-item border-0"><i class="ti-arrow-up text-purple"></i> <span class="counter "><h1 class="text-purple" id="leave_app">00</h1></span></li>
                         </ul>
@@ -244,21 +244,21 @@
 <%@include file="/_includes/footer.jsp"%>
 </div>
 
-<script src="assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
-<script src="assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="../assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/swal2/sweetalert2.min.js" type="text/javascript"></script>
+<script src="../assets/vendor/swal2/sweetalert2.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-<script defer src="assets/fontawesome/js/all.min.js" type="text/javascript"></script>
-<script src="assets/js/feather-icons/feather.min.js"></script>
-<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script defer src="../assets/fontawesome/js/all.min.js" type="text/javascript"></script>
+<script src="../assets/js/feather-icons/feather.min.js"></script>
+<script src="../assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="assets/js/main.js"></script>
-<!--<script src="assets/js/custom_.js"></script>-->
-<script src="assets/js/pages/dashboard.js"></script>
+<script src="../assets/js/main.js"></script>
+<!--<script src="../assets/js/custom_.js"></script>-->
+<script src="../assets/js/pages/dashboard.js"></script>
 
-<%@include file="/_includes/include_footer.jsp"%>
+<%@include file="../_includes/include_footer.jsp"%>
 
 
 </body>

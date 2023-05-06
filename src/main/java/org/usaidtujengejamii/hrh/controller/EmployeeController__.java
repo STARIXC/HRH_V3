@@ -51,7 +51,7 @@ public class EmployeeController__ extends HttpServlet {
     private Login loginDetails;
     private UserDAO userDAO;
     private Login defaultLogin;
-private Document defaultDoc;
+    private Document defaultDoc;
     private DocumentDAO documentDAO;
 
     Gson gson = new Gson();
@@ -77,7 +77,7 @@ private Document defaultDoc;
         userDAO = null;
         employeeDAO = null;
         documentDAO = null;
-        defaultDoc=null;
+        defaultDoc = null;
 
     }
 
@@ -91,7 +91,7 @@ private Document defaultDoc;
         history_ = new EmploymentHistory();
         loginDetails = new Login();
         defaultLogin = new Login();
-        defaultDoc= new Document();
+        defaultDoc = new Document();
         userDAO = new UserDAO();
         employeeDAO = new EmployeeDAO();
         documentDAO = new DocumentDAO();
@@ -130,8 +130,7 @@ private Document defaultDoc;
             defaultDoc.setId(0);
             defaultDoc.setDocTypeName("");
             defaultDoc.setDocumentValue("");
-            
-            
+
             try {
                 employee = employeeDAO.getEmployeeDetails(emp_no);
 //                List<Document> documents = documentDAO.getAllDocumentsForEmployee(emp_no,defaultDoc);
@@ -153,7 +152,47 @@ private Document defaultDoc;
             String employees = JSONConverter.convert(employeeDAO.findAll());
 //              System.out.print(employees);
             out.println(employees);
-        } else if (action != null && action.equals("save_employee")) {
+        } else if (action != null && action.equals("allActiveStaff")) {
+            String employees = JSONConverter.convert(employeeDAO.findActive());
+//              System.out.print(employees);
+            out.println(employees);
+        } 
+         else if (action != null && action.equals("get_profile")) {
+               empno = request.getParameter("emp_no");
+//            emp__no = IG.Decode(empno);
+            emp_no = empno;
+            defaultValues.setEmp_no(empno);
+            defaultValues.setFacility("N/A");
+            defaultValues.setPosition("N/A");
+            defaultValues.setDate_started("N/A");
+            defaultValues.setDate_ended("N/A");
+            defaultValues.setEmp_type("N/A");
+
+            defaultLogin.setUsername("N/A");
+            defaultLogin.setEmail("N/A");
+            defaultLogin.setUser_level("N/A");
+            defaultDoc.setId(0);
+            defaultDoc.setDocTypeName("");
+            defaultDoc.setDocumentValue("");
+
+            try {
+                employee = employeeDAO.getEmployeeDetails(emp_no);
+//                List<Document> documents = documentDAO.getAllDocumentsForEmployee(emp_no,defaultDoc);
+//                out.print(JSONConverter.convert(documents));
+//                List<Document> document = new ArrayList<>();
+                currentPosition = employeeDAO.getCurrentPosition(emp_no, defaultValues);
+                loginDetails = employeeDAO.getLoginInfo(emp_no, defaultLogin);
+                List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(emp_no);
+                employeeData = new EmployeeData(employee, currentPosition, history, loginDetails);
+                String details = JSONConverter.convert(employeeData);
+                System.out.print(details);
+                out.println(details);
+
+            } catch (SQLException e) {
+                out.println("Failled:" + e);
+            }
+        }
+         else if (action != null && action.equals("save_employee")) {
             // form variables
             emp_no = request.getParameter("txtEmployeeNumber");
             first_name = request.getParameter("txtFirstName");

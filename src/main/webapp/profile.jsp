@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,465 +35,485 @@
     <body>
 
         <%@include file="/_includes/header_.jsp"%>
-        <!-- END SIDEBAR MENU -->
-        <button class="sidebar-toggler btn x">
-            <i data-feather="x"></i>
-        </button>
-    </div>
-</div>
-<div id="main">
-  
-    <nav class="navbar navbar-header navbar-expand navbar-light">
-        <a class="sidebar-toggler" href="#"><span
-                class="navbar-toggler-icon"></span></a>
-        <button class="btn navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul
-                class="navbar-nav d-flex align-items-center navbar-light ms-auto">
-                <li class="dropdown nav-icon"><a href="#"
-                                                 data-bs-toggle="dropdown"
-                                                 class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
-                        <div class="d-lg-inline-block">
-                            <i data-feather="bell"></i><span class="badge bg-info">2</span>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-large">
-                        <h6 class='py-2 px-4'>Notifications</h6>
-                        <ul class="list-group rounded-none">
-                            <li class="list-group-item border-0 align-items-start">
-                                <div class="row mb-2">
-                                    <div class="col-md-12 notif">
-                                        <a href="leave_details.jsp"><h6 class='text-bold'>John
-                                                Doe</h6>
-                                            <p class='text-xs'>applied for leave at 05-21-2021</p></a>
-                                    </div>
-                                    <div class="col-md-12 notif">
-                                        <a href="leave_details.jsp"><h6 class='text-bold'>Jane
-                                                Doe</h6>
-                                            <p class='text-xs'>applied for leave at 05-21-2021</p></a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div></li>
-                <li class="dropdown"><a href="#" data-bs-toggle="dropdown"
-                                        class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <div class="avatar me-1">
-                            <img src="./assets/images/admin.png" alt="" srcset="">
-                        </div>
-                        <div class="d-none d-md-block d-lg-inline-block">Hi, Admin</div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#"><i data-feather="user"></i>
-                            Account</a> <a class="dropdown-item" href="#"><i
-                                data-feather="settings"></i> Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="login.jsp"><i
-                                data-feather="log-out"></i> Logout</a>
-                    </div></li>
-            </ul>
-        </div>
-    </nav>
 
 
-    <div class="main-content container-fluid">
+        <% String id = (String) session.getAttribute("emp_no");%>
+        <div class="main-content container-fluid">
+            <div class="alert alert-success d-none" role="alert" id="alert">
+                Your file was uploaded successfully!
+            </div>
+            <div id="loader" class="loader"></div>
 
-        <section class="section profile">
-            <input type="hidden" class="form-control"  id="employee_id" value="<%=user_id%>">
-            <div class="row">
-                <div class="col-xl-2">
-
-
-                    <div class="card sidemenu">
-                        <div class="card-body">
-                            <div class="profile-card pt-4 d-flex flex-column align-items-center">
-
-                                <img src="./assets/img/user_image.png" alt="Profile" class="rounded-circle emp_image" id="emp_image">
-                                <h5 class="name">Kevin Anderson</h5>
-                                <h6 class="designation text-center">Web Designer</h6>
-                                <div class="social-links mt-2">
-                                    <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <section class="section profile">
+                <div class=" emp-profile">
+                    <input type="hidden" class="form-control"  id="employee_id" value="<% out.println(id);%>" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="profile-img">
+                                <img src="./assets/img/user_image.png" alt="Profile" class=" emp_image" id="emp_image" width="200"/>
+                                <div class="file btn btn-lg btn-primary">
+                                    Change Photo
+                                    <input type="file" name="file"/>
                                 </div>
                             </div>
-                            <!-- Tabs nav -->
-                            <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link mb-3 p-3 shadow active" id="v-pills-basic-tab" data-bs-toggle="pill" href="#v-pills-basic" role="tab" aria-controls="v-pills-estatus" aria-selected="true">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="profile-head">
+                                <h4 class="name" id="sum_name">
+                                    Kshiti Ghelani
+                                </h4>
+                                <h5  class="designation" id="designation_">
+                                    Web Developer and Designer
+                                </h5>
+                                <h5  class="email" id="sumEmail">
+                                    Web Developer and Designer
+                                </h5>
+                                <h5  class="phone" id="_phone">
+                                    Web Developer and Designer
+                                </h5>
+                                <h5  class="facility" id="_facility">
+                                    Web Developer and Designer
+                                </h5>
+                                <p class="proile-rating ">Supervisor : <span id="supervisor"></span></p>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="basic-tab" data-bs-toggle="tab" href="#basic" role="tab" aria-controls="basic" aria-selected="true">
                                     <i class="fa fa-user-circle mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">Basic Information</span></a>
-
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-contacts-tab" data-bs-toggle="pill" href="#v-pills-contacts" role="tab" aria-controls="v-pills-equalification" aria-selected="false">
+                                    <span class="font-weight-bold small text-uppercase">General Info</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " id="work-tab" data-bs-toggle="tab" href="#work" role="tab" aria-controls="work" aria-selected="false">
                                     <i class="fa fa-calendar-minus mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">Contacts</span></a>
-
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-ehistory-tab" data-bs-toggle="pill" href="#v-pills-ehistory" role="tab" aria-controls="v-pills-ehistory" aria-selected="false">
+                                    <span class="font-weight-bold small text-uppercase">Jobs</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class=" nav-link" id="leave-tab" data-bs-toggle="tab" href="#leave" role="tab" aria-controls="leave" aria-selected="false">
                                     <i class="fa fa-star mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">Employment</span></a>
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-login-tab" data-bs-toggle="pill" href="#v-pills-login" role="tab" aria-controls="v-pills-login     " aria-selected="false">
+                                    <span class="font-weight-bold small text-uppercase">Leave</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="note-tab" data-bs-toggle="tab" href="#v-note" role="tab" aria-controls="note     " aria-selected="false">
                                     <i class="fa fa-star mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">User Login</span></a>
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-qualification-tab" data-bs-toggle="pill" href="#v-pills-qualification" role="tab" aria-controls="v-pills-qualification" aria-selected="false">
+                                    <span class="font-weight-bold small text-uppercase">Notes</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="performance-tab" data-bs-toggle="tab" href="#performance" role="tab" aria-controls="performance" aria-selected="false">
                                     <i class="fa fa-star mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">Qualification</span></a>
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-docs-tab" data-bs-toggle="pill" href="#v-pills-docs" role="tab" aria-controls="v-pills-docs" aria-selected="false">
+                                    <span class="font-weight-bold small text-uppercase">Performance</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="docs-tab" data-bs-toggle="tab" href="#docs" role="tab" aria-controls="docs" aria-selected="false">
                                     <i class="fa fa-star mr-2"></i>
                                     <span class="font-weight-bold small text-uppercase">Documents</span></a>
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-statutory-tab" data-bs-toggle="pill" href="#v-statutory-docs" role="tab" aria-controls="v-pills-docs" aria-selected="false">
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="training-tab" data-bs-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="false">
                                     <i class="fa fa-star mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">Statutory Info</span></a>
-                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-accounts-tab" data-bs-toggle="pill" href="#v-statutory-accounts" role="tab" aria-controls="v-pills-docs" aria-selected="false">
+                                    <span class="font-weight-bold small text-uppercase">Training</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="payslip-tab" data-bs-toggle="tab" href="#v-payslip" role="tab" aria-controls="payslip" aria-selected="false">
                                     <i class="fa fa-star mr-2"></i>
-                                    <span class="font-weight-bold small text-uppercase">Accounts</span></a>
-
-
-                            </div>
-                        </div>
+                                    <span class="font-weight-bold small text-uppercase">Payslip</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="payroll-tab" data-bs-toggle="tab" href="#v-payrolls" role="tab" aria-controls="payroll" aria-selected="false">
+                                    <i class="fa fa-star mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Payroll</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="attendance-tab" data-bs-toggle="tab" href="#v-attendance" role="tab" aria-controls="attendance" aria-selected="false">
+                                    <i class="fa fa-star mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Attendance</span></a>
+                            </li>
+                        </ul>
                     </div>
+                    <div class="row mt-5">
 
-                </div>
+                        <div class="col-xl-12">
+                            <div class="tab-content" id="tabContent">
 
-                <div class="col-xl-10">
-                    <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane  show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
 
-                        <div class="tab-pane  show active p-1" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="manage_employee.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Basic</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
+                                    <div class="card shadow">
 
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3>Basic</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Employee</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body">
-
-                                    <dl class="row row-cols-3 g-5 g-lg-3">
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Employee Code</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 ecode">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Date of Joining</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 date-joining">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Employee Type</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 etype">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Designation</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 designation">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Facility</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 facility">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Date of Birth</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 dob">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Gender</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 gender">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">KRA PIN</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 kra">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">NHIF No</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 nhif">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">NSSF ID</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 nssf">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Nationality</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 nationality">ESM002</dd>
-                                        </div>
-
-                                    </dl>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane " id="v-pills-contacts" role="tabpanel" aria-labelledby="v-pills-contacts-tab">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="manage_employee.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Contact</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3>Contact</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Employee</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <dl class="row row-cols-2 gap-5 gap-lg-5">
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500 ">Contact Number</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 phone">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Alternate Contact Number</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 alt_phone">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Email</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 email">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Alternate Email</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 alt_email">ESM002</dd>
-                                        </div>
-                                        <div class="col">
-                                            <dt class="font-medium text-sm text-gray-500">Present Address</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 present_add">ESM002</dd>
-
-                                            <dt class="font-medium text-sm text-gray-500">Permanent Address</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 permanent_add">ESM002</dd>
-                                        </div>
-
-
-
-                                    </dl>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane " id="v-pills-ehistory" role="tabpanel" aria-labelledby="v-pills-ehistory-tab">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Employment</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3>Employment</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Employee</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200 ">
-                                        <thead class="bg-gray-50 dark:bg-neutral-700">
-                                            <tr>
-                                                <th scope="col" class="sm-px-2 px-4 py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider cursor-pointer"><!----> Period <span class="hidden xl:inline-block"><i class="fas fa-arrows-alt-v"></i></span></th>
-                                                <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Department <!----></th>
-                                                <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Designation <!----></th>
-                                                <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Branch <!----></th>
-                                                <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Employment Status <!----></th>
-                                                <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!---->  <!----></th>
-                                            </tr>                </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200 " id="emp_hist">
-
-                                        </tbody>
-                                        <!---->
-                                    </table>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane" id="v-pills-login" role="tabpanel" aria-labelledby="v-pills-login-tab">
-
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><span 
-                                                    class="text-sm font-medium text-gray-400">User Login</span></li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3 class="text-xl font-bold leading-7 text-sm-2xl ">User Login</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit
-                                        User Login</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <dl class="row row-cols-2 gx-4 gy-8 ">
-                                        <div class="col-6">
-                                            <dt class="font-medium text-sm text-gray-500 ">Email</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 lemail ">ceo@ceo.com</dd>
-                                        </div>
-                                        <div class="col-6">
-                                            <dt class="font-medium text-sm text-gray-500 ">Username</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 username">ceo</dd>
-                                        </div>
-                                        <div class="col-6">
-                                            <dt class="font-medium text-sm text-gray-500 ">Password</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 "> xxxxxxxxx </dd>
-                                        </div>
-                                        <div class="col-6">
-                                            <dt class="font-medium text-sm text-gray-500 ">Role</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 ">
-                                                <div class="space-x-1">
-                                                    <span
-                                                        class="inline-flex items-center font-medium  text-xs leading-4 rounded-md btn btn-md bg-primary  text-white role "
-                                                        style=""> Admin</span>
+                                        <div class="card-body">
+                                            <div class="title">
+                                                <h3>Basic Info</h3>
+                                            </div>
+                                            <dl class="row row-cols-2 g-2 g-lg-2">
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">First Name</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 fname" id="fname">ESM002</dd>
                                                 </div>
-                                            </dd>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Last Name</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 lname" id="lname">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Employee ID</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 employeeNo " id="employeeNo">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Email</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900" ><a id="email" class="email" href='mailto:'></a></dd>
+                                                </div>
+
+
+
+                                            </dl>
+
                                         </div>
-                                    </dl>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
+                                                <h3>Work</h3>
+                                            </div>
+                                            <dl class="row row-cols-2 g-2 g-lg-2">
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500 ">Employee Type</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 etype" id="etype">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Title</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 title" id="title">ESM002</dd>
+                                                </div>
+                                                <!--                                                <div class="col">
+                                                                                                    <dt class="font-medium text-sm text-gray-500">Reporting To</dt>
+                                                                                                    <dd class="mt-1 text-sm text-gray-900 supervisor" id="supervisor">ESM002</dd>
+                                                                                                </div>-->
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Date of Hire</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 hireDate" id="hireDate">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Employee Status</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 estatus" id="estatus"></dd>
+
+                                                </div>
+
+
+
+                                            </dl>
+
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
+                                                <h3>Personal Details</h3>
+                                            </div>
+                                            <dl class="row row-cols-2 g-2 g-lg-2">
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500 ">Nationality</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 nationality" id="nationality">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500 ">Home Address</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 homeAddress" id="home_address">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Postal Code</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 postalcode" id="postal_code">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Present Address</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 supervisor" id="pressent_address">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Alternative Email</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 email" id="alt_email">ESM002</dd>
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Mobile</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 phone" id="phone">ESM002</dd>
+
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Phone</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 alt_phone" id="alt_phone">ESM002</dd>
+
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Date of Birth</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 dob" id="dob">ESM002</dd>
+
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Gender</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 gender" id="gender">ESM002</dd>
+
+                                                </div>
+                                                <div class="col">
+                                                    <dt class="font-medium text-sm text-gray-500">Marital Status</dt>
+                                                    <dd class="mt-1 text-sm text-gray-900 mstatus" id="marital_status">ESM002</dd>
+
+                                                </div>
+
+
+
+                                            </dl>
+
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
+                                                <h3>Work Experience</h3>
+                                            </div>
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200 ">
+                                                <thead class="bg-gray-50 dark:bg-neutral-700">
+                                                    <tr>
+                                                        <th scope="col" class="sm-px-2 px-4 py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider cursor-pointer"><!----> Period <span class="hidden xl:inline-block"><i class="fas fa-arrows-alt-v"></i></span></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Department <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Designation <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Branch <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Employment Status <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!---->  <!----></th>
+                                                    </tr>                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200 " id="emp_hist">
+
+                                                </tbody>
+                                                <!---->
+                                            </table>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
+                                                <h3>Education </h3>
+                                            </div>
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200 ">
+                                                <thead class="bg-gray-50 dark:bg-neutral-700">
+                                                    <tr>
+                                                        <th scope="col" class="sm-px-2 px-4 py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider cursor-pointer"><!----> Period <span class="hidden xl:inline-block"><i class="fas fa-arrows-alt-v"></i></span></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Year <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> School <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Major <!----></th>
+                                                    </tr>                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200 " id="education">
+
+                                                </tbody>
+                                                <!---->
+                                            </table>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
+                                                <h3>Dependents </h3>
+                                            </div>
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200 ">
+                                                <thead class="bg-gray-50 dark:bg-neutral-700">
+                                                    <tr>
+                                                        <th scope="col" class="sm-px-2 px-4 py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider cursor-pointer"><!----> Period <span class="hidden xl:inline-block"><i class="fas fa-arrows-alt-v"></i></span></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Year <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> School <!----></th>
+                                                        <th scope="col" class=" py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider"><!----> Major <!----></th>
+                                                    </tr>                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200 " id="education">
+
+                                                </tbody>
+                                                <!---->
+                                            </table>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane " id="work" role="tabpanel" aria-labelledby="work-tab">
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+                                            <div class="">
+                                                <h3>Employee Status</h3>
+
+
+                                            </div>
+                                            <hr />
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Employee Status</th>
+                                                        <th>Comment</th>
+                                                        <th class="action">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+
+                                            <h3>Employment Type</h3>
+
+                                            <a href="#" id="erp-empl-type" class="action btn" data-id=""
+                                               data-template="erp-employment-type"
+                                               data-title="Employment Type">Update Type</a>
+                                            <hr />
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Employment Type</th>
+                                                        <th>Comment</th>
+                                                        <th class="action">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+
+                                            <h3>Employment Type</h3>
+
+                                            <a href="#" id="erp-empl-type" class="action btn" data-id=""
+                                               data-template="erp-employment-type"
+                                               data-title="Employment Type">Update Type</a>
+                                            <hr />
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Employment Type</th>
+                                                        <th>Comment</th>
+                                                        <th class="action">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+
+                                            <h3>Employment Type</h3>
+
+                                            <a href="#" id="erp-empl-type" class="action btn" data-id=""
+                                               data-template="erp-employment-type"
+                                               data-title="Employment Type">Update Type</a>
+                                            <hr />
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Employment Type</th>
+                                                        <th>Comment</th>
+                                                        <th class="action">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane " id="leave" role="tabpanel" aria-labelledby="leave-tab">
+                                </div>
+
+                                <div class="tab-pane" id="note" role="tabpanel" aria-labelledby="note-tab">
+
+
+                                </div>
+                                <div class="tab-pane " id="performance" role="tabpanel" aria-labelledby="performance-tab">
+                                </div>
+                                <div class="tab-pane" id="docs" role="tabpanel" aria-labelledby="docs-tab">
+                                    <div class="card shadow">
+
+                                        <div class="card-body">
+
+                                            <h3>Documents</h3>
+
+
+                                            <hr />
+                                            <table class="table rounded-table hidden md:table min-w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Document Name</th>
+                                                        <th class="action">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="docTable">
+
+
+                                                </tbody>
+                                            </table>
+                                            <a href="#" id="add_doc_record" class="btn btn-outline-primary add_doc_record" data-bs-id=""
+                                               data-template="employ-doc"
+                                               data-title="Add Document"><i class="fa fa-plus"></i> Add Record</a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane" id="training" role="tabpanel" aria-labelledby="training-tab">
+
+                                </div>
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="payslip" role="tabpanel" aria-labelledby="payslip-tab">
+
                                 </div>
                             </div>
-
                         </div>
 
-                        <div class="tab-pane" id="v-pills-docs" role="tabpanel" aria-labelledby="v-pills-docs-tab">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="manage_employee.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Basic</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <input type="hidden" class="form-control"  id="employee_id" value="<%=user_id%>">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3>Basic</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Employee</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body"></div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane" id="v-pills-createdocs" role="tabpanel" aria-labelledby="v-pills-createdocs-tab">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="manage_employee.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Documents</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <input type="hidden" class="form-control"  id="employee_id" value="<%=user_id%>">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3>Basic</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Employee</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body"></div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12  col-4 col-sm-12 col-xs-12 mt-2">
-                                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.jsp" class="text-info"><i class="fa fa-home"></i> Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a href="manage_employee.jsp" class="text-info">Employee</a></li>
-                                            <li class="name breadcrumb-item active" aria-current="page"><a href="index.jsp" class="text-info">Name</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Basic</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <input type="hidden" class="form-control"  id="employee_id" value="<%=user_id%>">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 ">
-                                    <h3>Basic</h3>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <a href="manage_employee.jsp" class="btn btn-success float-end m-l-20 hidden-xs hidden-sm waves-effect waves-light"><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Employee</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow">
-                                <div class="card-body"></div>
-                            </div>
-                        </div>
                     </div>
+
+
                 </div>
 
-            </div>
-        </section>
 
+
+
+            </section>
+
+        </div>
+        <!-- // Basic Vertical form layout section end -->
     </div>
-    <!-- // Basic Vertical form layout section end -->
 </div>
 </div>
 </div>
-</div>
+<%@include file="/_includes/modals.jsp"%>
 <%@include file="/_includes/footer.jsp"%>
 
 <script src="./assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
@@ -508,9 +527,192 @@
 <script src="./assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="./assets/js/main.js"></script>
-<script src="./assets/js/pages/employees_view.js"></script>
+<!--<script src="./assets/js/pages/position_cadre_loader.js"></script>-->
+<script src="./assets/js/pages/form_.js"></script>
+<!--<script src="./assets/js/pages/employees_view.js"></script>-->
+<script src="./assets/js/staff_pages/profile.js"></script>
 <%@include file="/_includes/include_footer.jsp"%>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var app = "/hrh";
+  
+        $(document).on('click', '.add_doc_record', function (e) {
+            let creater = document.getElementById("StaffID").value;
+            document.getElementById('created_by').value = creater;
+            $('#simpleModalDoc form')[0].reset();
+            $("#simpleModalDoc").modal('show');
+        });
+
+
+        $(document).on('click', '.edit_doc', function (e) {
+            e.preventDefault();
+            $('#simpleModalDoc form')[0].reset();
+            var emp_no = $(this).data('empno');
+            var docName = $(this).data('name');
+            var doc_id = $(this).data('id');
+            console.log("Employee_no: " + emp_no);
+            OpenDocForm(emp_no, docName, doc_id);
+
+        });
+        $("#uploadForm").submit(function (e) {
+            e.preventDefault(); // prevent actual form submit
+            var form = $("#uploadForm");
+//            var action = "uploadDoc";
+//            var url_=
+            // Create form data object to send file as multipart/form-data
+            var formData = new FormData(form[0]);
+//            formData.append("action", action); // add action parameter
+            // Send AJAX request
+            $.ajax({
+                type: "POST",
+                processData: false,
+                contentType: false,
+                cache: false,
+//                enctype: 'multipart/form-data',
+                url:app+ "/documentUploads",
+                data: formData,
+
+                beforeSend: function () {
+                    console.log("Sending form data...");
+                },
+                success: function (data) {
+                    // Close modal
+                    $("#simpleModalDoc").modal("hide");
+                    // Display success message
+                    // Get the alert element
+                    var alertElement = document.getElementById("alert");
+
+                    // Set the message text
+                    alertElement.innerHTML = " Your file was uploaded successfully!";
+                    // Show the alert
+                    alertElement.classList.remove("d-none");
+                    alertElement.classList.add("show");
+                    // Hide the alert after 5 seconds
+                    setTimeout(function () {
+                        alertElement.classList.remove("show");
+                        alertElement.classList.add("d-none");
+                    }, 5000);
+
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.log(xhr.responseText + status + error);
+                },
+                complete: function () {
+                    console.log("Form data sent.");
+                }
+            });
+        });
+   
+     
+
+        function OpenDocForm(emp_no, fileName, id) {
+            $.ajax({
+                url: "documentUploads?action=get_document",
+                type: "GET",
+                dataType: "json",
+                data: {
+                    empno: emp_no,
+                    filename: fileName,
+                    id: id
+                },
+                success: function (response) {
+                    if (response.content) {
+                        // Populate form fields
+                        $("#emp_no").val(response.emp_no);
+                        $("#ddlDocType").val(response.dtid);
+
+                        var fileInput = $("#documentFile");
+                        fileInput.val(""); // Reset the file input element
+                        var fileType = getFileType(response.filename);
+                        var file = base64toBlob(response.content, fileType);
+                        var fileUrl = URL.createObjectURL(file);
+
+                        var fileList = [new File([file], response.document_value)];
+
+                        Object.defineProperty(fileList, "item", {
+                            value: function (i) {
+                                return this[i];
+                            }
+                        });
+
+                        // Reset the value property of the file input element
+                        fileInput[0].value = "";
+
+                        // Reset the files property of the file input element
+                        try {
+                            Object.defineProperty(fileInput[0], "files", {
+                                value: fileList
+                            });
+                        } catch (err) {
+                            console.log(err);
+                        }
+
+                        fileInput.attr("data-file-url", fileUrl);
+
+                        // Show the modal
+                        $("#simpleModalDoc").modal("show");
+                    } else {
+                        alert("Unable to retrieve document data");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("AJAX error: " + textStatus + " " + errorThrown);
+                }
+            });
+        }
+
+        function base64toBlob(base64Data, contentType) {
+            var sliceSize = 1024;
+            var byteCharacters = atob(base64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays, {type: contentType});
+            console.log(blob);
+            return blob;
+        }
+
+        function getFileType(filename) {
+            var lastDotIndex = filename.lastIndexOf(".");
+            if (lastDotIndex === -1) {
+                return null;  // no dot in filename
+            }
+            var extension = filename.substr(lastDotIndex + 1).toLowerCase();
+            switch (extension) {
+                case "pdf":
+                    return "application/pdf";
+                case "doc":
+                case "docx":
+                    return "application/msword";
+                case "xls":
+                case "xlsx":
+                    return "application/vnd.ms-excel";
+                case "ppt":
+                case "pptx":
+                    return "application/vnd.ms-powerpoint";
+                case "jpg":
+                case "jpeg":
+                    return "image/jpeg";
+                case "png" :
+                    return "image/png";
+                case "gif" :
+                    return "image/gif";
+                default:
+                    return null;  // unrecognized file type
+            }
+        }
+    });
+
+</script>
 </body>
 
 </html>

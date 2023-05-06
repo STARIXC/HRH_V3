@@ -14,8 +14,9 @@ import models.FY;
  */
 public class FyDAO {
 
-    private final DatabaseConnection conn;
-    public static final String SELECT_ALL_ = "SELECT * FROM hrh.tbl_financial_year where status =1";
+  private final DatabaseConnection conn;
+    public static final String SELECT_ALL_ = "SELECT * FROM hrh.tbl_financial_year";
+    public static final String SELECT_ACTIVE_ = "SELECT * FROM hrh.tbl_financial_year where status =1";
 
     public FyDAO() {
         conn = new DatabaseConnection();
@@ -65,6 +66,22 @@ public class FyDAO {
             Logger.getLogger(FyDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return fy;
+    }
+
+    public String getCurrentFy() {
+        String current_year="";
+        try {
+            String SELECT_FY_ID = SELECT_ACTIVE_;
+            conn.rs = conn.st.executeQuery(SELECT_FY_ID);
+            while (conn.rs.next()) {
+                current_year=conn.rs.getString("year");
+             
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FyDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return current_year;
     }
 
 }

@@ -8,10 +8,30 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Profile</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.Profile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LeaveBalanceController</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.LeaveBalanceController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LeaveDays</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.LeaveDays</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StatServlet</servlet-name>
         <url-pattern>/StatServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AvailableDays</servlet-name>
+        <url-pattern>/availableDays</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AvailableDays</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.AvailableDays</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>ProcessEmployee</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.ProcessEmployee_</servlet-class>
@@ -31,10 +51,6 @@
     <servlet>
         <servlet-name>loadMonth</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.loadMonth</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ProcessLeave</servlet-name>
-        <servlet-class>org.usaidtujengejamii.hrh.controller.ProcessLeave</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DepartmentController</servlet-name>
@@ -66,7 +82,7 @@
     </servlet>
     <servlet>
         <servlet-name>ProcessLeaves</servlet-name>
-        <servlet-class>org.usaidtujengejamii.hrh.controller.ProcessLeaves</servlet-class>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.LeaveTypeController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetMonthDates</servlet-name>
@@ -161,10 +177,6 @@
         <servlet-class>org.usaidtujengejamii.hrh.controller.documentUploads</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LeaveBalance</servlet-name>
-        <servlet-class>org.usaidtujengejamii.hrh.controller.LeaveBalance</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.LoginController</servlet-class>
     </servlet>
@@ -194,12 +206,6 @@
     <servlet-mapping>
         <servlet-name>LeaveApplication</servlet-name>
         <url-pattern>/LeaveApplication</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ProcessLeave</servlet-name>
-        <url-pattern>/ProcessLeave</url-pattern>
-        <url-pattern>/approve_application_form</url-pattern>
-        <url-pattern>/reject_application_form</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MonthlyTimesheet</servlet-name>
@@ -322,16 +328,24 @@
         <url-pattern>/documentUploads</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LeaveBalance</servlet-name>
-        <url-pattern>/leave_balance</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Profile</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LeaveBalanceController</servlet-name>
+        <url-pattern>/leaveBalance</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LeaveDays</servlet-name>
+        <url-pattern>/LeaveDays</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -37,7 +37,7 @@ public class TimesheetLogDAO {
                 activityLog.setYear(conn.rs.getInt("year"));
                 activityLog.setLog_no(conn.rs.getString("log_no"));
                 activityLog.setEmp_no(conn.rs.getString("emp_no"));
-                activityLog.setEmp_name(conn.rs.getString("EName"));
+//                activityLog.setEmp_name(conn.rs.getString("EName"));
                 activityLog.setMonthName(conn.rs.getString("monthName"));
                 activityLog.setLog_date(conn.rs.getString("log_date"));
                 activityLog.setExpected_hrs(conn.rs.getString("expected_hours"));
