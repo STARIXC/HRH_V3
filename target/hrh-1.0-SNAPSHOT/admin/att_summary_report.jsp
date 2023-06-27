@@ -34,28 +34,50 @@
         <%@include file="/_includes/header.jsp"%>
         <div id="app__" onload="getDefaultMonth();"></div>
         <div class="main-content container-fluid">
-            <div class="row mb-2">
-                <div class="col-md-12 order-md-1 order-last">
-                    <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.jsp" class="text-success"><i class="fa fa-home"></i> Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Attendance Summary Report</li>
-                        </ol>
-                    </nav>
-                </div>
+      
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="page-header-title">
+                                <h4 class="m-b-10">
+                                    Manage Employee
+                                </h4>
+                            </div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="./">Home</a></li>
+                                <li class="breadcrumb-item">Employee</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <div class="float-end ">
 
+                                <a href="/export/employee" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export" class="btn btn-sm btn-info">
+                                    <i class="fa fa-file-export"></i>
+                                </a>
+
+                                <a href="#" data-url="/employee/file" data-ajax-popup="true" data-title="Import  employee CSV file" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-info" data-bs-original-title="Import">
+                                    <i class="fa fa-file"></i>
+                                </a>
+                                <a href="javascript:void(0);" data-title="Create New Employee" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-info create_new" data-bs-original-title="Create">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <div id="success-popup" class="alert alert-success d-none" role="alert">
+                Your operation was successful!
+            </div>
 
-            <!-- Basic Vertical form layout section start -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            <i class="mdi mdi-table fa-fw"></i> 
-                            Attendance Summary Report
-                        </div>
-                        <div class="card-body pt-3">
+  <div class="row">
+                <div class="col-sm-12 pt-5">
+                    <div class="card text-white">
+                        <!--<div class="card-header "><i class="fa fa-table fa-fw"></i> Staff List</div>-->
+                        <div class="card-wrapper " aria-expanded="true">
+                         <div class="card-body pt-3">
                             <form accept-charset="UTF-8" id="attendanceSummaryReport" >
                                 <div class="row">
 
@@ -78,12 +100,23 @@
 
                                 </div>
                             </form>
-                            <h4 class="text-end">
-                                <a target="_blank" class="btn btn-success" style="color: #fff" href="https://hrms.braintricker.com/downloadAttendanceSummaryReport/2022-06"><i class="fa fa-download fa-lg" aria-hidden="true"></i> Download PDF</a>
-                            </h4>
-                            <div class="table-responsive" id="table-container">
+                          
+                            </div>
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                <table  class="table table-bordered table-striped table-hover" id="timesheet_table" >
+
+            <div class="row">
+                <div class="col-sm-12 pt-2">
+                    <div class="card text-white">
+                        <!--<div class="card-header "><i class="fa fa-table fa-fw"></i> Staff List</div>-->
+                        <div class="card-wrapper " aria-expanded="true">
+                            <div class="card-header card-body table-border-style">
+                                <div class="table-responsive ">
+                                     <table width="100%" class="table table-bordered table-striped table-hover" id="timesheet_table" >
                                     <thead></thead>
                                     <tbody></tbody>
 
@@ -92,11 +125,13 @@
                                     </script>
 
                                 </table>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
+            </div>
+
             </div>
             <!-- // Basic Vertical form layout section end -->
         </div>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -208,27 +207,7 @@
 
 
             });
-//                                                                            $.ajax({
-//                                                                                url: app+'/supervisors',
-//                                                                                data: {mflcode: mflcode},
-//                                                                                type: 'get',
-//                                                                                success: function (data) {
-//                                                                                    // Clear the existing options in the select field
-//                                                                                   
-//
-//                                                                                    // Add the first option (Select Supervisor)
-//                                                                                    $('#ddlSupervisor').append(
-//                                                                                            `<option value="">Select Supervisor</option>`
-//                                                                                            );
-//
-//                                                                                    // Loop through the supervisors and add each one as an option in the select field
-//                                                                                    for (const supervisor of data) {
-//                                                                                        $('#ddlSupervisor').append(
-//                                                                                                `<option value="${supervisor.supervisor_id}">${supervisor.name}</option>`
-//                                                                                                );
-//                                                                                    }
-//                                                                                }
-//                                                                            });
+
         });
 
 
@@ -302,12 +281,12 @@
                     $('#txtEmail').val(data.employee.email);
                     $('#txtNationalID').val(data.employee.national_id);
                     $('#txtEmployeeNumber').val(data.employee.emp_no);
-//                                                                            $('#ddlEmployeeType option[value="' + data.currentPosition.emp_type + '"]').attr("selected", "selected");
+                    $('#ddlEmployeeType option[value="' + data.employee.standardId + '"]').attr("selected", "selected");
                     $('#eStatus option[value="' + data.employee.status + '"]').attr("selected", "selected");
                     $('#hiredate').val(data.employee.date_started);
                     $('#endDate').val(data.employee.date_ended);
-                    // $('ddlCadreCategory option[value="' + data.emp_type + '"]').attr("selected", "selected");
-                    // $('ddlPos option[value="' + data.emp_type + '"]').attr("selected", "selected");
+                    $('#ddlCadreCategory option[value="' + data.employee.standardId + '"]').attr("selected", "selected");
+                    $('#ddlPos option[value="' + data.employee.positionId + '"]').attr("selected", "selected");
                     // $('ddlCounty option[value="' + data.emp_type + '"]').attr("selected", "selected");
                     // $('ddlSubcounty option[value="' + data.emp_type + '"]').attr("selected", "selected");
                     // $('ddlFacility option[value="' + data.emp_type + '"]').attr("selected", "selected");

@@ -2,8 +2,8 @@ $(document).ready(function () {
     var app = "/hrh";
     var now = new Date();
     var month = (now.getMonth() + 1);
-    var hourTotal = 0;
-//    gethours();
+
+
     var day = now.getDate();
     if (month < 10)
         month = "0" + month;
@@ -12,14 +12,12 @@ $(document).ready(function () {
     var today = now.getFullYear() + '-' + month;
     console.log(today);
     $('.monthField').val(today);
-
     $(".monthField").datepicker({
         format: "yyyy-mm",
         viewMode: "months",
         minViewMode: "months"
     }).on('changeDate', function (e) {
         $(this).datepicker('hide');
-        gethours();
         retrivetimesheet();
     });
     retrivetimesheet();
@@ -27,9 +25,9 @@ $(document).ready(function () {
     $("#timesheetForm_").submit(function (e) {
         e.preventDefault(); // prevent actual form submit
         var form = $("#timesheetForm_");
-        var action = "save_log";
+        var action = "save";
         var data = form.serialize() + "&action=" + action;
-        var url = app + '/LogTimesheet'; //get submit url [replace url here if desired]
+        var url = app + '/timesheetController'; //get submit url [replace url here if desired]
 //        screenLock();
         $.ajax({
             type: "POST",
@@ -39,13 +37,13 @@ $(document).ready(function () {
                 //startLoader();
                 console.log(data);
             },
-            success: function (data) {
+            success: function (response) {
                 var url_ = "manage_timesheet.jsp";
                 $(location).attr('href', url_);
-                console.log(data);
+                console.log(response);
             },
             error: function error(result) {
-
+                console.log(result);
             },
             complete: function complete() {
                 //	stopLoader();
@@ -90,8 +88,8 @@ $(document).ready(function () {
             success: function (data) {
                 var arr = eval(data);
                 $.each(arr, function (index, content) {
-                    var currentDate = new Date(); // get the current date
-                    var inputDate = new Date(content.date_field); // convert the input date string to a Date object
+//                    var currentDate = new Date(); // get the current date
+//                    var inputDate = new Date(content.date_field); // convert the input date string to a Date object
                     let x = Math.floor((Math.random() * 10000) + 1);
                     let log_no = content.log_no;
                     if (log_no === "0") {
@@ -139,7 +137,7 @@ $(document).ready(function () {
                     calculateLeaveTotalHours();
                     calculateHolidayTotalHours();
                     calculateExtraTotalHours();
-                    gethours();
+
                 });
 
             }
@@ -252,28 +250,27 @@ $(document).ready(function () {
         var totalHours = hours_worked + leave + pholiday + extra_hours;
 
         $('#ttotal').val(totalHours);
-        //document.getElementById("").innerHTML = totalHours;
         document.getElementById("labelTotalH").innerHTML = totalHours;
 
     }
+    gethours();
 
-
-
-    function getTotals() {
-        $.ajax({
-            url: './GetTotals',
-            type: 'get',
-            dataType: 'html',
-            success: function (data) {
-//        $('#tstotal').val(hoursw);
-//  $('#phtotal').val(holiday);
-//  $('#ltotal').val(leavehours);
-//  $('#extotal').val(extra);
-//  $('#ttotal').val(extra);
-            }
-        });
-
-    }
+//
+//    function getTotals() {
+//        $.ajax({
+//            url: './GetTotals',
+//            type: 'get',
+//            dataType: 'html',
+//            success: function (data) {
+////        $('#tstotal').val(hoursw);
+////  $('#phtotal').val(holiday);
+////  $('#ltotal').val(leavehours);
+////  $('#extotal').val(extra);
+////  $('#ttotal').val(extra);
+//            }
+//        });
+//
+//    }
 
 
 

@@ -2,7 +2,7 @@ package models;
 
 public class TimesheetLog {
 
-    private int log_id, shift, year, month;
+    private String log_id, shift, year, month;
     private String log_no, emp_no, log_date, hours_worked, tested, pos, emp_name;
     private String onleave_hours;
     private String holiday;
@@ -10,6 +10,9 @@ public class TimesheetLog {
     private String Thours_worked;
     private String expected_hrs;
     private String monthName;
+
+  
+   
 
     public String getEmp_name() {
         return emp_name;
@@ -31,19 +34,19 @@ public class TimesheetLog {
         return onleave_hours;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
@@ -83,19 +86,19 @@ public class TimesheetLog {
         this.expected_hrs = expected_hrs;
     }
 
-    public int getLog_id() {
+    public String getLog_id() {
         return log_id;
     }
 
-    public void setLog_id(int log_id) {
+    public void setLog_id(String log_id) {
         this.log_id = log_id;
     }
 
-    public int getShift() {
+    public String getShift() {
         return shift;
     }
 
-    public void setShift(int shift) {
+    public void setShift(String shift) {
         this.shift = shift;
     }
 
@@ -147,31 +150,15 @@ public class TimesheetLog {
         this.pos = pos;
     }
 
-    public TimesheetLog(int log_id, int shift, String log_no, String emp_no, String log_date, String hours_worked,
-            String tested, String pos) {
-        super();
-        this.log_id = log_id;
-        this.shift = shift;
-        this.log_no = log_no;
-        this.emp_no = emp_no;
-        this.log_date = log_date;
-        this.hours_worked = hours_worked;
-        this.tested = tested;
-        this.pos = pos;
 
-    }
-
-    public TimesheetLog(int shift, String log_no, String emp_no, String log_date, String hours_worked) {
-        this.shift = shift;
-        this.log_no = log_no;
-        this.emp_no = emp_no;
-        this.log_date = log_date;
-        this.hours_worked = hours_worked;
-    }
 
     public TimesheetLog() {
         super();
 
+    }
+
+    public void setHours_worked(int hoursWorked) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

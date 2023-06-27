@@ -73,5 +73,5 @@ function pataPositions() {
 
 loademptype();
 pataStandard();
-//pataPositions();
+pataPositions();
 });

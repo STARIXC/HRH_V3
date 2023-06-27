@@ -1,14 +1,18 @@
 utils\TimesheetLogDAO.class
+utils\TimesheetDAO.class
+models\Timesheet.class
 utils\LeaveApplicationsDAO.class
 utils\ActivityDAO.class
 models\Activity.class
 models\Common__.class
 org\usaidtujengejamii\hrh\controller\ProcessFinancialYear.class
 org\usaidtujengejamii\hrh\controller\TimesheetLogsController.class
+org\usaidtujengejamii\hrh\controller\GetHours.class
 utils\MailUtil$1.class
 org\usaidtujengejamii\hrh\controller\Profile.class
 org\usaidtujengejamii\hrh\controller\SupervisorsServlet.class
 models\LeaveApplication.class
+models\TimesheetSummary.class
 utils\EmployeeTypeDAO.class
 org\usaidtujengejamii\hrh\controller\CadreTypeServlet__.class
 org\usaidtujengejamii\hrh\controller\ProcessLeaveApplications.class
@@ -41,10 +45,12 @@ org\usaidtujengejamii\hrh\controller\DepartmentController.class
 utils\TechnicalMonitorsDAO.class
 models\Login.class
 org\usaidtujengejamii\hrh\controller\DocumentController.class
+utils\TimesheetHourCalculatorDAO.class
 org\usaidtujengejamii\hrh\controller\GetMonthDates.class
 org\usaidtujengejamii\hrh\controller\LeaveBalanceController.class
 org\usaidtujengejamii\hrh\db\DatabaseConnection.class
 models\EmployeeData.class
+models\Date.class
 models\Facility.class
 utils\FyDAO.class
 org\usaidtujengejamii\hrh\controller\loadEmpType.class
@@ -52,6 +58,7 @@ utils\HolidayDao.class
 utils\DocumentDAO.class
 utils\IdGen.class
 models\Position.class
+models\TimesheetDateData.class
 org\usaidtujengejamii\hrh\controller\EmployeesController_.class
 org\usaidtujengejamii\hrh\controller\PositionServlet.class
 org\usaidtujengejamii\hrh\controller\CarderCatUpdate.class
@@ -62,6 +69,7 @@ org\usaidtujengejamii\hrh\controller\Logout.class
 org\usaidtujengejamii\hrh\controller\EmployeeController__.class
 utils\Scheduler$1.class
 models\Day.class
+org\usaidtujengejamii\hrh\controller\TimesheetController.class
 org\usaidtujengejamii\hrh\controller\GetPostionServlet.class
 models\TimesheetSum.class
 org\usaidtujengejamii\hrh\controller\OSValidator.class
@@ -83,6 +91,7 @@ models\LeaveBalance.class
 org\usaidtujengejamii\hrh\controller\CheckContractEndDatesServlet.class
 models\TimesheetLog.class
 utils\EmployeeDAO.class
+org\usaidtujengejamii\hrh\db\DatabaseConnection_.class
 utils\UserDAO.class
 utils\OSValidator.class
 org\usaidtujengejamii\hrh\controller\documentUploads.class

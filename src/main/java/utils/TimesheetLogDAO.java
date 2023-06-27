@@ -32,9 +32,9 @@ public class TimesheetLogDAO {
             conn.rs = conn.st.executeQuery(sql);
             while (conn.rs.next()) {
                 TimesheetLog activityLog = new TimesheetLog();
-                activityLog.setLog_id(conn.rs.getInt("log_id"));
-                activityLog.setMonth(conn.rs.getInt("month"));
-                activityLog.setYear(conn.rs.getInt("year"));
+                activityLog.setLog_id(conn.rs.getString("log_id"));
+                activityLog.setMonth(conn.rs.getString("month"));
+                activityLog.setYear(conn.rs.getString("year"));
                 activityLog.setLog_no(conn.rs.getString("log_no"));
                 activityLog.setEmp_no(conn.rs.getString("emp_no"));
 //                activityLog.setEmp_name(conn.rs.getString("EName"));
@@ -47,7 +47,7 @@ public class TimesheetLogDAO {
                 activityLog.setHoliday(conn.rs.getString("holiday_hours"));
                 activityLog.setThours_worked(conn.rs.getString("total_hours"));
 
-                activityLog.setShift(conn.rs.getInt("status"));
+                activityLog.setShift(conn.rs.getString("status"));
 
                 activityLogs.add(activityLog);
 

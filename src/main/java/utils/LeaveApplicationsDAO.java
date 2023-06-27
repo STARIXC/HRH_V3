@@ -1,7 +1,7 @@
 package utils;
 
 import java.sql.Date;
-import org.usaidtujengejamii.hrh.db.DatabaseConnection;
+import org.usaidtujengejamii.hrh.db.DatabaseConnection_;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,16 +19,18 @@ import models.LeaveBalance;
  */
 public class LeaveApplicationsDAO {
 
-    private final DatabaseConnection conn;
- 
+    private final DatabaseConnection_ conn;
+
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // format of the date string
     LocalDate currentDate = LocalDate.now();
-   Date approved_at = Date.valueOf(currentDate);
-    public LeaveApplicationsDAO() {
-        conn = new DatabaseConnection();
+    Date approved_at = Date.valueOf(currentDate);
+
+    public LeaveApplicationsDAO() throws SQLException {
+        conn = new DatabaseConnection_();
     }
 
     public List<LeaveApplication> getAllApplied() {
+        
         List<LeaveApplication> leaves = new ArrayList<>();
         try {
             String sql = "SELECT a.application_id as id,"
@@ -66,13 +68,19 @@ public class LeaveApplicationsDAO {
 
             }
 
+       
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             Logger.getLogger(LeaveApplicationsDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
+        } 
+//        finally {
+//            conn.closeResultSet(conn.rs);
+////            conn.closeStatement(conn.st);
+//            conn.closeConnection(conn.conn);
+//        }
 
         return leaves;
     }
+    
 
     public List<LeaveApplication> getAllAppliedByEmpNo(String employee_id) {
         List<LeaveApplication> eleaves = new ArrayList<>();
@@ -94,14 +102,68 @@ public class LeaveApplicationsDAO {
             conn.pst = conn.conn.prepareStatement(sql);
             conn.pst.setString(1, employee_id);
             conn.rs = conn.pst.executeQuery();
-            
+
             while (conn.rs.next()) {
                 String start_date = conn.rs.getString("startdate");
                 String end_date = conn.rs.getString("enddate");
                 String duration = start_date + " to " + end_date;
-                
+
                 LeaveApplication leave = new LeaveApplication();
-                
+
+                leave.setEmployee_name(conn.rs.getString("EmployeeName"));
+                leave.setApplication_id(conn.rs.getInt("id"));
+                leave.setStart_date(start_date);
+                leave.setEnd_date(end_date);
+                leave.setDuration(duration);
+                leave.setNumber_days(conn.rs.getDouble("no_days"));
+                leave.setUser_id(conn.rs.getInt("approved_by"));
+                leave.setLeave_status(conn.rs.getInt("status"));
+                leave.setLeave_type_name(conn.rs.getString("leave_name"));
+                leave.setDate_of_application(conn.rs.getString("applicationdate"));
+                leave.setEmployee_id(conn.rs.getString("employee_no"));
+                eleaves.add(leave);
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(LeaveApplicationsDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        return eleaves;
+    }
+
+    public List<LeaveApplication> getAllBySup(String employee_id) {
+        List<LeaveApplication> eleaves = new ArrayList<>();
+        try {
+            String sql = "SELECT a.application_id AS id,\n"
+                    + "       a.start_date AS startdate,\n"
+                    + "       a.end_date AS enddate,\n"
+                    + "       a.application_date AS applicationdate,\n"
+                    + "       a.supervisor_id AS approved_by,\n"
+                    + "       a.l_status AS status,\n"
+                    + "       a.num_days AS no_days,\n"
+                    + "       t.leave_type AS leave_name,\n"
+                    + "       e.emp_no AS employee_no,\n"
+                    + "       CONCAT(e.first_name, ' ', e.surname) AS EmployeeName\n"
+                    + "FROM hrh.leave_requests a\n"
+                    + "LEFT JOIN leaves t ON t.leave_id = a.leave_id\n"
+                    + "LEFT JOIN emp_bio e ON e.emp_no = a.employee_id\n"
+                    + "LEFT JOIN supervisors s ON s.login_id = ?\n"
+                    + "LEFT JOIN tbl_facility_supervisor fs ON fs.supervisor_id = s.id\n"
+                    + "LEFT JOIN tbl_user_facility us ON us.facility_id = fs.mflc\n"
+                    + "WHERE s.id = ?";
+
+            conn.pst = conn.conn.prepareStatement(sql);
+            conn.pst.setString(1, employee_id);
+            conn.pst.setString(2, employee_id);
+            conn.rs = conn.pst.executeQuery();
+
+            while (conn.rs.next()) {
+                String start_date = conn.rs.getString("startdate");
+                String end_date = conn.rs.getString("enddate");
+                String duration = start_date + " to " + end_date;
+
+                LeaveApplication leave = new LeaveApplication();
+
                 leave.setEmployee_name(conn.rs.getString("EmployeeName"));
                 leave.setApplication_id(conn.rs.getInt("id"));
                 leave.setStart_date(start_date);
@@ -280,7 +342,7 @@ public class LeaveApplicationsDAO {
             conn.pst.setInt(7, supervisorId);
             conn.pst.setInt(8, technicalMonitorId);
             conn.pst.setString(9, applicationDate);
-            int rowsAffected = conn.pst.executeUpdate();;
+            int rowsAffected = conn.pst.executeUpdate();
             return (rowsAffected > 0);
 
         } catch (SQLException ex) {
@@ -342,7 +404,7 @@ public class LeaveApplicationsDAO {
     }
 
     public boolean isLeaveRequestApprovedByTechnicalMonitor(int leaveRequestId) throws SQLException {
-      
+
         try {
 
             String query = "SELECT technical_monitor_approval_status FROM leave_approvals WHERE leave_request_id = ? ";
@@ -352,7 +414,7 @@ public class LeaveApplicationsDAO {
 
             if (conn.rs.next()) {
                 int technical_monitor_approval_status = conn.rs.getInt("technical_monitor_approval_status");
-                 if (technical_monitor_approval_status == 1) {
+                if (technical_monitor_approval_status == 1) {
                     return true;
                 }
             }
@@ -469,7 +531,7 @@ public class LeaveApplicationsDAO {
                 leaveApplication.setLeave_status(conn.rs.getInt("status"));
                 leaveApplications.add(leaveApplication);
             }
-     
+
         } catch (SQLException ex) {
             // handle any exceptions
         }
@@ -477,8 +539,8 @@ public class LeaveApplicationsDAO {
     }
 
     public boolean updateLeaveApproval(int leaveRequestId, int technicalMonitor_id, int i, String approvalComments) {
-       int rowsUpdated = 0;
-       approvalComments="Approved";
+        int rowsUpdated = 0;
+        approvalComments = "Approved";
         try {
 
             String query = "UPDATE leave_approvals SET technical_monitor_approval_status = ?, tocomments=?,to_approval_at=? WHERE leave_request_id = ?";
@@ -488,27 +550,131 @@ public class LeaveApplicationsDAO {
             conn.pst.setDate(3, approved_at);
             conn.pst.setInt(4, leaveRequestId);
             rowsUpdated = conn.pst.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(LeaveApplicationsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        boolean isUpdated = rowsUpdated > 0;
 
-        return rowsUpdated > 0;
+        if (isUpdated) {
+            // Call updateBalance method
+            int employeeId = getEmployeeIdFromLeaveRequest(leaveRequestId); // Replace this with the actual method to retrieve employee ID from leave request
+            int leaveTypeId = getLeaveTypeIdFromLeaveRequest(leaveRequestId); // Replace this with the actual method to retrieve leave type ID from leave request
+            double daysTaken = getDaysTakenFromLeaveRequest(leaveRequestId); // Replace this with the actual method to retrieve days taken from leave request
+            int year = getYearFromLeaveRequest(leaveRequestId); // Replace this with the actual method to retrieve year from leave request
+
+            updateBalance(employeeId, leaveTypeId, daysTaken, year);
+        }
+
+        return isUpdated;
     }
-    
+
     public void updateBalance(int employee_id, int leave_type_id, double days_taken, int year) {
-    try {
-        String sql = "UPDATE leave_balance SET balance = balance - ?, days_taken = days_taken + ? WHERE employee_id = ? AND leave_type_id = ? AND year = ?";
-        conn.pst = conn.conn.prepareStatement(sql);
-        conn.pst.setDouble(1, days_taken);
-        conn.pst.setDouble(2, days_taken);
-        conn.pst.setInt(3, employee_id);
-        conn.pst.setInt(4, leave_type_id);
-        conn.pst.setInt(5, year);
-        conn.pst.executeUpdate();
-    } catch (SQLException e) {
-        // handle the exception
+        try {
+            String sql = "UPDATE leave_balance SET balance = balance - ?, days_taken = days_taken + ? WHERE employee_id = ? AND leave_type_id = ? AND year = ?";
+            conn.pst = conn.conn.prepareStatement(sql);
+            conn.pst.setDouble(1, days_taken);
+            conn.pst.setDouble(2, days_taken);
+            conn.pst.setInt(3, employee_id);
+            conn.pst.setInt(4, leave_type_id);
+            conn.pst.setInt(5, year);
+            conn.pst.executeUpdate();
+        } catch (SQLException e) {
+            // handle the exception
+        }
     }
-}
 
+    public boolean isLeaveDateOverlap(String employeeId, int leaveId, String start_date, String end_date, int status_) {
+        boolean isOverlap = false;
+        String query = "SELECT * FROM leave_requests WHERE employee_id=? AND leave_id=? AND l_status !=? AND((start_date <= ? AND end_date >= ?) OR (start_date <= ? AND end_date >= ?) OR (start_date >= ? AND end_date <= ?))";
+        try {
+
+            conn.pst = conn.conn.prepareStatement(query);
+            conn.pst.setString(1, employeeId);
+            conn.pst.setInt(2, leaveId);
+            conn.pst.setInt(3, status_);
+            conn.pst.setString(4, start_date);
+            conn.pst.setString(5, start_date);
+            conn.pst.setString(6, end_date);
+            conn.pst.setString(7, end_date);
+            conn.pst.setString(8, start_date);
+            conn.pst.setString(9, end_date);
+            conn.rs = conn.pst.executeQuery();
+
+            if (conn.rs.next()) {
+                isOverlap = true;
+            }
+
+            conn.conn.close();
+        } catch (SQLException e) {
+            // Handle exception
+        }
+
+        return isOverlap;
+    }
+
+    public int getEmployeeIdFromLeaveRequest(int leaveRequestId) {
+        int employeeId = 0;
+        try {
+            String sql = "SELECT employee_id FROM leave_requests WHERE leave_request_id = ?";
+            conn.pst = conn.conn.prepareStatement(sql);
+            conn.pst.setInt(1, leaveRequestId);
+            conn.rs = conn.pst.executeQuery();
+            if (conn.rs.next()) {
+                employeeId = conn.rs.getInt("employee_id");
+            }
+        } catch (SQLException e) {
+            // handle the exception
+        }
+        return employeeId;
+    }
+
+    public int getLeaveTypeIdFromLeaveRequest(int leaveRequestId) {
+        int leaveTypeId = 0;
+        try {
+            String sql = "SELECT leave_id FROM leave_requests WHERE application_id = ?";
+            conn.pst = conn.conn.prepareStatement(sql);
+            conn.pst.setInt(1, leaveRequestId);
+            conn.rs = conn.pst.executeQuery();
+            if (conn.rs.next()) {
+                leaveTypeId = conn.rs.getInt("leave_type_id");
+            }
+        } catch (SQLException e) {
+            // handle the exception
+        }
+        return leaveTypeId;
+    }
+
+    public double getDaysTakenFromLeaveRequest(int leaveRequestId) {
+        double daysTaken = 0;
+        try {
+            String sql = "SELECT num_days FROM leave_requests WHERE application_id = ?";
+            conn.pst = conn.conn.prepareStatement(sql);
+            conn.pst.setInt(1, leaveRequestId);
+            conn.rs = conn.pst.executeQuery();
+            if (conn.rs.next()) {
+                daysTaken = conn.rs.getDouble("days_taken");
+            }
+        } catch (SQLException e) {
+            // handle the exception
+        }
+        return daysTaken;
+    }
+
+    public int getYearFromLeaveRequest(int leaveRequestId) {
+        int year = 0;
+        try {
+            String sql = "SELECT YEAR(start_date) AS year FROM leave_requests WHERE application_id = ?";
+            conn.pst = conn.conn.prepareStatement(sql);
+            conn.pst.setInt(1, leaveRequestId);
+            conn.rs = conn.pst.executeQuery();
+            if (conn.rs.next()) {
+                year = conn.rs.getInt("year");
+            }
+        } catch (SQLException e) {
+            // handle the exception
+        }
+        return year;
+    }
 
 }

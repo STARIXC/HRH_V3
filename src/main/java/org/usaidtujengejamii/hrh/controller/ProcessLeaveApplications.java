@@ -8,6 +8,7 @@ import utils.JSONConverter;
 import utils.LeaveApplicationsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class ProcessLeaveApplications extends HttpServlet {
     String result, nextPage;
 //    private JSONConverter json;
 
-    public ProcessLeaveApplications() {
+    public ProcessLeaveApplications() throws SQLException {
         super();
         dao = new LeaveApplicationsDAO();
     }

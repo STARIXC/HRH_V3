@@ -110,10 +110,10 @@
                                              class='sidebar-link'> <i class="fa fa-chart-bar breadcrumbColor"></i>
                         <span>Reports</span>
                     </a></li>
-                <li class="sidebar-item ">
+<!--                <li class="sidebar-item ">
                     <a href="reports.jsp" class='sidebar-link'> <i class="fa fa-user breadcrumbColor"></i>
                         <span>User</span>
-                    </a></li>
+                    </a></li>-->
                 <li class="sidebar-item  has-sub">
                     <a href="javascript:void(0)" class='sidebar-link'> <i class="mr-3 shrink-0 w-6 fas fa-cog breadcrumbColor"></i>
                         <span>Settings</span>

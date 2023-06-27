@@ -45,6 +45,7 @@ public class Employee {
     private String cadreTypeName;
     private String typeId;
     private String supervisor;
+    private String county;
 //    private List<EmploymentHistory> employmentHistoryList;
 
     public Employee() {
@@ -385,6 +386,14 @@ public class Employee {
 
     public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
     }
 
 }

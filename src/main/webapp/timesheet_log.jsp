@@ -73,7 +73,7 @@
                                 <label class="control-label" for="email">Month<span class="validateRq">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control monthField required" readonly placeholder="Month"  name="month" id="monthyear" />
+                                    <input type="text" class="form-control monthField required" readonly placeholder="Month"  name="monthyear" id="monthyear" />
                                 </div>
                             </div>
                         </div>
@@ -120,6 +120,8 @@
                                                 <input type="hidden" class="form-control" name="log_id"  id="log_id" value="" autocomplete="off" />
                                                 <input type="hidden" name="MnthBeginning" value="4/1/2022">
                                                 <input type="hidden" name="MthEnd" value="4/30/2022">
+                                                <input type="hidden" name="month" id="month" value="">
+                                                <input type="hidden" name="year" id="year" value="">
                                                 <input type="hidden" name="TSID" id="TSID" value="">
                                                 <input type="hidden" name="stHours" id="stHours" value="166">
                                                 <input type="hidden" name="StaffID" id="StaffID" value="<%=id%>">
@@ -206,7 +208,7 @@
 </div>
 </div>
 </div>
-<%@include file="/_includes/modals.jsp"%>
+
 <script src="./assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
 <script src="./assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -224,7 +226,7 @@
 <script src="./assets/js/app.js"></script>
 <script src="./assets/js/main.js"></script>
 
- <script src="./assets/js/staff_pages/timesheet.js" type="text/javascript"></script>
+ <script src="./assets/js/pages/timesheet.js" type="text/javascript"></script>
 <%@include file="/_includes/include_footer.jsp"%>
 </body>
 

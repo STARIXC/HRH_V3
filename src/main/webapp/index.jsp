@@ -122,9 +122,9 @@
         <div class="main-content">
 
 
-
+<% String id = (String) session.getAttribute("emp_no");%>
             <div class="container-fluid">
-
+<input type="hidden" name="__STAFFID" id="__STAFFID" value="<% out.println(id);%>" />
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <ol class="breadcrumb">
@@ -194,8 +194,8 @@
                         <div class="white-box card">
                             <h3 class="box-title">Attendance Summary</h3>
                             <hr>
-                            <div class="noticeBord">
-                               
+                            <div style="max-width: 100%; position: relative;">
+                                <canvas id="myChart" class="noticeBord_"></canvas>
 
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="col-md-6 col-lg-6 col-sm-12">
+                    <div class="col-md-6 col-lg-6 col-sm-12">
                         <div class="card">
 
                             <div class="card-body">
@@ -255,7 +255,7 @@
                             </div>
                         </div>
                     </div>
-               
+
                 </div>
 
                 <div class="row">
@@ -324,10 +324,10 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="assets/js/main.js"></script>
 <!--<script src="assets/js/custom_.js"></script>-->
-<script src="assets/js/pages/dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/pages/index.js"></script>
 
 <%@include file="/_includes/include_footer.jsp"%>
-
 
 </body>
 </html>

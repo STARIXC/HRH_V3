@@ -74,9 +74,9 @@ let app="/hrh";
         "targets": 0,
         "data": "shift",
         "render": function (data, type, row, meta) {
-          if (data === 2) {
+          if (data === '2') {
             return '<span class="badge bg-success fs-7">Submited</span>';
-          } else if (data === 1) {
+          } else if (data === '1') {
             return '<span class="badge bg-primary fs-7">Draft</span><br>';
           } else {
             return '<span class="badge bg-secondary fs-7">N/A</span><br>';
@@ -86,7 +86,8 @@ let app="/hrh";
       {
         "render": function (data, type, row, meta) {
           var url="./GetMonthDates?year=" + row['year']  + "&&month=" + row['month'] + "&&emp_no=" + row['emp_no']  ;
-          var a = '<a class="badge bg-primary" href="'+url+'">Submit for Approval</a><a class="badge bg-danger" href="./AllStaffServlet?id=' + data + '&action=delete">Delete</a>';
+          var view="timesheet.jsp?year=" + row['year']  + "&month=" + row['month'] + "&emp_no=" + row['emp_no'] + "&action=view_time_sheet";
+          var a = '<a class="badge bg-success" href="'+view+'">View</a><a class="badge bg-primary" href="'+url+'">Submit</a>';
          //console.log(row['year']);
           return 	a;
         }

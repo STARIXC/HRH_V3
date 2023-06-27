@@ -132,7 +132,6 @@ public class EmployeeProfileDAO {
 //    public EmploymentHistory getCurrentPosition(String emp_no) {
 //        throw new UnsupportedOperationException("Not supported yet.");
 //    }
-
     public Login getLoginInfo(String emp_no) {
         Login loginInfo = null;
         try {
@@ -186,6 +185,60 @@ public class EmployeeProfileDAO {
             Logger.getLogger(EmployeeProfileDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return employmentHistoryList;
+    }
+
+    public Employee getTimesheetData(String empNo) throws SQLException {
+        Employee employee = null;
+
+        // Use prepared statement to avoid SQL injection
+        String getEmpDetails = "SELECT DISTINCT \n"
+                + "  eb.id AS emp_id, \n"
+                + "  IFNULL(eb.emp_no, '') AS emp_no,\n"
+                + "  IFNULL(eb.first_name, '') AS first_name,\n"
+                + "  IFNULL(eb.surname, '') AS surname,\n"
+                + "  IFNULL(eb.other_name, '') AS other_name,\n"
+                + "  IFNULL(sup.name, '') AS facility_sup,\n"
+                + "  cnt.county,\n"
+                + "  IFNULL(f.SubPartnerNom, 'not linked to any facility') AS facility,\n"
+                + "  p.position_title,\n"
+                + "  ct.cadre_type_name\n"
+                + "FROM hrh.emp_bio eb\n"
+                + "JOIN hrh.tbl_employee_position_relations e ON eb.emp_no=e.emp_no\n"
+                + "JOIN hrh.tbl_user_facility fac ON fac.user_id=e.emp_no\n"
+                + "JOIN hrh.subpartnera f ON f.CentreSanteId=fac.facility_id\n"
+                + "JOIN hrh.district d ON d.districtID=f.DistrictID\n"
+                + "JOIN hrh.county cnt ON cnt.countyID=d.countyID\n"
+                + "JOIN hrh.tbl_facility_supervisor fs ON fs.mflc=f.CentreSanteId\n"
+                + "JOIN hrh.supervisors sup ON sup.id=fs.supervisor_id\n"
+                + "JOIN hrh.cadre_positions p ON p.id=e.position_id\n"
+                + "JOIN hrh.standardized_cadre sc ON sc.id=p.standardized_cadre_id\n"
+                + "JOIN hrh.cadre_type ct ON ct.id=sc.carder_type_id\n"
+                + "WHERE eb.emp_no = ?";
+
+        try {
+            conn.pst = conn.conn.prepareStatement(getEmpDetails);
+            conn.pst.setString(1, empNo);
+            try {
+                conn.rs = conn.pst.executeQuery();
+                if (conn.rs.next()) {
+                    employee = new Employee();
+                    employee.setId(conn.rs.getString("emp_id"));
+                    employee.setEmp_no(conn.rs.getString("emp_no"));
+                    employee.setFirst_name(conn.rs.getString("first_name"));
+                    employee.setSurname(conn.rs.getString("surname"));
+                    employee.setCurrent_facility(conn.rs.getString("facility"));
+                    employee.setSupervisor(conn.rs.getString("facility_sup"));
+                    employee.setPositionTitle(conn.rs.getString("position_title"));
+                    employee.setCadreTypeName(conn.rs.getString("cadre_type_name"));
+                    employee.setCounty(conn.rs.getString("county"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return employee;
     }
 
 }

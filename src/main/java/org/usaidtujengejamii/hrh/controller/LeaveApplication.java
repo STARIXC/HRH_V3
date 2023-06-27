@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package org.usaidtujengejamii.hrh.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,8 +13,6 @@ import org.json.simple.JSONObject;
 import utils.JSONConverter;
 import utils.LeaveApplicationsDAO;
 import utils.MailUtil;
-import utils.SupervisorsDAO;
-import utils.TechnicalMonitorsDAO;
 
 /**
  *
@@ -31,22 +23,22 @@ public class LeaveApplication extends HttpServlet {
     PrintWriter out;
     int status, execute_activity = 0;
     private final LeaveApplicationsDAO dao;
-    private final TechnicalMonitorsDAO tDao;
-    private final SupervisorsDAO sDao;
+//    private final TechnicalMonitorsDAO tDao;
+//    private final SupervisorsDAO sDao;
     private final MailUtil mailUtil;
 
     //  Gson gson = new Gson();
     String result, nextPage;
-    private JSONConverter json;
+//    private JSONConverter json;
     private final JSONObject obj;
 
-    public LeaveApplication() {
+    public LeaveApplication() throws SQLException {
         super();
         dao = new LeaveApplicationsDAO();
         obj = new JSONObject();
         mailUtil = new MailUtil();
-        tDao = new TechnicalMonitorsDAO();
-        sDao = new SupervisorsDAO();
+//        tDao = new TechnicalMonitorsDAO();
+//        sDao = new SupervisorsDAO();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -77,6 +69,7 @@ public class LeaveApplication extends HttpServlet {
                 break;
             case "get_leave_empl":
                 String employee = request.getParameter("emp_no");
+                System.out.println(employee);
                 jsonResponse = JSONConverter.convert(dao.getAllAppliedByEmpNo(employee));
                 break;
 
@@ -85,13 +78,21 @@ public class LeaveApplication extends HttpServlet {
                 break;
             case "all_leaves":
                 jsonResponse = JSONConverter.convert(dao.getAllApplied());
-                System.out.println(jsonResponse);
+//                System.out.println(jsonResponse);
+                break;
+            case "all_leaves_by_employee":
+                employee = request.getParameter("emp_no");
+                jsonResponse = JSONConverter.convert(dao.getAllAppliedByEmpNo(employee));
+                break;
+            case "get_by_sup":
+                employee = request.getParameter("id");
+                jsonResponse = JSONConverter.convert(dao.getAllBySup(employee));
                 break;
             case "getleavedetails":
                 String id = request.getParameter("id");
                 int leaveID = Integer.parseInt(id);
                 jsonResponse = JSONConverter.convert(dao.getLeaveDetails(leaveID));
-                System.out.println(jsonResponse);
+//                System.out.println(jsonResponse);
                 break;
             case "save_leave":
                 int numDays = Integer.parseInt(request.getParameter("no_days"));
@@ -99,25 +100,34 @@ public class LeaveApplication extends HttpServlet {
                 int leaveId = Integer.parseInt(request.getParameter("leave_type_id"));
                 int supervisorId = Integer.parseInt(request.getParameter("supervisor_id"));
                 int technicalMonitorId = Integer.parseInt(request.getParameter("technical_monitor_id"));
-                boolean saveSuccessful = dao.saveLeaveApplication(employeeId, leaveId, sDate, eDate, numDays, lstatus, supervisor_approval_status, technical_monitor_approval_status, supervisorId, technicalMonitorId, applicationDate); // Handle the exception
-                if (saveSuccessful) {
-                    supervisorEmail = "starixc@gmail.com";
-                    mailUtil.sendNotificationToSupervisor(supervisorEmail, employeeId, sDate, eDate);
-                    obj_.put("status", "success");
-                    obj_.put("message", "Saved Successfully....");
-                    jsonResponse = JSONConverter.convert(obj_);
-                    System.out.println(jsonResponse);
-                } else {
+                String data = numDays + " " + lstatus + " " + leaveId + " " + supervisorId + " " + technicalMonitorId;
+                System.out.println(data);
+                boolean overlap = dao.isLeaveDateOverlap(employeeId, leaveId, sDate, eDate, 2);
+                if (overlap) {
                     obj_.put("status", "failed");
-                    obj_.put("message", "Something Went Wrong");
+                    obj_.put("message", "You have an existing leave request in the period specified");
+                } else {
+                    boolean saveSuccessful = dao.saveLeaveApplication(employeeId, leaveId, sDate, eDate, numDays, lstatus, supervisor_approval_status, technical_monitor_approval_status, supervisorId, technicalMonitorId, applicationDate); // Handle the exception
+                    if (saveSuccessful) {
+                        supervisorEmail = "starixc@gmail.com";
+                        mailUtil.sendNotificationToSupervisor(supervisorEmail, employeeId, sDate, eDate);
+                        obj_.put("status", "success");
+                        obj_.put("message", "Saved Successfully....");
+                        jsonResponse = JSONConverter.convert(obj_);
+//                    System.out.println(jsonResponse);
+                    } else {
+                        obj_.put("status", "failed");
+                        obj_.put("message", "Something Went Wrong");
+                    }
                 }
+
                 break;
             case "approve_leave":
                 String[] leaveRequestIds = request.getParameterValues("leave[]");
 //                int supervisor_d = Integer.parseInt(request.getParameter("supervisor_id"));
 //                int technicalMonitor_id = Integer.parseInt(request.getParameter("technical_monitor_id"));
-                int supervisor_d =49;
-                int technicalMonitor_id=7;
+                int supervisor_d = 30;
+                int technicalMonitor_id = 2;
 //                int approvalStatus = Integer.parseInt(request.getParameter("approval_status"));
                 int approvalStatus = 3;
 //                String approvalComments = request.getParameter("approval_comments");
@@ -136,7 +146,7 @@ public class LeaveApplication extends HttpServlet {
                         case 3: // Technical monitor approval
                             technicalMonitorEmail = "starixc@gmail.com"; // placeholder for testing
 //                            technicalMonitorEmail = tDao.getTechnicalMonitorEmail(leaveRequestId); // replace with method to get technical monitor email
-                            approvalSuccessful = dao.updateLeaveApproval(leaveRequestId, technicalMonitor_id,  1,  approvalComments); // Handle the exception
+                            approvalSuccessful = dao.updateLeaveApproval(leaveRequestId, technicalMonitor_id, 1, approvalComments); // Handle the exception
                             break;
                         default:
                             obj_.put("status", "failed");

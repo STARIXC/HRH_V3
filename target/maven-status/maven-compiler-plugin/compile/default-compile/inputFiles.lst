@@ -1,5 +1,6 @@
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\ActivityDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\LogTimesheet.java
+C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\TimesheetHourCalculatorDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\loadMonth.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\LeaveApplicationsDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\EmployeeDocumentType.java
@@ -20,6 +21,7 @@ C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\h
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\PositionDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\CadreTypeServlet.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\Day.java
+C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\TimesheetDateData.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\FyDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\OSValidator.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\StatServlet.java
@@ -67,9 +69,11 @@ C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\CarderCat.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\Profile.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\EmployeeTypeDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\Activity.java
+C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\db\DatabaseConnection_.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\Login.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\Timesheet.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\TechnicalMonitorsDAO.java
+C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\GetHours.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\StaffDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\GetCadreServlet.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\EmployeeHistoryDAO.java
@@ -85,6 +89,7 @@ C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\utils\DocumentDAO.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\EmployeeProfileData.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\ProcessEmployee_.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\Employee.java
+C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\TimesheetSummary.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\GetPostionServlet.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\models\TimesheetLog.java
 C:\Users\UTJ\Pictures\NetBeansProjects\hrh\src\main\java\org\usaidtujengejamii\hrh\controller\EmployeeController__.java

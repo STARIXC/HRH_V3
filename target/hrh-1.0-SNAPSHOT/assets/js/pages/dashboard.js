@@ -177,4 +177,6 @@ var app="/hrh";
     getData();
     getLeaveData();
     get_upcoming_holidays();
+    
+    
 });

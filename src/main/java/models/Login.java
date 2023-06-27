@@ -6,7 +6,7 @@ package models;
  * @author UTJ
  */
 public class Login {
-   private String userid, fname, mname, lname, username, email, phone, password,  facility, scounty,full_name,user_level,created_at;
+   private String userid, fname, mname, lname, username, email, phone, password,  facility, mdtregion,scounty,full_name,user_level,created_at;
    private int level,status;
     public Login() {
     }
@@ -130,6 +130,14 @@ public class Login {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public String getMdtregion() {
+        return mdtregion;
+    }
+
+    public void setMdtregion(String mdtregion) {
+        this.mdtregion = mdtregion;
     }
     
 }

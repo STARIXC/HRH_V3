@@ -27,8 +27,9 @@ public class Profile extends HttpServlet {
     private EmployeeProfileData employeeData;
     private PrintWriter out;
     String details;
+
     public Profile() {
-         employeeDAO= new EmployeeProfileDAO();
+        employeeDAO = new EmployeeProfileDAO();
     }
 
     @Override
@@ -43,20 +44,36 @@ public class Profile extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("application/json;charset=UTF-8");
         out = response.getWriter();
-        try {
-            empNo = request.getParameter("emp_no");
-            System.out.println("This the request position: " + empNo);
-            Employee employee = employeeDAO.getEmployeeDetails(empNo);
-            Login loginDetails = employeeDAO.getLoginInfo(empNo);
-            List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(empNo);
-            employeeData = new EmployeeProfileData(employee, loginDetails, history);
-            details = JSONConverter.convert(employeeData);
+
+        String action = request.getParameter("action");
+        if (action != null && action.equals("getprofile")) {
+            try {
+                empNo = request.getParameter("emp_no");
+                System.out.println("This the request position: " + empNo);
+                Employee employee = employeeDAO.getEmployeeDetails(empNo);
+                Login loginDetails = employeeDAO.getLoginInfo(empNo);
+                List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(empNo);
+                employeeData = new EmployeeProfileData(employee, loginDetails, history);
+                details = JSONConverter.convert(employeeData);
 //            System.out.println("Personal Details: " + details);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            out.println(details);
+        } else if (action != null && action.equals("get_basic")) {
+            try {
+                empNo = request.getParameter("emp_no");
+                System.out.println("This the request position: " + empNo);
+                Employee employee = employeeDAO.getTimesheetData(empNo);
+                details = JSONConverter.convert(employee);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             out.println(details);
+        } else {
         }
-        out.println(details);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -17,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import models.Login;
 import org.usaidtujengejamii.hrh.db.DatabaseConnection;
 
@@ -28,13 +27,12 @@ import org.usaidtujengejamii.hrh.db.DatabaseConnection;
 public class ManageUsers extends HttpServlet {
 
     private JSONConverter json;
-    public UserDAO dao;
-    PrintWriter out;
-    HttpSession session;
-    private String userid, fname, mname, lname, username, email, phone, password,  facility, scounty,full_name,subcounty,pass,created_at;
-   private int level,status;
-    String found;
-    MessageDigest m;
+    private final UserDAO dao;
+    private PrintWriter out;
+    private String userid, fname, mname, lname, username, user_level, email, phone, password, full_name, subcounty, pass, created_at;
+    private int level, status;
+    private String found;
+    private MessageDigest m;
     private final DatabaseConnection conn;
 
     public ManageUsers() {
@@ -46,12 +44,11 @@ public class ManageUsers extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
         out = response.getWriter();
-        // setting the response type
         response.setContentType("application/json");
         String action = request.getParameter("action");
-        
+
         if (action.equalsIgnoreCase("add_user")) {
-            session = request.getSession();
+
             fname = request.getParameter("txtFirstName").toUpperCase();
             mname = request.getParameter("txtMiddleName").toUpperCase();
             lname = request.getParameter("txtSurname").toUpperCase();
@@ -59,18 +56,10 @@ public class ManageUsers extends HttpServlet {
             email = request.getParameter("txtEmail");
             phone = request.getParameter("txtPhone");
             pass = request.getParameter("txtPassword");
-            level = Integer.parseInt( request.getParameter("ddlLevel"));
+            level = Integer.parseInt(request.getParameter("ddlLevel"));
 
-            if (level ==1 || level ==3  || level ==4) {
-                subcounty = request.getParameter("ddlSubcounty");
-                facility = request.getParameter("ddlFacility");
-
-            } else {
-                subcounty = "All";
-                facility = "All";
-            }
-            IdGen IG = new IdGen();
-            userid = IG.current_id();
+            IdGen idGen = new IdGen();
+            userid = idGen.current_id();
             m = MessageDigest.getInstance("MD5");
             m.update(pass.getBytes(), 0, pass.length());
             password = new BigInteger(1, m.digest()).toString(16);
@@ -83,11 +72,9 @@ public class ManageUsers extends HttpServlet {
             conn.pst.setString(5, userid);
 
             conn.rs = conn.pst.executeQuery();
-            if (conn.rs.next() == true) {
-
+            if (conn.rs.next()) {
                 out.println("User Already Exists");
             } else {
-//     ADD THE USER
                 String inserter = "INSERT INTO `hrh`.`tbl_user`(`userid`,`fname`,`mname`,`lname`,`username`,`email`,`phone`,`password`,`level`,`facility`,`scounty`,status)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
                 conn.pst = conn.conn.prepareStatement(inserter);
                 conn.pst.setString(1, userid);
@@ -99,39 +86,53 @@ public class ManageUsers extends HttpServlet {
                 conn.pst.setString(7, phone);
                 conn.pst.setString(8, password);
                 conn.pst.setInt(9, level);
-                conn.pst.setString(10, facility);
-                conn.pst.setString(11, subcounty);
-                conn.pst.setInt(12, 1);
+                conn.pst.setInt(10, 1);
                 conn.pst.executeUpdate();
                 full_name = fname + " " + mname + " " + lname;
             }
             out.println(full_name);
-
         } else if (action.equalsIgnoreCase("update_role")) {
+            userid = request.getParameter("userid");
+            int newRole = Integer.parseInt(request.getParameter("newRole"));
 
-        } else if (action.equalsIgnoreCase("all")) {
-            
+            // TODO: Implement code to update the user's role in the database
+            // You can use the UserDAO class or directly perform database operations here
+            // Example:
+            boolean success = dao.updateUserRole(userid, newRole);
+
+            if (success) {
+                out.println("User role updated successfully");
+            } else {
+                out.println("Failed to update user role");
+            }
+        } else if (action.equalsIgnoreCase("edit")) {
+            userid = request.getParameter("userid");
+
+            // TODO: Implement code to retrieve the user's information from the database
+            // You can use the UserDAO class or directly perform database operations here
+            // Example:
+            Login user = dao.getUserById(userid);
+
+            if (user != null) {
+                // TODO: Populate the response with the user's information in a suitable format (e.g., JSON)
+                // Example:
+                String userJson = JSONConverter.convert(user);
+                out.println(userJson);
+            } else {
+                out.println("User not found");
+            }
+        }  else if (action.equalsIgnoreCase("all")) {
+
             String users = JSONConverter.convert(getAllUsers());
 //            System.out.println(users);
-            
-             out.println(users);
-        } else if (action.equalsIgnoreCase("edit")) {
 
+            out.println(users);
         } else {
-
+            out.println("Invalid action");
         }
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -142,14 +143,6 @@ public class ManageUsers extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -160,22 +153,16 @@ public class ManageUsers extends HttpServlet {
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
     private List<Login> getAllUsers() {
         List<Login> accounts = new ArrayList<>();
-        
-//           String userid, fname, mname, lname, username, email, phone, password, level, facility, scounty,full_name;
+
         try {
-            String SELECT_USERS = "SELECT * from tbl_user";
+            String SELECT_USERS = "SELECT * FROM hrh.tbl_user us left join tbl_roles ur on ur.role_id=us.level_";
             conn.rs = conn.st.executeQuery(SELECT_USERS);
             while (conn.rs.next()) {
                 Login login = new Login();
@@ -183,17 +170,33 @@ public class ManageUsers extends HttpServlet {
                 fname = conn.rs.getString("fname");
                 mname = conn.rs.getString("mname");
                 lname = conn.rs.getString("lname");
-                full_name = fname + " " + mname + " " + lname;
+
+                if (fname == null && mname == null && lname == null) {
+                    full_name = "undefined";
+                } else {
+                    StringBuilder fullNameBuilder = new StringBuilder();
+                    if (fname != null) {
+                        fullNameBuilder.append(fname).append(" ");
+                    }
+                    if (mname != null) {
+                        fullNameBuilder.append(mname).append(" ");
+                    }
+                    if (lname != null) {
+                        fullNameBuilder.append(lname);
+                    }
+                    full_name = fullNameBuilder.toString().trim();
+                }
+
                 username = conn.rs.getString("username");
                 email = conn.rs.getString("email");
                 phone = conn.rs.getString("phone");
                 password = conn.rs.getString("password");
-                level = Integer.parseInt( conn.rs.getString("level"));
-                facility = conn.rs.getString("facility");
-                subcounty = conn.rs.getString("scounty");
-                status=Integer.parseInt(conn.rs.getString("status"));
-                created_at=conn.rs.getString("created_at");
-                
+                user_level = conn.rs.getString("role_name");
+                level = Integer.parseInt(conn.rs.getString("level_"));
+
+                status = Integer.parseInt(conn.rs.getString("status"));
+                created_at = conn.rs.getString("created_at");
+
                 login.setUserid(userid);
                 login.setFname(fname);
                 login.setMname(mname);
@@ -204,14 +207,11 @@ public class ManageUsers extends HttpServlet {
                 login.setPhone(phone);
                 login.setPassword(password);
                 login.setLevel(level);
-                login.setFacility(facility);
-                login.setScounty(subcounty);
                 login.setStatus(status);
                 login.setCreated_at(created_at);
-                
-                accounts.add(login);
-//                county = conn.rs.getString("userid");
+                login.setUser_level(user_level);
 
+                accounts.add(login);
             }
 
         } catch (SQLException ex) {
@@ -219,5 +219,4 @@ public class ManageUsers extends HttpServlet {
         }
         return accounts;
     }
-
 }

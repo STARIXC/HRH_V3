@@ -22,7 +22,7 @@ $(document).ready(function () {
 //        console.log(`emp_no: ${emp_no}`);
         $.ajax({
             type: "GET",
-            url: `${app}/profile?emp_no=${emp_no}`,
+            url: `${app}/profile?emp_no=${emp_no}&action="getprofile"`,
             dataType: "json",
             success: function (response) {
 //                // Hide loader

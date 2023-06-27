@@ -32,7 +32,7 @@ PrintWriter out;
     String year = request.getParameter("year");
     String month = request.getParameter("month");
     String hours = dao.totalHours(year, month);
-    System.out.println(year + ":" + month + "totalHOurs :" + hours);
+//    System.out.println(year + ":" + month + "totalHOurs :" + hours);
     out.println(hours);
     }
 

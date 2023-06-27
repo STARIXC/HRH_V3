@@ -115,7 +115,7 @@ $(document).ready(function (e) {
                     Object.keys(tableData).forEach(function (employeeName) {
                         var totalHours = 0;
                         var leaveHours = 0;
-                        tableRows += '<tr><td>' + employeeName + '</td>';
+                        tableRows += '<tr><td class="col">' + employeeName + '</td>';
                         dates.forEach(function (date) {
                             var hoursWorked = tableData[employeeName][date];
                             if (hoursWorked && hoursWorked !== '-') {
@@ -141,6 +141,12 @@ $(document).ready(function (e) {
                 }
             }
             ,
+            complete: function () {
+                let table = $('#timesheet_table').DataTable(
+                        );
+                new $.fn.dataTable.FixedHeader(table);
+//                $('#spinner-div').hide(); //Request is complete so hide spinner
+            },
             error: function () {
                 alert("Error fetching timesheet data.");
             }
