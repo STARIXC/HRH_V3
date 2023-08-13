@@ -62,7 +62,7 @@ public class EmployeeController__ extends HttpServlet {
             contract_period, contract_end_date,
             kra_pin, nssf_no, nhif_no,
             cert_good_conduct_no, helb_clearance_no,
-            bank_name, branch, account_name, acount_number, subcounty;
+            bank_name, branch, account_name, account_number, subcounty;
     int helb_benefitiary, active, months_worked, empStatus, level, expected_months, status, position;
 //    String t_id, t_emp_no, termination_date, notice_date, voluntary_termination, termination_reason, termination_by;
 
@@ -108,7 +108,7 @@ public class EmployeeController__ extends HttpServlet {
                 = dob = home_address = postal_code = nationality = disability = disability_explain
                 = national_id = marital_status = emprecordid = mfl = hireDate = endDate = date_started = date_ended = financial_year = current_contract
                 = contract_period = contract_end_date = kra_pin = nssf_no = nhif_no = cert_good_conduct_no
-                = bank_name = branch = account_name = acount_number = helb_clearance_no = subcounty = "";
+                = bank_name = branch = account_name = account_number = helb_clearance_no = subcounty = "";
         helb_benefitiary = active = level = expected_months = months_worked = empStatus = position = status = 0;
         JSONObject obj = new JSONObject();
         String action = request.getParameter("action");
@@ -117,7 +117,7 @@ public class EmployeeController__ extends HttpServlet {
             empno = request.getParameter("emp_no");
             emp__no = IG.Decode(empno);
             emp_no = emp__no;
-            defaultValues.setEmp_no(emp_no);
+            defaultValues.setEmp_no(empno);
             defaultValues.setFacility("N/A");
             defaultValues.setPosition("N/A");
             defaultValues.setDate_started("N/A");
@@ -131,22 +131,17 @@ public class EmployeeController__ extends HttpServlet {
             defaultDoc.setDocTypeName("");
             defaultDoc.setDocumentValue("");
 
-            try {
-                employee = employeeDAO.getEmployeeDetails(emp_no);
-//                List<Document> documents = documentDAO.getAllDocumentsForEmployee(emp_no,defaultDoc);
+            employee = employeeDAO.getEmployeeDetails(empno);
+            //                List<Document> documents = documentDAO.getAllDocumentsForEmployee(emp_no,defaultDoc);
 //                out.print(JSONConverter.convert(documents));
 //                List<Document> document = new ArrayList<>();
-                currentPosition = employeeDAO.getCurrentPosition(emp_no, defaultValues);
-                loginDetails = employeeDAO.getLoginInfo(emp_no, defaultLogin);
-                List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(emp_no);
-                employeeData = new EmployeeData(employee, currentPosition, history, loginDetails);
-                String details = JSONConverter.convert(employeeData);
+            currentPosition = employeeDAO.getCurrentPosition(empno, defaultValues);
+            loginDetails = employeeDAO.getLoginInfo(empno, defaultLogin);
+            List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(empno);
+            employeeData = new EmployeeData(employee, currentPosition, history, loginDetails);
+            String details = JSONConverter.convert(employeeData);
 //                System.out.print(details);
-                out.println(details);
-
-            } catch (SQLException e) {
-                out.println("Failled:" + e);
-            }
+            out.println(details);
 
         } else if (action != null && action.equals("allStaff")) {
             String employees = JSONConverter.convert(employeeDAO.findAll());
@@ -174,22 +169,17 @@ public class EmployeeController__ extends HttpServlet {
             defaultDoc.setDocTypeName("");
             defaultDoc.setDocumentValue("");
 
-            try {
-                employee = employeeDAO.getEmployeeDetails(emp_no);
-//                List<Document> documents = documentDAO.getAllDocumentsForEmployee(emp_no,defaultDoc);
+            employee = employeeDAO.getEmployeeDetails(emp_no);
+            //                List<Document> documents = documentDAO.getAllDocumentsForEmployee(emp_no,defaultDoc);
 //                out.print(JSONConverter.convert(documents));
 //                List<Document> document = new ArrayList<>();
-                currentPosition = employeeDAO.getCurrentPosition(emp_no, defaultValues);
-                loginDetails = employeeDAO.getLoginInfo(emp_no, defaultLogin);
-                List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(emp_no);
-                employeeData = new EmployeeData(employee, currentPosition, history, loginDetails);
-                String details = JSONConverter.convert(employeeData);
-                System.out.print(details);
-                out.println(details);
-
-            } catch (SQLException e) {
-                out.println("Failled:" + e);
-            }
+            currentPosition = employeeDAO.getCurrentPosition(emp_no, defaultValues);
+            loginDetails = employeeDAO.getLoginInfo(emp_no, defaultLogin);
+            List<EmploymentHistory> history = employeeDAO.getEmployeeHistory(emp_no);
+            employeeData = new EmployeeData(employee, currentPosition, history, loginDetails);
+            String details = JSONConverter.convert(employeeData);
+            System.out.print(details);
+            out.println(details);
         } else if (action != null && action.equals("save_employee")) {
             // form variables
             emp_no = request.getParameter("txtEmployeeNumber");
@@ -236,7 +226,7 @@ public class EmployeeController__ extends HttpServlet {
             bank_name = request.getParameter("txtBankName");
             branch = request.getParameter("txtBranchName");
             account_name = request.getParameter("txtAccountName");
-            acount_number = request.getParameter("txtAccountNumber");
+            account_number = request.getParameter("txtAccountNumber");
             if (request.getParameter("eStatus") == null) {
                 empStatus = 0;
             } else {
@@ -260,154 +250,35 @@ public class EmployeeController__ extends HttpServlet {
             } else {
                 months_worked = 0;
             }
-            userid = IG.current_id();
-            m = MessageDigest.getInstance("MD5");
-            m.update(pass.getBytes(), 0, pass.length());
-            password = new BigInteger(1, m.digest()).toString(16);
-            // Check if the basic information record already exists
-            boolean basicInfo = employeeDAO.recordExists(national_id);
-            if (basicInfo == true) {
-                boolean user = userDAO.recordExists(userid);
-                boolean empRecord = employeeHistoryDAO.recordExists(emprecordid);
-                if (user == true && empRecord == false) {
-                    // Update the employee history
-                    history_.setEmprecordid(emprecordid);
-                    history_.setEmp_no(emp_no);
-                    history_.setMfl(mfl);
-                    history_.setPosition_id(position);
-                    history_.setDate_started(date_started);
-                    history_.setDate_ended(date_ended);
-                    history_.setFinancial_year(financial_year);
-                    history_.setMonths_worked(months_worked);
-                    history_.setCurrent_contract(current_contract);
-                    history_.setContract_period(contract_period);
-                    history_.setContract_end_date(contract_end_date);
-                    history_.setExpected_months(expected_months);
-                    history_.setActive(active);
-                    employeeHistoryDAO.addEmployeeHistory(history_);
-                }
-                if (user == false && empRecord == true) {
+            userid = emp_no;
 
-                    loginDetails.setFname(first_name);
-                    loginDetails.setMname(other_name);
-                    loginDetails.setLname(surname);
-                    loginDetails.setUsername(username);
-                    loginDetails.setEmail(email);
-                    loginDetails.setPhone(phone);
-                    loginDetails.setUsername(username);
-                    loginDetails.setPassword(password);
-                    loginDetails.setLevel(2);
-                    loginDetails.setFacility(mfl);
-                    loginDetails.setScounty(subcounty);
-                    loginDetails.setStatus(status);
-                    userDAO.addUser(loginDetails);
+            // Check basic info record existence
+            boolean basicInfoExists = employeeDAO.recordExists(national_id);
 
+            if (basicInfoExists) {
+                boolean userExists = userDAO.recordExists(userid);
+                boolean empRecordExists = employeeHistoryDAO.recordExists(emprecordid);
+
+                if (userExists && !empRecordExists) {
+                    updateEmployeeHistoryAndAddUser(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
+                } else if (!userExists && empRecordExists) {
+                    addUserAndHistory(loginDetails, history_, first_name, other_name, surname, username, email, phone, password, 2, mfl, subcounty, status);
                 } else {
-                    // Update the employee history
-
-                    history_.setEmprecordid(emprecordid);
-                    history_.setEmp_no(emp_no);
-                    history_.setMfl(mfl);
-                    history_.setPosition_id(position);
-                    history_.setDate_started(date_started);
-                    history_.setDate_ended(date_ended);
-                    history_.setFinancial_year(financial_year);
-                    history_.setMonths_worked(months_worked);
-                    history_.setCurrent_contract(current_contract);
-                    history_.setContract_period(contract_period);
-                    history_.setContract_end_date(contract_end_date);
-                    history_.setExpected_months(expected_months);
-                    history_.setActive(active);
-                    employeeHistoryDAO.addEmployeeHistory(history_);
-
-                    loginDetails.setFname(first_name);
-                    loginDetails.setMname(other_name);
-                    loginDetails.setLname(surname);
-                    loginDetails.setUsername(username);
-                    loginDetails.setEmail(email);
-                    loginDetails.setPhone(phone);
-                    loginDetails.setUsername(username);
-                    loginDetails.setPassword(password);
-                    loginDetails.setLevel(2);
-                    loginDetails.setFacility(mfl);
-                    loginDetails.setScounty(subcounty);
-                    loginDetails.setStatus(status);
-                    userDAO.addUser(loginDetails);
+                    updateEmployeeHistoryAndAddUser(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
                 }
             } else {
-
-                employee.setId(userid);
-                employee.setEmp_no(emp_no);
-                employee.setFirst_name(first_name);
-                employee.setSurname(surname);
-                employee.setOther_name(other_name);
-                employee.setNational_id(national_id);
-                employee.setGender(gender);
-                employee.setPhone(phone);
-                employee.setAlt_phone(altPhone);
-                employee.setEmail(email);
-                employee.setAlt_email(altEmail);
-                employee.setDob(dob);
-                employee.setHome_address(home_address);
-                employee.setPostal_code(postal_code);
-                employee.setNationality(nationality);
-                employee.setMarital_status(marital_status);
-                employee.setDisability(disability);
-                employee.setDisability_explain(disability_explain);
-                employee.setKra_pin(kra_pin);
-                employee.setNssf_no(nssf_no);
-                employee.setNhif_no(nhif_no);
-                employee.setCert_good_conduct_no(cert_good_conduct_no);
-                employee.setHelb_clearance_no(helb_clearance_no);
-                employee.setHelb_benefitiary(helb_benefitiary);
-                employee.setBank_name(bank_name);
-                employee.setBranch(branch);
-                employee.setAccount_name(account_name);
-                employee.setAcount_number(acount_number);
-                employee.setDate_started(hireDate);
-                employee.setDate_ended(endDate);
-                employee.setStatus(empStatus);
-
-                history_.setEmprecordid(emprecordid);
-                history_.setEmp_no(emp_no);
-                history_.setMfl(mfl);
-                history_.setPosition_id(position);
-                history_.setDate_started(date_started);
-                history_.setDate_ended(date_ended);
-                history_.setFinancial_year(financial_year);
-                history_.setMonths_worked(months_worked);
-                history_.setCurrent_contract(current_contract);
-                history_.setContract_period(contract_period);
-                history_.setContract_end_date(contract_end_date);
-                history_.setExpected_months(expected_months);
-                history_.setActive(active);
-                // Update the login Table
-                loginDetails.setFname(first_name);
-                loginDetails.setMname(other_name);
-                loginDetails.setLname(surname);
-                loginDetails.setUsername(username);
-                loginDetails.setEmail(email);
-                loginDetails.setPhone(phone);
-                loginDetails.setUsername(username);
-                loginDetails.setPassword(password);
-                loginDetails.setLevel(2);
-                loginDetails.setFacility(mfl);
-                loginDetails.setScounty(subcounty);
-                loginDetails.setStatus(status);
-                userDAO.addUser(loginDetails);
+                createEmployeeAndHistoryAndAddUser(employee, history_, userid, emp_no, first_name, surname, other_name, gender, phone, altPhone, email, altEmail, dob, home_address, postal_code, nationality, marital_status, disability, disability_explain, kra_pin, nssf_no, nhif_no, cert_good_conduct_no, helb_clearance_no, helb_benefitiary, bank_name, branch, account_name, account_number, hireDate, endDate, empStatus, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
 
                 boolean saveBio = employeeDAO.insertEmployee(employee);
                 boolean saveLogin = userDAO.addRelationship(emp_no, position);
                 boolean saveHist = employeeHistoryDAO.addEmployeeHistory(history_);
-                if (saveBio != true && saveLogin != true && saveHist != true) {
+
+                if (!saveBio || !saveLogin || !saveHist) {
                     obj.put("status", "error");
-                    obj.put("message", "Unable to add the Record....");   //create json object "status","message" and apply custome messages for "unable to delete data"
-
+                    obj.put("message", "Unable to add the Record...");
                 } else {
-
                     obj.put("status", "success");
-                    obj.put("message", "Saved Successfully....");
-
+                    obj.put("message", "Saved Successfully...");
                 }
 
                 out.print(obj);
@@ -470,6 +341,103 @@ public class EmployeeController__ extends HttpServlet {
         }
 
         return totalMonths;
+    }
+
+    private void updateEmployeeHistoryAndAddUser(EmploymentHistory history, String empRecordId, String empNo, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active, Login loginDetails, String firstName, String otherName, String surname, String username, String email, String phone, String password, String mfl, String subcounty, int status) throws SQLException {
+        updateEmployeeHistory(history, empRecordId, empNo, mfl, position, dateStarted, dateEnded, financialYear, monthsWorked, currentContract, contractPeriod, contractEndDate, expectedMonths, active);
+        addUserAndHistory(loginDetails, history, firstName, otherName, surname, username, email, phone, password, 2,mfl,subcounty, status);
+    }
+
+    private void updateEmployeeHistory(EmploymentHistory history, String empRecordId, String empNo, String mfl, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active) throws SQLException {
+        history.setEmprecordid(empRecordId);
+        history.setEmp_no(empNo);
+        history.setMfl(mfl);
+        history.setPosition_id(position);
+        history.setDate_started(dateStarted);
+        history.setDate_ended(dateEnded);
+        history.setFinancial_year(financialYear);
+        history.setMonths_worked(monthsWorked);
+        history.setCurrent_contract(currentContract);
+        history.setContract_period(contractPeriod);
+        history.setContract_end_date(contractEndDate);
+        history.setExpected_months(expectedMonths);
+        history.setActive(active);
+        employeeHistoryDAO.addEmployeeHistory(history);
+    }
+
+    private void addUserAndHistory(Login loginDetails, EmploymentHistory history, String firstName, String otherName, String surname, String username, String email, String phone, String password, int level, String facility, String subcounty, int status) throws SQLException {
+        addUser(loginDetails, firstName, otherName, surname, username, email, phone, password, level, status);
+        updateEmployeeHistory(history, history.getEmprecordid(), history.getEmp_no(), history.getMfl(), history.getPosition_id(), history.getDate_started(), history.getDate_ended(), history.getFinancial_year(), history.getMonths_worked(), history.getCurrent_contract(), history.getContract_period(), history.getContract_end_date(), history.getExpected_months(), history.getActive());
+    }
+
+    private void addUser(Login loginDetails, String firstName, String otherName, String surname, String username, String email, String phone, String password, int level, int status) throws SQLException {
+        loginDetails.setFname(firstName);
+        loginDetails.setMname(otherName);
+        loginDetails.setLname(surname);
+        loginDetails.setUsername(username);
+        loginDetails.setEmail(email);
+        loginDetails.setPhone(phone);
+        loginDetails.setUsername(username);
+        loginDetails.setPassword(password);
+        loginDetails.setLevel(level);
+        loginDetails.setStatus(status);
+        userDAO.addUser(loginDetails);
+    }
+
+    private void createEmployeeAndHistoryAndAddUser(Employee employee, EmploymentHistory history, String userId, String empNo, String firstName, String surname, String otherName, String gender, String phone, String altPhone, String email, String altEmail, String dob, String homeAddress, String postalCode, String nationality, String maritalStatus, String disability, String disabilityExplain, String kraPin, String nssfNo, String nhifNo, String certGoodConductNo, String helbClearanceNo, int helbBeneficiary, String bankName, String branch, String accountName, String accountNumber, String hireDate, String endDate, int empStatus, int active, Login loginDetails, String fName, String oName, String lName, String uName, String mail, String pNumber, String pass, String facility, String sCounty, int sStatus) throws SQLException {
+        createEmployee(employee, userId, empNo, firstName, surname, otherName, gender, phone, altPhone, email, altEmail, dob, homeAddress, postalCode, nationality, maritalStatus, disability, disabilityExplain, kraPin, nssfNo, nhifNo, certGoodConductNo, helbClearanceNo, helbBeneficiary, bankName, branch, accountName, accountNumber, hireDate, endDate, empStatus, active);
+        addUser(loginDetails, fName, oName, lName, uName, mail, pNumber, pass, 2, sStatus);
+    }
+
+    private void createEmployee(Employee employee, String userid, String emp_no, String first_name, String surname, String other_name, String gender, String phone, String altPhone, String email, String altEmail, String dob, String home_address, String postal_code, String nationality, String marital_status, String disability, String disability_explain, String kra_pin, String nssfNo, String nhifNo, String certGoodConductNo, String helbClearanceNo, int helbBeneficiary, String bankName, String branch, String accountName, String accountNumber, String hireDate, String endDate, int empStatus, int active) {
+        employee.setId(userid);
+        employee.setEmp_no(emp_no);
+        employee.setFirst_name(first_name);
+        employee.setSurname(surname);
+        employee.setOther_name(other_name);
+        employee.setNational_id(national_id);
+        employee.setGender(gender);
+        employee.setPhone(phone);
+        employee.setAlt_phone(altPhone);
+        employee.setEmail(email);
+        employee.setAlt_email(altEmail);
+        employee.setDob(dob);
+        employee.setHome_address(home_address);
+        employee.setPostal_code(postal_code);
+        employee.setNationality(nationality);
+        employee.setMarital_status(marital_status);
+        employee.setDisability(disability);
+        employee.setDisability_explain(disability_explain);
+        employee.setKra_pin(kra_pin);
+        employee.setNssf_no(nssf_no);
+        employee.setNhif_no(nhif_no);
+        employee.setCert_good_conduct_no(cert_good_conduct_no);
+        employee.setHelb_clearance_no(helb_clearance_no);
+        employee.setHelb_benefitiary(helb_benefitiary);
+        employee.setBank_name(bank_name);
+        employee.setBranch(branch);
+        employee.setAccount_name(account_name);
+        employee.setAcount_number(account_number);
+        employee.setDate_started(hireDate);
+        employee.setDate_ended(endDate);
+        employee.setStatus(empStatus);
+        // ... (set other fields)
+    }
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes(), 0, password.length());
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void updateEmployeeHistoryAndAddUser(EmploymentHistory history_, String emprecordid, String emp_no, String mfl, int position, String date_started, String date_ended, String financial_year, int months_worked, String current_contract, String contract_period, String contract_end_date, int expected_months, int active, Login loginDetails, String first_name, String other_name, String surname, String username, String email, String phone, String password, String mfl0, String subcounty, int status) throws SQLException {
+        updateEmployeeHistory(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active);
+        addUserAndHistory(loginDetails, history_, first_name, other_name, surname, username, email, phone, password, 2,mfl,subcounty, status);
     }
 
 }

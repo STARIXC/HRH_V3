@@ -36,6 +36,14 @@
             .fade:not(.show) {
                 opacity: 1 !important;
             }
+
+            tr td {
+                color: black !important;
+            }
+            .user_info {
+                color: #000 !important;
+                font-weight: 600;
+            }
         </style>
     </head>
 
@@ -91,7 +99,7 @@
                             <div class="card-header card-body table-border-style">
                                 <div class="table-responsive ">
                                     <table width="100%" class="employee_table table  table-bordered table-hover " id="employee_table">
-                                        <thead class='mt-3'>
+                                        <thead class='mt-3 text-uppercase'>
                                             <tr>
                                                 <th>#</th>
                                                 <th>photo</th>
@@ -99,21 +107,11 @@
                                                 <th>department</th>
                                                 <th>phone</th>
                                                 <th>PF_NO</th>
-<!--                                                <th>@lang('paygrade.pay_grade_name')</th>-->
                                                 <th>date of joining</th>
                                                 <th>status</th>
                                                 <th>action</th>
                                             </tr>
-<!--                                            <tr>
-                                                <th>Employee PF_NO</th>
-                                                <th>Employee Name</th>
-                                                <th>Position</th>
-                                                <th>Phone</th>
-                                                <th>Email Address</th>
-                                                <th>Country</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>-->
+                                         
                                         </thead>
                                         <tbody id="employee-table-data">
 
@@ -148,6 +146,7 @@
 <%@include file="/_includes/footer.jsp"%>
 
 <script src="../assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="../assets/js/_moment.min.js" type="text/javascript"></script>
 <script src="../assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/vendor/swal2/sweetalert2.min.js" type="text/javascript"></script>
@@ -164,7 +163,7 @@
 <script src="../assets/js/main.js"></script>
 
 <script src="../assets/js/pages/employees.js"></script>
-<script src="../assets/js/pages/position_cadre_loader.js"></script>
+<!--<script src="../assets/js/pages/position_cadre_loader.js"></script>-->
 <script src="../assets/js/pages/employee.js"></script>
 <script src="../assets/js/pages/form_.js"></script>
 <script src="../assets/js/pages/front.js"></script>
@@ -186,41 +185,7 @@
             }
         }
 
-        $('#ddlSupervisor').empty();
-        $('#ddlFacility').change(function () {
-            // Get the selected facility's mflcode
-            const mflcode = $(this).val();
-
-            // Make an AJAX request to retrieve the supervisors for the selected facility
-            $.ajax({
-                url: app + '/supervisors',
-                data: {mflcode: mflcode},
-                type: 'get',
-                contentType: "application/json; charset-utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $('#ddlSupervisor').empty();
-//                    const keys = Object.keys(data);
-//                    console.log(keys);
-//                    for (const key in data) {
-//                        console.log(key); // prints the key
-//                        console.log(data[key]); // prints the value associated with the key
-//                    }
-                    $('#ddlSupervisor').append('<option value="">--- Select Supervisor---</option>');
-                    $.each(data, function (key, value)
-                    {
-                        $('#ddlSupervisor').append('<option id="' + key + '" value="' + value.supervisor_id + '">' + value.name + '</option>');
-                    });
-
-                },
-                complete: function () {
-
-                }
-
-
-            });
-
-        });
+       
 
 
 

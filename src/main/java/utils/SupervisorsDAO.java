@@ -21,7 +21,9 @@ public class SupervisorsDAO {
     public  List<Supervisor> getSupervisors() {
          List<Supervisor> supervisors = new ArrayList<>();
         try {
-            String SELECT_ALL_MFL= "SELECT s.* ,f.SubPartnerNom, fs.mflc FROM hrh.supervisors s join tbl_facility_supervisor fs on fs.supervisor_id =s.id join subpartnera f on f.CentreSanteId=fs.mflc where s.status=1";
+            String SELECT_ALL_MFL= "SELECT s.* ,f.SubPartnerNom, fs.mflc FROM hrh.supervisors s"
+                    + " join tbl_facility_supervisor fs on fs.supervisor_id =s.id"
+                    + " join subpartnera f on f.CentreSanteId=fs.mflc where s.status=1";
             conn.rs=conn.st.executeQuery(SELECT_ALL_MFL);
          
             // Store the supervisors in a list

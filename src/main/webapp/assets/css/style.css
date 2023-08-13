@@ -34,6 +34,363 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .color-link{
     color:#2178d1
 }
+
+
+.font-bold {
+  font-weight: 700;
+}
+.font-medium {
+  font-weight: 600;
+}
+.font-normal {
+  font-weight: 400;
+}
+.font-light {
+  font-weight: 300;
+}
+.pull-in {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.b-0 {
+  border: none !important;
+}
+.vertical-middle,
+.vm {
+  vertical-align: middle;
+}
+.mdi {
+  font-size: 17px;
+}
+.bx-shadow {
+  -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+.mx-box {
+  max-height: 380px;
+  min-height: 380px;
+}
+.thumb-sm {
+  height: 32px;
+  width: 32px;
+}
+.thumb-md {
+  height: 48px;
+  width: 48px;
+}
+.thumb-lg {
+  height: 88px;
+  width: 88px;
+}
+.txt-oflo {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.di {
+  display: inline-block;
+}
+.get-code {
+  color: #263238;
+  cursor: pointer;
+  border-radius: 100%;
+  background: #fff;
+  padding: 4px 5px;
+  font-size: 10px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+.badge {
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 3px 5px;
+  font-size: 12px;
+  margin-top: 1px;
+  background-color: #fb4;
+}
+.badge-xs {
+  font-size: 9px;
+}
+.badge-sm,
+.badge-xs {
+  -webkit-transform: translate(0, -2px);
+  -ms-transform: translate(0, -2px);
+  -o-transform: translate(0, -2px);
+  transform: translate(0, -2px);
+}
+.badge-success {
+  background-color: #7ace4c;
+}
+.badge-info {
+  background-color: #41b3f9;
+}
+.badge-warning {
+  background-color: #fb4;
+}
+.badge-danger {
+  background-color: #f33155;
+}
+.badge-purple {
+  background-color: #707cd2;
+}
+.badge-red {
+  background-color: #f33155;
+}
+.badge-inverse {
+  background-color: #4c5667;
+}
+.notify {
+  position: relative;
+  margin-top: -30px;
+}
+.notify .heartbit {
+  position: absolute;
+  top: -20px;
+  right: -16px;
+  height: 25px;
+  width: 25px;
+  z-index: 10;
+  border: 5px solid #f33155;
+  border-radius: 70px;
+  -moz-animation: heartbit 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+  -o-animation: heartbit 1s ease-out;
+  -o-animation-iteration-count: infinite;
+  -webkit-animation: heartbit 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+.notify .point {
+  width: 6px;
+  height: 6px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  background-color: #f33155;
+  position: absolute;
+  right: -6px;
+  top: -10px;
+}
+@-moz-keyframes heartbit {
+  0% {
+    -moz-transform: scale(0);
+    opacity: 0;
+  }
+  25% {
+    -moz-transform: scale(0.1);
+    opacity: 0.1;
+  }
+  50% {
+    -moz-transform: scale(0.5);
+    opacity: 0.3;
+  }
+  75% {
+    -moz-transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    -moz-transform: scale(1);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes heartbit {
+  0% {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+  25% {
+    -webkit-transform: scale(0.1);
+    opacity: 0.1;
+  }
+  50% {
+    -webkit-transform: scale(0.5);
+    opacity: 0.3;
+  }
+  75% {
+    -webkit-transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 0;
+  }
+}
+.text-white {
+  color: #fff;
+}
+.text-danger {
+  color: #f33155;
+}
+.text-muted {
+  color: #8d9ea7 !important;
+}
+.text-warning {
+  color: #fb4;
+}
+.text-success {
+  color: #7ace4c;
+}
+.text-info {
+  color: #41b3f9;
+}
+.text-inverse {
+  color: #4c5667;
+}
+.text-blue {
+  color: #02bec9;
+}
+.text-purple {
+  color: #707cd2;
+}
+.text-primary {
+  color: #7460ee;
+}
+.text-megna {
+  color: #01c0c8;
+}
+.text-dark {
+  color: #313131 !important;
+}
+.fw-500 {
+  font-weight: 500;
+}
+.bg-primary {
+  background-color: #7460ee !important;
+}
+.bg-success {
+  background-color: #7ace4c !important;
+}
+.bg-info {
+  background-color: #41b3f9 !important;
+}
+.bg-warning {
+  background-color: #fb4 !important;
+}
+.bg-danger,
+.bg-theme-alt {
+  background-color: #f33155 !important;
+}
+.bg-theme {
+  background-color: #2cabe3 !important;
+}
+.bg-theme-dark {
+  background-color: #4f5467 !important;
+}
+.bg-inverse {
+  background-color: #4c5667 !important;
+}
+.bg-purple {
+  background-color: #707cd2 !important;
+}
+.bg-white {
+  background-color: #fff !important;
+}
+.bg-light {
+  background-color: #e4e7ea !important;
+}
+.bg-extralight {
+  background-color: #f7fafc !important;
+}
+.label {
+  letter-spacing: 0.05em;
+  border-radius: 60px;
+  padding: 4px 12px 3px;
+  font-weight: 500;
+}
+.label-rouded,
+.label-rounded {
+  border-radius: 60px;
+  padding: 4px 12px 3px;
+  font-weight: 500;
+}
+.label-custom {
+  background-color: #01c0c8;
+}
+.label-success {
+  background-color: #7ace4c;
+}
+.label-info {
+  background-color: #41b3f9;
+}
+.label-warning {
+  background-color: #fb4;
+}
+.label-danger {
+  background-color: #f33155;
+}
+.label-megna {
+  background-color: #01c0c8;
+}
+.label-primary {
+  background-color: #7460ee;
+}
+.label-purple {
+  background-color: #707cd2;
+}
+.label-red {
+  background-color: #f33155;
+}
+.label-inverse {
+  background-color: #4c5667;
+}
+.label-white {
+  background-color: #fff;
+}
+.label-default {
+  background-color: #e4e7ea;
+}
+.dropdown-menu {
+  border: 1px solid rgba(120, 130, 140, 0.13);
+  border-radius: 0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05) !important;
+  -webkit-box-shadow: 0 !important;
+  -moz-box-shadow: 0 !important;
+  padding-bottom: 8px;
+  margin-top: 0;
+}
+.dropdown-menu > li > a {
+  padding: 9px 20px;
+}
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+  background: #f7fafc;
+}
+.navbar-top-links .progress {
+  margin-bottom: 6px;
+}
+label {
+  font-weight: 500;
+}
+.btn {
+  border-radius: 3px;
+}
+.form-control {
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+  border-radius: 0;
+  box-shadow: 4px;
+  color: #565656;
+  height: 38px;
+  max-width: 100%;
+  padding: 7px 12px;
+  transition: all 300ms linear 0s;
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #263238;
+}
+.input-sm {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.input-lg {
+  height: 44px;
+  padding: 5px 10px;
+  font-size: 18px;
+}
 *{
     font-family:Raleway
 }

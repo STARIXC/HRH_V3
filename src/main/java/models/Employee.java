@@ -42,6 +42,7 @@ public class Employee {
     private String positionTitle;
     private String positionId;
     private String standardId;
+    private String standard_carder;
     private String cadreTypeName;
     private String typeId;
     private String supervisor;
@@ -394,6 +395,14 @@ public class Employee {
 
     public void setCounty(String county) {
         this.county = county;
+    }
+
+    public String getStandard_carder() {
+        return standard_carder;
+    }
+
+    public void setStandard_carder(String standard_carder) {
+        this.standard_carder = standard_carder;
     }
 
 }

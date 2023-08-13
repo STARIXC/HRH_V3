@@ -127,11 +127,7 @@
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control"
-                                                                        onchange="pataStandard();" name='ddlEmployeeType'
-                                                                        id='ddlEmployeeType' autocomplete="off">
-
-
+                                                                <select class="form-control"  name='ddlEmployeeType' id='ddlEmployeeType' autocomplete="off">
                                                                 </select>
 
                                                             </div>
@@ -212,8 +208,8 @@
                                                                 Category <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" onchange='pataPositions();' name='ddlCadreCategory' id='ddlCadreCategory'>
-
+                                                                <select class="form-control"  name='ddlCadreCategory' id='ddlCadreCategory'>
+                                                                    <option selected>Choose...</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -225,7 +221,7 @@
                                                             <div class="col-md-12">
                                                                 <select class="form-control" name='ddlPos'
                                                                         id='ddlPos'>
-
+                                                                    <option selected>Choose...</option>
                                                                 </select>
                                                                 <span id="Pos"></span>
 
@@ -238,8 +234,7 @@
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control"
-                                                                        onchange="patasubcounty();" name='ddlCounty'
+                                                                <select class="form-control" name='ddlCounty'
                                                                         id='ddlCounty'>
 
 
@@ -254,8 +249,8 @@
                                                                 County<span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" onchange='patafacility();' name='ddlSubcounty' id='ddlSubcounty'>
-
+                                                                <select class="form-control"  name='ddlSubcounty' id='ddlSubcounty'>
+                                                                    <option selected>--Select County First--</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -268,7 +263,7 @@
                                                             <div class="col-md-12">
                                                                 <select class="form-control"  name='ddlFacility'
                                                                         id='ddlFacility'>
-
+                                                                    <option selected>--Select County First--</option>
                                                                 </select>
                                                                 <span id="facil"></span>
 
@@ -276,27 +271,10 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-4 col-sm-6 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label class="col-md-12 control-label"> Reporting To <span class="required">*</span>
-                                                            </label>
-                                                            <div class="col-md-12">
-                                                                <select class="form-control" name='ddlSupervisor'
-                                                                        id='ddlSupervisor'>
-
-                                                                </select>
-                                                                <span id="superviros"></span>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label for="ddlFY">Contract Financial Year</label>
-                                                            <select name="ddlFY" id="ddlFY" class="form-control" onchange="patafydetails();" >
+                                                            <select name="ddlFY" id="ddlFY" class="form-control"  >
                                                                 <option selected>Choose...</option>
                                                             </select>
                                                             <!--<input type="hidden" class="form-control  input-width-xlarge" name="start_date" id="start_date" >-->
@@ -307,31 +285,6 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group ">
-                                                            <label for="contractStartDate">Contract Start Date </label>
-                                                            <div class="col-md-12">
-                                                                <input type="text" class="form-control datepicker input-width-xlarge" name="contractStartDate" id="contractStartDate" placeholder="Hire date" autocomplete="off">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group ">
-                                                            <label for="endDate">Contract End Date </label>
-                                                            <div class="col-md-12">
-                                                                <input type="text" class="form-control datepicker input-width-xlarge" name="contractEndDate" id="contractEndDate" placeholder="Hire date" autocomplete="off">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <!--                                                    //    var start_date = $('#ddlFY').data("start_date");
-                                                                                                        //    var contract_period = $('#ddlFY').data("period");
-                                                                                                        //    var end_date = $('#ddlFY').data("end_date");
-                                                                                                        //    var contract_no_months = $('#ddlFY').data("expected_months");
-                                                                                                        //    var year = $('#ddlFY').data("year");-->
-
-
                                                 </div>
                                             </div>
 
@@ -1279,7 +1232,7 @@
                                             <label for="yearSelect">Select year:</label>
                                             <div class="col">
                                                 <select id="yearSelect" name="year" class="form-control">
-                                                  
+
                                                 </select>
                                             </div>
                                         </div>
@@ -1288,16 +1241,16 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            
-                                             <div class="col">
-                                            
-                                            <input  type="radio" id="allEmployeesRadio" name="employee" value="all" checked>
-                                            <label for="allEmployeesRadio">Update leave balance for all employees</label>
-                                             </div>
-                                            
+
                                             <div class="col">
-                                            <input  type="radio" id="selectEmployeeRadio" name="employee" value="select">
-                                            <label for="selectEmployeeRadio">Update leave balance for a specific employee:</label>
+
+                                                <input  type="radio" id="allEmployeesRadio" name="employee" value="all" checked>
+                                                <label for="allEmployeesRadio">Update leave balance for all employees</label>
+                                            </div>
+
+                                            <div class="col">
+                                                <input  type="radio" id="selectEmployeeRadio" name="employee" value="select">
+                                                <label for="selectEmployeeRadio">Update leave balance for a specific employee:</label>
                                             </div>
                                         </div>
                                     </div>
@@ -1305,17 +1258,17 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            
+
                                             <select class="from-control employeeSelect" id="employeeSelect" name="employeeId" disabled>
                                                 <option value="-1" selected>Select employee</option>
-                                                
-                                              
+
+
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                              
-                              
+
+
                             </div>
                             <div class="form-actions">
                                 <div class="row">

@@ -5,15 +5,16 @@
 
 /*action button*/
 .action-btn{
-    width: 29px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 9.3552px;
     color: #fff;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     font-size: 20px;
     flex-shrink: 0;
+    
 }
 /*emplyee part*/
 .empform > .nav.nav-tabs li a {

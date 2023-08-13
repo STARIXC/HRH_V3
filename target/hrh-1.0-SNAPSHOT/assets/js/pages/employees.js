@@ -31,6 +31,9 @@ jQuery(document).ready(function () {
                     let edit_tr = "";
                     let sl = null;
                     sl = key + 1;
+                    var diff = moment(value.date_started).fromNow();
+
+//                    $("#dateDifference").text(diff);
 
                     if (status === "Active") {
                         staff_status = status_active;
@@ -47,18 +50,18 @@ jQuery(document).ready(function () {
                         staff_status = status_not_defined;
                     }
 
-                    let action = '<span>'
-                            + ' <div class="action-btn bg-primary ms-2">'
-                            + '<a title="Profile" href="employee_view.jsp?employee_id="' + value.emp_no + '" class = "btn btn-primary btn-xs btnColor" > '
+                    let action = '<span class="d-flex justify-content-evenly" >'
+                            + ' <div class="action-btn bg-primary">'
+                            + '<a title="Profile" href="employee_view.jsp?employee_id=' + value.emp_no + '" class = "btn btn-primary btn-xs btnColor" > '
                             + ' <i class="fa fa-th-large" aria-hidden="true"></i></a>'
                             + '</div>'
-                            + ' <div class="action-btn bg-info ms-2">'
-                            + ' <a href="javascript:void(0);"  data-id="' + value.emp_no + '" class="mx-3 btn btn-sm  align-items-center edit_emp" title="Edit">'
+                            + ' <div class="action-btn bg-info ">'
+                            + ' <a href="javascript:void(0);"  data-id="' + value.emp_no + '" class="btn btn-info btn-xs btnColor edit_emp" title="Edit">'
                             + '<i class="fa fa-edit text-white"></i>'
                             + '</a>'
                             + '</div>'
-                            + ' <div class="action-btn bg-danger ms-2">'
-                            + '<a href="javascript:void(0);"  data-emp="' + value.emp_no + '" data-id="' + value.id + '" class="delete mx-3 btn btn-sm  align-items-center bs-pass-para" title="Delete" aria-label="Delete"><i class="fa fa-trash text-white text-white"></i></a>'
+                            + ' <div class="action-btn bg-danger">'
+                            + '<a href="javascript:void(0);"  data-emp="' + value.emp_no + '" data-id="' + value.emp_no + '" class="delete btn btn-danger btn-xs btnColor" title="Delete" aria-label="Delete"><i class="fa fa-trash text-white text-white"></i></a>'
                             + '   </div>'
                             + '</span>';
 
@@ -73,29 +76,29 @@ jQuery(document).ready(function () {
                     let table_row = '<tr class="30">'
                             + '<td >' + sl + '</td>'
                             + '<td>'
-                            + '<a href="employee_view.jsp?employee_id=' + value.emp_no + '" ><img style=" width: 70px; " src="../assets/uploads/employeePhoto/employee.png" alt="user-img" class="img-circle"></a>'
+                            + '<a href="employee_view.jsp?employee_id=' + value.emp_no + '" class="user_info" ><img style=" width: 70px; " src="../assets/uploads/employeePhoto/employee.png" alt="user-img" class="img-circle"></a>'
                             + '</td>'
                             + '<td>'
                             + '<span class="font-medium">'
-                            + '<a href="employee_view.jsp?employee_id=' + value.emp_no + '">' + value.full_name + '</a>'
+                            + '<a href="employee_view.jsp?employee_id=' + value.emp_no + '"><strong>' + value.full_name + '</strong></a>'
                             + '</span>'
                             + ' <br><span class="text-muted">Role :   Employee</span>'
-                            + '<br><span class="text-muted">SuperVisor : Marco Lopez</span>'
+                            + '<br><span class="text-muted">SuperVisor : ' + value.supervisor + '</span>'
                             + '</td>'
                             + '<td>'
-                            + '<span class="font-medium">Engineering</span>'
-                            + '<br><span class="text-muted">Designation :Sr Software Engineer </span>'
-                            + '<br><span class="text-muted">Branch Name : Main Branch </span>'
+                            + '<span class="font-medium">' + value.standard_carder + '</span>'
+                            + '<br><span class="text-muted">Designation :' + value.positionTitle + ' </span>'
+                            + '<br><span class="text-muted">Facility : ' + value.current_facility + '</span>'
                             + '</td>'
                             + '<td>'
                             + '<span class="font-medium"> ' + value.phone + '</span>'
                             + '<br><span class="text-muted">email :' + value.email + '</span>'
                             + '</td>'
-                            + '<td> <span class="font-medium">1999</span>'
+                            + '<td> <span class="font-medium">' + value.emp_no + '</span>'
                             + '</td>'
                             + '<td>'
-                            + '<span class="font-medium"> 01/08/2023 </span>'
-                            + '<br><span class="text-muted"> 1 week ago </span>'
+                            + '<span class="font-medium"> ' + value.date_started + ' </span>'
+                            + '<br><span class="text-muted"> '+diff+' </span>'
                             + '<br><span class="text-muted">Job Status: Probation Period </span>'
                             + '</td>'
                             + '<td>' + staff_status
