@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<script src="assets/vendor/jquery/jquery.min.js"></script>-->  
         <title></title>
-    
+
     </head>
     <body>
         <div class="preloader" style="display: none;">
@@ -28,7 +28,7 @@
             </div>
 
         </div>
-        <div class="sidebar-menu">
+       <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-item  ">
                     <a href="index.jsp" class='sidebar-link'> <i class="fa fa-home breadcrumbColor"></i>
@@ -53,11 +53,11 @@
                     <a href="manage_employee.jsp" class='sidebar-link'> <i class="mr-3 shrink-0 w-6 fa fa-user-tie breadcrumbColor"></i>
                         <span>Employee </span>
                     </a>
-<!--                    <ul class="submenu ">
-                        <li><a href="manage_employee.jsp"><i class="fa fa-circle-notch"> </i> Manage Employee</a></li>
-                        <li><a href="manage_termination.jsp"><i class="fa fa-circle-notch"> </i> Termination</a></li>
-                        <li><a href="manage_warning.jsp"><i class="fa fa-circle-notch"> </i> Warning</a></li>
-                    </ul>-->
+                    <!--                    <ul class="submenu ">
+                                            <li><a href="manage_employee.jsp"><i class="fa fa-circle-notch"> </i> Manage Employee</a></li>
+                                            <li><a href="manage_termination.jsp"><i class="fa fa-circle-notch"> </i> Termination</a></li>
+                                            <li><a href="manage_warning.jsp"><i class="fa fa-circle-notch"> </i> Warning</a></li>
+                                        </ul>-->
                 </li>
 
 
@@ -72,7 +72,7 @@
                         <li><a href="manage_leave_applications.jsp"><i class="fa fa-circle-notch"></i> Manage Application</a></li>
                         <li><a href="leave_applications.jsp"><i class="fa fa-circle-notch"></i> Leave Application List</a>
                         <li><a href="leave_report.jsp"><i class="fa fa-circle-notch"></i> Leave Report</a>
-                        <!--<li><a href="leave_summary_report.jsp"><i class="fa fa-circle-notch"></i> Summary Report</a></li>-->
+                            <!--<li><a href="leave_summary_report.jsp"><i class="fa fa-circle-notch"></i> Summary Report</a></li>-->
                     </ul>
                 </li>
                 <li class="sidebar-item  has-sub"><a href="javascript:void(0)" class='sidebar-link'>
@@ -110,17 +110,27 @@
                                              class='sidebar-link'> <i class="fa fa-chart-bar breadcrumbColor"></i>
                         <span>Reports</span>
                     </a></li>
-<!--                <li class="sidebar-item ">
-                    <a href="reports.jsp" class='sidebar-link'> <i class="fa fa-user breadcrumbColor"></i>
-                        <span>User</span>
-                    </a></li>-->
+                <!--                <li class="sidebar-item ">
+                                    <a href="reports.jsp" class='sidebar-link'> <i class="fa fa-user breadcrumbColor"></i>
+                                        <span>User</span>
+                                    </a></li>-->
                 <li class="sidebar-item  has-sub">
                     <a href="javascript:void(0)" class='sidebar-link'> <i class="mr-3 shrink-0 w-6 fas fa-cog breadcrumbColor"></i>
                         <span>Settings</span>
                     </a>
                     <ul class="submenu ">
-                        <li><a href="manage_role.jsp"> <i class="fa fa-circle-notch"> </i> Roles</a></li>
-                        <li><a href="manage_role_permision.jsp"><i class="fa fa-circle-notch"> </i> Role Permission</a></li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="javascript:void(0)" class='sidebar-link-'> <i class="mr-3 shrink-0 w-6 fas fa-circle-notch breadcrumbColor"></i>
+                                <span>Roles</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li><a href="manage_role.jsp"> <i class="fa fa-circle-notch"> </i> Manage Roles</a></li>
+                                <li><a href="manage_role_permision.jsp"><i class="fa fa-circle-notch"> </i> Role Permission</a></li>
+                              
+
+                            </ul>
+                        </li>
+                        
                         <li><a href="manage_user.jsp"><i class="fa fa-circle-notch"> </i> Users</a></li>
                         <li><a href="update_password.jsp"><i class="fa fa-circle-notch"> </i> Change Password</a></li>
 

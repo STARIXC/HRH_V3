@@ -93,15 +93,27 @@
                                     <table width="100%" class="employee_table table  table-bordered table-hover " id="employee_table">
                                         <thead class='mt-3'>
                                             <tr>
+                                                <th>#</th>
+                                                <th>photo</th>
+                                                <th>name</th>
+                                                <th>department</th>
+                                                <th>phone</th>
+                                                <th>PF_NO</th>
+<!--                                                <th>@lang('paygrade.pay_grade_name')</th>-->
+                                                <th>date of joining</th>
+                                                <th>status</th>
+                                                <th>action</th>
+                                            </tr>
+<!--                                            <tr>
                                                 <th>Employee PF_NO</th>
                                                 <th>Employee Name</th>
-                                                <!--<th>Position</th>-->
+                                                <th>Position</th>
                                                 <th>Phone</th>
                                                 <th>Email Address</th>
                                                 <th>Country</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
-                                            </tr>
+                                            </tr>-->
                                         </thead>
                                         <tbody id="employee-table-data">
 
@@ -225,7 +237,7 @@
             dateFormat: "yy-mm-dd"
         });
         $("#txtBirthDate").datepicker({
-            format: 'yyyy-mm-dd',
+            dateFormat: 'yy-mm-dd',
             minViewMode: 'months'
         });
         // Hide the additional form inputs by default
@@ -269,7 +281,7 @@
             $('#simpleModal .btn_save').text('Save Changes');
             $.ajax({
                 type: "GET",
-                url: app+"/employee",
+                url: app + "/employee",
                 data: {emp_no: emp_no, action: "getEmployee"},
                 contentType: "application/json; charset-utf-8",
                 dataType: "json",

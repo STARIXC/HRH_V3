@@ -156,9 +156,8 @@ public class EmployeeController__ extends HttpServlet {
             String employees = JSONConverter.convert(employeeDAO.findActive());
 //              System.out.print(employees);
             out.println(employees);
-        } 
-         else if (action != null && action.equals("get_profile")) {
-               empno = request.getParameter("emp_no");
+        } else if (action != null && action.equals("get_profile")) {
+            empno = request.getParameter("emp_no");
 //            emp__no = IG.Decode(empno);
             emp_no = empno;
             defaultValues.setEmp_no(empno);
@@ -191,8 +190,7 @@ public class EmployeeController__ extends HttpServlet {
             } catch (SQLException e) {
                 out.println("Failled:" + e);
             }
-        }
-         else if (action != null && action.equals("save_employee")) {
+        } else if (action != null && action.equals("save_employee")) {
             // form variables
             emp_no = request.getParameter("txtEmployeeNumber");
             first_name = request.getParameter("txtFirstName");
@@ -449,10 +447,29 @@ public class EmployeeController__ extends HttpServlet {
     }// </editor-fold>
 
     public static int getMonthDifference(String startDate, String endDate) {
+        if (startDate.isEmpty() || endDate == null || endDate.isEmpty()) {
+            return 0; // Handle empty or null dates
+        }
+
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
+
         Period period = Period.between(start, end);
-        return (int) period.toTotalMonths();
+
+        int years = period.getYears();
+        int months = period.getMonths();
+        int days = period.getDays();
+
+        int totalMonths = years * 12 + months;
+
+        // Adjust for remaining days
+        if (days > 0) {
+            if (start.getDayOfMonth() > end.getDayOfMonth()) {
+                totalMonths--;
+            }
+        }
+
+        return totalMonths;
     }
 
 }
