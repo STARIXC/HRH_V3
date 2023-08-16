@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
         <link href="../assets/vendor/swal2/sweetalert2.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="../assets/vendor/calender/lib/jquery-ui.min.css" />
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
         <link rel="stylesheet" href="../assets/css/style.css">
@@ -34,7 +34,7 @@
         <%@include file="/_includes/header.jsp"%>
         <div id="app__" onload="getDefaultMonth();"></div>
         <div class="main-content container-fluid">
-      
+
             <div class="page-header">
                 <div class="page-block">
                     <div class="row align-items-center">
@@ -72,37 +72,37 @@
                 Your operation was successful!
             </div>
 
-  <div class="row">
+            <div class="row">
                 <div class="col-sm-12 pt-5">
                     <div class="card text-white">
                         <!--<div class="card-header "><i class="fa fa-table fa-fw"></i> Staff List</div>-->
                         <div class="card-wrapper " aria-expanded="true">
-                         <div class="card-body pt-3">
-                            <form accept-charset="UTF-8" id="attendanceSummaryReport" >
-                                <div class="row">
+                            <div class="card-body pt-3">
+                                <form accept-charset="UTF-8" id="attendanceSummaryReport" >
+                                    <div class="row">
 
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <label class="control-label" for="email">Month<span class="validateRq">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control monthField required" readonly placeholder="Month"  name="month" id="month" />
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <label class="control-label" for="email">Month<span class="validateRq">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    <input type="text" class="form-control monthField required" readonly placeholder="Month"  name="month" id="month" />
+                                                </div>
                                             </div>
                                         </div>
+                                        <!--                                    <div class="col-2">
+                                        
+                                        
+                                                                                <input type="submit" id="filter"  class="btn btn-info " value="Filter"/>
+                                        
+                                                                            </div>-->
+
+
                                     </div>
-<!--                                    <div class="col-2">
+                                </form>
 
-
-                                        <input type="submit" id="filter"  class="btn btn-info " value="Filter"/>
-
-                                    </div>-->
-
-
-                                </div>
-                            </form>
-                          
                             </div>
-                       
+
                         </div>
                     </div>
                 </div>
@@ -116,15 +116,17 @@
                         <div class="card-wrapper " aria-expanded="true">
                             <div class="card-header card-body table-border-style">
                                 <div class="table-responsive ">
-                                     <table width="100%" class="table table-bordered table-striped table-hover" id="timesheet_table" >
-                                    <thead></thead>
-                                    <tbody></tbody>
+                                    <table width="100%" class="table table-bordered table-striped table-hover" id="timesheet_table" >
+                                        <thead>
+                                          
+                                        </thead>
+                                        <tbody></tbody>
 
-                                    <script>
-                                        $('.totalCol').attr('colspan', 39 + 3);
-                                    </script>
+                                        <script>
+                                            $('.totalCol').attr('colspan', 39 + 3);
+                                        </script>
 
-                                </table>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -132,10 +134,10 @@
                 </div>
             </div>
 
-            </div>
-            <!-- // Basic Vertical form layout section end -->
         </div>
+        <!-- // Basic Vertical form layout section end -->
     </div>
+</div>
 </div>
 <script src="../assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
 <script src="../assets/vendor/calender/lib/jquery-ui.min.js" type="text/javascript"></script>

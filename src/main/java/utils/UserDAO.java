@@ -33,8 +33,7 @@ public class UserDAO {
             String query = "SELECT COUNT(*) FROM tbl_user WHERE userid = ? ";
             conn.pst = conn.conn.prepareStatement(query);
             conn.pst.setString(1, userid);
-
-            conn.pst.executeQuery();
+            conn.rs = conn.pst.executeQuery();
             if (conn.rs.next()) {
                 return conn.rs.getInt(1) > 0;
             }
@@ -47,7 +46,7 @@ public class UserDAO {
 
     public boolean addUser(Login user) {
         try {
-            String query = "INSERT INTO tbl_user(userid, fname, mname, lname, username, email, phone, password, level_, status) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            String query = "REPLACE INTO tbl_user(userid, fname, mname, lname, username, email, phone, password, level_, status) VALUES (?,?,?,?,?,?,?,?,?,?)";
             conn.pst = conn.conn.prepareStatement(query);
             // Bind user details to the prepared statement parameters
             conn.pst.setString(1, user.getUserid());
@@ -72,10 +71,24 @@ public class UserDAO {
 
     public boolean addRelationship(String emp_no, int position_id) {
         try {
-            String query = "INSERT INTO hrh.tbl_employee_position_relations(emp_no, position_id )VALUES (?,?)";
+            String query = "REPLACE INTO hrh.tbl_employee_position_relations(emp_no, position_id )VALUES (?,?)";
             conn.pst = conn.conn.prepareStatement(query);
             conn.pst.setString(1, emp_no);
             conn.pst.setInt(2, position_id);
+            int rowsInserted = conn.pst.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while executing query", e);
+        }
+        return false;
+    }
+
+    public boolean addFacilityRelation(String emp_no, String mfl) {
+        try {
+            String query = "REPLACE INTO hrh.tbl_user_facility(user_id,facility_id) VALUES(?,?)";
+            conn.pst = conn.conn.prepareStatement(query);
+            conn.pst.setString(1, emp_no);
+            conn.pst.setString(2, mfl);
             int rowsInserted = conn.pst.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {

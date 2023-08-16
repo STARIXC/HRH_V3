@@ -37,6 +37,9 @@
                                                         Basic <span>Information</span>
                                                     </h4>
                                                 </div>
+                                                <!-- Error message -->
+                                                <div id="message_modal" class="alert alert-danger d-none" role="alert"></div>
+
                                             </div>
                                             <div class="card-content">
                                                 <div class="row">

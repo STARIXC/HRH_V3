@@ -84,12 +84,8 @@
                 </div>
             </div>
 
-            <div id="success-popup" class="alert alert-success d-none" role="alert">
-                Your operation was successful!
-            </div>
-
-
-
+            <!-- Success message -->
+            <div id="message" class="alert  d-none" role="alert"></div>
 
             <div class="row">
                 <div class="col-sm-12 pt-5">
@@ -111,7 +107,7 @@
                                                 <th>status</th>
                                                 <th>action</th>
                                             </tr>
-                                         
+
                                         </thead>
                                         <tbody id="employee-table-data">
 
@@ -185,7 +181,7 @@
             }
         }
 
-       
+
 
 
 
@@ -247,50 +243,89 @@
             $.ajax({
                 type: "GET",
                 url: app + "/employee",
-                data: {emp_no: emp_no, action: "getEmployee"},
+                data: {emp_no: emp_no, action: "employee_update"},
                 contentType: "application/json; charset-utf-8",
                 dataType: "json",
                 success: function (data) {
+                    console.log(eval(data));
+                    $('#txtSurname').val(data.surname);
+                    $('#txtFirstName').val(data.first_name);
+                    $('#txtMiddleName').val(data.other_name);
+                    $('#txtEmail').val(data.email);
+                    $('#txtNationalID').val(data.national_id);
+                    $('#txtEmployeeNumber').val(data.emp_no);
+                    $('#ddlEmployeeType option[value="' + data.typeId + '"]').attr("selected", "selected");
+                    // Trigger the onchange event for #ddlCadreCategory
+                    $('#ddlEmployeeType').trigger('change');
+                    $('#eStatus option[value="' + data.status + '"]').attr("selected", "selected");
+                    $('#hiredate').val(data.date_started);
+                    $('#endDate').val(data.date_ended);
 
-                    $('#txtSurname').val(data.employee.surname);
-                    $('#txtFirstName').val(data.employee.first_name);
-                    $('#txtMiddleName').val(data.employee.other_name);
-                    $('#txtEmail').val(data.employee.email);
-                    $('#txtNationalID').val(data.employee.national_id);
-                    $('#txtEmployeeNumber').val(data.employee.emp_no);
-                    $('#ddlEmployeeType option[value="' + data.employee.standardId + '"]').attr("selected", "selected");
-                    $('#eStatus option[value="' + data.employee.status + '"]').attr("selected", "selected");
-                    $('#hiredate').val(data.employee.date_started);
-                    $('#endDate').val(data.employee.date_ended);
-                    $('#ddlCadreCategory option[value="' + data.employee.standardId + '"]').attr("selected", "selected");
-                    $('#ddlPos option[value="' + data.employee.positionId + '"]').attr("selected", "selected");
-                    // $('ddlCounty option[value="' + data.emp_type + '"]').attr("selected", "selected");
-                    // $('ddlSubcounty option[value="' + data.emp_type + '"]').attr("selected", "selected");
-                    // $('ddlFacility option[value="' + data.emp_type + '"]').attr("selected", "selected");
-                    // $('ddlSupervisor option[value="' + data.emp_type + '"]').attr("selected", "selected");
-                    // $('ddlFY option[value="' + data.emp_type + '"]').attr("selected", "selected");
+                    $('#ddlCounty').change(function () {
+                        patasubcounty();
+
+                    });
+                    $('#ddlSubcounty').change(function () {
+                        patafacility();
+
+                    });
+                    $('#ddlFY').change(function () {
+                        patafydetails();
+
+                    });
+                    $('#ddlEmployeeType').change(function () {
+                        pataStandard();
+
+                    });
+                    $('#ddlCadreCategory').change(function () {
+                        pataPositions();
+
+                    });
+                    // Populate the #ddlCadreCategory select element
+                    $('#ddlCadreCategory option[value="' + data.standardId + '"]').attr("selected", "selected");
+                    // Trigger the onchange event for #ddlCadreCategory
+                    $('#ddlCadreCategory').trigger('change');
+
+                    $('#ddlPos option[value="' + data.positionId + '"]').attr("selected", "selected");
+
+                    // Populate the #ddlCounty select element
+                    $('#ddlCounty option[value="' + data.county + '"]').attr("selected", "selected");
+
+                    // Trigger the onchange event for #ddlCounty
+                    $('#ddlCounty').trigger('change');
+                    // Populate the #ddlSubcounty select element
+                    $('#ddlSubcounty option[value="' + data.subcounty + '"]').attr("selected", "selected");
+                    // Trigger the onchange event for #ddlSubcounty
+                    $('#ddlSubcounty').trigger('change');
+                    // Wait for subcounty select to populate facility options before setting selected facility
+                                  // Populate the #ddlSubcounty select element
+                    $('#ddlFacility option[value="' + data.mflcode + '"]').attr("selected", "selected");
+//                    $('#ddlSupervisor option[value="' + data.emp_type + '"]').attr("selected", "selected");
+                    $('#ddlFY option[value="' + data.emp_type + '"]').attr("selected", "selected");
+                    // Trigger the onchange event for #ddlCadreCategory
+//                    $('#ddlFY').trigger('change');
                     // $('contract_period').val(data.id);
                     // $('end_date').val(data.id);
                     // $('contract_no_months').val(data.id);
                     // $('year').val(data.id);
                     // $('contractStartDate').val(data.id);
                     // $('contractEndDate').val(data.id);
-                    $('#txtHomeAddress').val(data.employee.home_address);
-                    $('#txtPostalCode').val(data.employee.postal_code);
-                    $('#txtNationality').val(data.employee.nationality);
-                    $('#txtBirthDate').val(data.employee.dob);
-                    if (data.employee.gender === "Female") {
+                    $('#txtHomeAddress').val(data.home_address);
+                    $('#txtPostalCode').val(data.postal_code);
+                    $('#txtNationality').val(data.nationality);
+                    $('#txtBirthDate').val(data.dob);
+                    if (data.gender === "Female") {
                         $("#rbtnMale").prop("checked", false);
                         $("#rbtnFeMale").prop("checked", true);
                     } else {
                         $("#rbtnMale").prop("checked", true);
                         $("#rbtnFeMale").prop("checked", false);
                     }
-                    // $('ddlMaratialStatus option[value="' + data.employee.marital_status + '"]').attr("selected", "selected");
-                    $('#txtAltEmail').val(data.employee.alt_email);
-                    $('#txtPhone').val(data.employee.phone);
-                    $('#txtAltPhone').val(data.employee.alt_phone);
-                    if (data.employee.disability === "1") {
+                    // $('ddlMaratialStatus option[value="' + data.marital_status + '"]').attr("selected", "selected");
+                    $('#txtAltEmail').val(data.alt_email);
+                    $('#txtPhone').val(data.phone);
+                    $('#txtAltPhone').val(data.alt_phone);
+                    if (data.disability === "1") {
                         $("#rbtnDisability_yes").prop("checked", true);
                         $("#rbtnDisability_no").prop("checked", false);
                     } else {
@@ -298,12 +333,12 @@
                         $("#rbtnDisability_no").prop("checked", true);
                     }
 
-                    $('#txtDisabilityExplain').val(data.employee.disability_explain);
-                    $('#txtPinCode').val(data.employee.kra_pin);
-                    $('#txtNSSF').val(data.employee.nssf_no);
-                    $('#txtNHIF').val(data.employee.nhif_no);
-                    $('#txtGoodConduct').val(data.employee.cert_good_conduct_no);
-                    if (data.employee.helb_benefitiary === 1) {
+                    $('#txtDisabilityExplain').val(data.disability_explain);
+                    $('#txtPinCode').val(data.kra_pin);
+                    $('#txtNSSF').val(data.nssf_no);
+                    $('#txtNHIF').val(data.nhif_no);
+                    $('#txtGoodConduct').val(data.cert_good_conduct_no);
+                    if (data.helb_benefitiary === 1) {
                         $("#rbtnHelb").prop("checked", true);
                         $("#rbtnHelb_no").prop("checked", false);
                     } else {
@@ -311,11 +346,11 @@
                         $("#rbtnHelb_no").prop("checked", true);
                     }
 
-                    $('#txtHelbClearance').val(data.employee.helb_clearance_no);
-                    $('#txtBankName').val(data.employee.bank_name);
-                    $('#txtBranchName').val(data.employee.branch);
-                    $('#txtAccountName').val(data.employee.account_name);
-                    $('#txtAccountNumber').val(data.employee.acount_number);
+                    $('#txtHelbClearance').val(data.helb_clearance_no);
+                    $('#txtBankName').val(data.bank_name);
+                    $('#txtBranchName').val(data.branch);
+                    $('#txtAccountName').val(data.account_name);
+                    $('#txtAccountNumber').val(data.acount_number);
 
 
 

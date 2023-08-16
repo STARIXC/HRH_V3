@@ -25,15 +25,19 @@ public class EmployeeDAO {
     }
 
     public boolean recordExists(String nationalID) {
+        if (conn == null) {
+            LOGGER.log(Level.SEVERE, "Connection is null.");
+            return false; // Return false if the connection is not properly initialized
+        }
         try {
 
             String query = "SELECT COUNT(*) FROM emp_bio WHERE national_id = ?";
             conn.pst = conn.conn.prepareStatement(query);
             conn.pst.setString(1, nationalID);
-            conn.pst.executeQuery();
+            conn.rs = conn.pst.executeQuery();
 
             if (conn.rs.next()) {
-                return conn.rs.getInt(1) > 1;
+                return conn.rs.getInt(1) > 0;
             }
 
         } catch (SQLException ex) {
@@ -88,8 +92,7 @@ public class EmployeeDAO {
                     + "                LEFT JOIN hrh.tbl_user_facility uf ON uf.user_id = eb.emp_no \n"
                     + "                LEFT JOIN hrh.subpartnera fac ON fac.CentreSanteId = uf.facility_id \n"
                     + "                LEFT JOIN hrh.tbl_facility_supervisor fs ON fs.mflc = fac.CentreSanteId \n"
-                    + "                LEFT JOIN hrh.supervisors sup ON sup.login_id = fs.login_id \n"
-                    + "                 WHERE sup.status=1";
+                    + "                LEFT JOIN (select * from hrh.supervisors WHERE status=1) as sup ON fs.login_id=sup.login_id  \n";
 
             conn.rs = conn.st.executeQuery(query);
             while (conn.rs.next()) {
@@ -240,13 +243,20 @@ public class EmployeeDAO {
                     + "                IFNULL(s1.id, '') as standard_id,\n"
                     + "                IFNULL(s1.standardized_cadre_name, '') as standard_carder,\n"
                     + "                IFNULL(t1.cadre_type_name, '') as cadre_type_name,\n"
-                    + "                IFNULL(t1.id, '') as type_id\n"
+                    + "                IFNULL(t1.id, '') as type_id,\n"
+                    + "                IFNULL(fac.CentreSanteId, '') as mflcode,\n"
+                    + "                IFNULL(sc.districtID, '') as subcounty_id,\n"
+                    + "                IFNULL(ct.countyID, '') as county_id\n"
                     + "                FROM hrh.emp_bio eb \n"
                     + "                LEFT JOIN employee_status st ON eb.status = st.id\n"
                     + "                LEFT JOIN tbl_employee_position_relations rp ON rp.emp_no = eb.emp_no\n"
                     + "                LEFT JOIN hrh.cadre_positions p1 ON rp.position_id = p1.id \n"
                     + "                LEFT JOIN hrh.standardized_cadre s1 ON p1.standardized_cadre_id = s1.id \n"
                     + "                LEFT JOIN hrh.cadre_type t1 ON s1.carder_type_id = t1.id \n"
+                    + "                LEFT JOIN hrh.tbl_user_facility uf ON uf.user_id = eb.emp_no \n"
+                    + "                LEFT JOIN hrh.subpartnera fac ON fac.CentreSanteId = uf.facility_id \n"
+                    + "                LEFT JOIN hrh.district sc ON fac.DistrictID = sc.districtID \n"
+                    + "                LEFT JOIN hrh.county ct ON sc.countyID = ct.countyID \n"               
                     + "                 where eb.emp_no ='" + emp_no + "'";
 //        conn.pst.setString(1, emp_no);
             conn.rs = conn.st.executeQuery(getEmpDetails);
@@ -290,6 +300,9 @@ public class EmployeeDAO {
                 employee.setStandardId(conn.rs.getString("standard_id"));
                 employee.setCadreTypeName(conn.rs.getString("cadre_type_name"));
                 employee.setTypeId(conn.rs.getString("type_id"));
+                employee.setCounty(conn.rs.getInt("county_id"));
+                employee.setSubcounty(conn.rs.getInt("subcounty_id"));
+                employee.setMflcode(conn.rs.getInt("mflcode"));
 
             }
         } catch (SQLException e) {

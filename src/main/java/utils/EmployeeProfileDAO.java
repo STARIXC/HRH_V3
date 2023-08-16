@@ -230,7 +230,7 @@ public class EmployeeProfileDAO {
                     employee.setSupervisor(conn.rs.getString("facility_sup"));
                     employee.setPositionTitle(conn.rs.getString("position_title"));
                     employee.setCadreTypeName(conn.rs.getString("cadre_type_name"));
-                    employee.setCounty(conn.rs.getString("county"));
+                    employee.setCounty(conn.rs.getInt("county"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(EmployeeProfileDAO.class.getName()).log(Level.SEVERE, null, ex);

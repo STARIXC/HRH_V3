@@ -45,22 +45,24 @@ public class EmployeeHistoryDAO {
         return false;
     }
 
-    public boolean recordExists(String emprecordid) {
-        try {
-            String query = "SELECT * FROM employee_hist WHERE emprecordid = ?";
-            conn.pst = conn.conn.prepareStatement(query);
-            conn.pst.setString(1, emprecordid);
-            conn.pst.executeQuery();
-            if (conn.rs.next()) {
-                return conn.rs.getInt(1) > 0;
-            }
+  public boolean recordExists(String emprecordid) {
+    try {
+        String query = "SELECT COUNT(*) FROM hrh.employee_hist WHERE emprecordid = ?";
+        conn.pst = conn.conn.prepareStatement(query);
+        conn.pst.setString(1, emprecordid);
+        conn.rs = conn.pst.executeQuery();
 
-            return conn.rs.next();
-        } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Error while executing query", ex);
+        if (conn.rs.next()) {
+            return conn.rs.getInt(1) > 0;
         }
+
         return false;
+    } catch (SQLException ex) {
+        LOGGER.log(Level.SEVERE, "Error while executing query", ex);
     }
+    return false;
+}
+
 
     public boolean updateEmployeeHistory(EmploymentHistory history) {
         try {

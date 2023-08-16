@@ -46,7 +46,9 @@ public class Employee {
     private String cadreTypeName;
     private String typeId;
     private String supervisor;
-    private String county;
+    private int county;
+    private int subcounty;
+    private int mflcode;
 //    private List<EmploymentHistory> employmentHistoryList;
 
     public Employee() {
@@ -389,11 +391,11 @@ public class Employee {
         this.supervisor = supervisor;
     }
 
-    public String getCounty() {
+    public int getCounty() {
         return county;
     }
 
-    public void setCounty(String county) {
+    public void setCounty(int county) {
         this.county = county;
     }
 
@@ -403,6 +405,22 @@ public class Employee {
 
     public void setStandard_carder(String standard_carder) {
         this.standard_carder = standard_carder;
+    }
+
+    public int getSubcounty() {
+        return subcounty;
+    }
+
+    public void setSubcounty(int subcounty) {
+        this.subcounty = subcounty;
+    }
+
+    public int getMflcode() {
+        return mflcode;
+    }
+
+    public void setMflcode(int mflcode) {
+        this.mflcode = mflcode;
     }
 
 }

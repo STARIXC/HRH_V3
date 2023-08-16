@@ -66,8 +66,8 @@ jQuery(document).ready(function () {
                             + '</span>';
 
 
-                    var encodedEmpNo = value.emp_no;
-                    var decodedEmpNo = atob(encodedEmpNo);
+//                    var encodedEmpNo = value.emp_no;
+//                    var decodedEmpNo = atob(encodedEmpNo);
                     if (estat === "Active") {
                         edit_tr = action;
                     } else {
@@ -114,8 +114,8 @@ jQuery(document).ready(function () {
             complete: function () {
                 var table = $('#employee_table').DataTable(
                         {
-                            responsive: true,
-                            processing: true
+                            responsive: true
+//                            processing: true
                         });
                 new $.fn.dataTable.FixedHeader(table);
                 $('#spinner-div').hide(); //Request is complete so hide spinner

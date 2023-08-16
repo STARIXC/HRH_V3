@@ -1,3 +1,4 @@
+
 package org.usaidtujengejamii.hrh.controller;
 
 import utils.DocumentDAO;
@@ -9,7 +10,6 @@ import utils.UserDAO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -147,6 +147,12 @@ public class EmployeeController__ extends HttpServlet {
             String employees = JSONConverter.convert(employeeDAO.findAll());
 //              System.out.print(employees);
             out.println(employees);
+        } else if (action != null && action.equals("employee_update")) {
+            empno = request.getParameter("emp_no");
+            employee = employeeDAO.getEmployeeDetails(empno);
+             String employee_ = JSONConverter.convert(employee);
+//              System.out.print(employees);
+            out.println(employee_);
         } else if (action != null && action.equals("allActiveStaff")) {
             String employees = JSONConverter.convert(employeeDAO.findActive());
 //              System.out.print(employees);
@@ -221,29 +227,34 @@ public class EmployeeController__ extends HttpServlet {
             } else {
                 helb_benefitiary = Integer.parseInt(request.getParameter("rbtnHelb"));
             }
+            String firstCharacter = first_name.substring(0, 1); // Get the first character of the first name
+//            username = "";
+            username = firstCharacter + surname; // Concatenate the first character with the surname
 
             subcounty = request.getParameter("ddlSubcounty");
             bank_name = request.getParameter("txtBankName");
             branch = request.getParameter("txtBranchName");
             account_name = request.getParameter("txtAccountName");
             account_number = request.getParameter("txtAccountNumber");
+
             if (request.getParameter("eStatus") == null) {
                 empStatus = 0;
             } else {
                 empStatus = Integer.parseInt(request.getParameter("eStatus"));
             }
 
-            emprecordid = emp_no + "_" + mfl + "_" + position + "_" + financial_year;
-            username = "";
+            emprecordid = emp_no + mfl + position + financial_year;
+
             if (national_id == null) {
                 pass = "123456";
             } else {
                 pass = national_id;
             }
+            password = hashPassword(pass);
             if (empStatus == 1 || empStatus == 2) {
-                active = 0;
-            } else {
                 active = 1;
+            } else {
+                active = 0;
             }
             if (endDate != null && hireDate != null) {
                 months_worked = getMonthDifference(hireDate, endDate);
@@ -252,37 +263,71 @@ public class EmployeeController__ extends HttpServlet {
             }
             userid = emp_no;
 
+            String user_details = emp_no + "_" + mfl + "_" + position + "_" + financial_year + "_" + full_name + "_" + emp_no;
+            System.out.println(user_details);
             // Check basic info record existence
             boolean basicInfoExists = employeeDAO.recordExists(national_id);
-
+            System.out.println(basicInfoExists);
+//
             if (basicInfoExists) {
                 boolean userExists = userDAO.recordExists(userid);
                 boolean empRecordExists = employeeHistoryDAO.recordExists(emprecordid);
-
+                System.out.println("userexist: " + userExists + " and emp_recordExist: " + empRecordExists);
                 if (userExists && !empRecordExists) {
-                    updateEmployeeHistoryAndAddUser(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
+                    boolean saveHist = addEmployeeHistory(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active);
+                    boolean saveRelation = addRelationship(emp_no, mfl);
+                    if (!saveRelation || !saveHist) {
+                        obj.put("status", "error");
+                        obj.put("message", "Unable to add the Record...");
+                    } else {
+                        obj.put("status", "success");
+                        obj.put("message", "Saved Successfully...");
+                    }
+                    out.println(obj);
                 } else if (!userExists && empRecordExists) {
-                    addUserAndHistory(loginDetails, history_, first_name, other_name, surname, username, email, phone, password, 2, mfl, subcounty, status);
+                    boolean update = updateEmployeeHistoryAndAddUser(history_, userid, emprecordid, emp_no, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
+                    boolean addUserFacility = addRelationship(emp_no, mfl);
+                    if (!update || !addUserFacility) {
+                        obj.put("status", "error");
+                        obj.put("message", "Unable to add the Record...");
+                    } else {
+                        obj.put("status", "success");
+                        obj.put("message", "Saved Successfully...");
+                    }
+                    out.println(obj);
+                } else if (userExists && empRecordExists) {
+                    obj.put("status", "info");
+                    obj.put("message", "The user with this records exists");
+                    out.println(obj);
                 } else {
-                    updateEmployeeHistoryAndAddUser(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
+                    boolean addU_H = addUserAndHistory(loginDetails, history_, emprecordid, userid, emp_no, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active, first_name, other_name, surname, username, email, phone, password, mfl, level, status);
+                    boolean relationship = addRelationship(emp_no, mfl);
+                    if (!addU_H || !relationship) {
+                        obj.put("status", "error");
+                        obj.put("message", "Unable to add the Record...");
+                    } else {
+                        obj.put("status", "success");
+                        obj.put("message", "Saved Successfully...");
+                    }
                 }
             } else {
-                createEmployeeAndHistoryAndAddUser(employee, history_, userid, emp_no, first_name, surname, other_name, gender, phone, altPhone, email, altEmail, dob, home_address, postal_code, nationality, marital_status, disability, disability_explain, kra_pin, nssf_no, nhif_no, cert_good_conduct_no, helb_clearance_no, helb_benefitiary, bank_name, branch, account_name, account_number, hireDate, endDate, empStatus, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
+                boolean addedEmpHistoryUser = createEmployeeAndHistoryAndAddUser(employee, history_, emprecordid, userid, emp_no, first_name, surname, other_name, gender, phone, altPhone, email, altEmail, dob, home_address, postal_code, nationality, marital_status, disability, disability_explain, kra_pin, nssf_no, nhif_no, cert_good_conduct_no, helb_clearance_no, helb_benefitiary, bank_name, branch, account_name, account_number, hireDate, endDate, empStatus, active, loginDetails, first_name, other_name, surname, username, email, phone, password, mfl, subcounty, status);
+                boolean facilityRel = addRelationship(emp_no, mfl);
+//                boolean saveBio = employeeDAO.insertEmployee(employee);
+//                boolean saveLogin = userDAO.addRelationship(emp_no, position);
+//                boolean saveHist = employeeHistoryDAO.addEmployeeHistory(history_);
 
-                boolean saveBio = employeeDAO.insertEmployee(employee);
-                boolean saveLogin = userDAO.addRelationship(emp_no, position);
-                boolean saveHist = employeeHistoryDAO.addEmployeeHistory(history_);
-
-                if (!saveBio || !saveLogin || !saveHist) {
+                if (!addedEmpHistoryUser || !facilityRel) {
                     obj.put("status", "error");
                     obj.put("message", "Unable to add the Record...");
                 } else {
                     obj.put("status", "success");
                     obj.put("message", "Saved Successfully...");
                 }
+                out.println(obj);
 
-                out.print(obj);
             }
+
         }
     }
 
@@ -343,12 +388,14 @@ public class EmployeeController__ extends HttpServlet {
         return totalMonths;
     }
 
-    private void updateEmployeeHistoryAndAddUser(EmploymentHistory history, String empRecordId, String empNo, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active, Login loginDetails, String firstName, String otherName, String surname, String username, String email, String phone, String password, String mfl, String subcounty, int status) throws SQLException {
-        updateEmployeeHistory(history, empRecordId, empNo, mfl, position, dateStarted, dateEnded, financialYear, monthsWorked, currentContract, contractPeriod, contractEndDate, expectedMonths, active);
-        addUserAndHistory(loginDetails, history, firstName, otherName, surname, username, email, phone, password, 2,mfl,subcounty, status);
+    private boolean updateEmployeeHistoryAndAddUser(EmploymentHistory history, String userid, String empRecordId, String empNo, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active, Login loginDetails, String firstName, String otherName, String surname, String username, String email, String phone, String password, String mfl, String subcounty, int status) throws SQLException {
+        boolean updateHistory = updateEmployeeHistory(history, empRecordId, empNo, mfl, position, dateStarted, dateEnded, financialYear, monthsWorked, currentContract, contractPeriod, contractEndDate, expectedMonths, active);
+        boolean addUser = addUser(loginDetails, userid, firstName, otherName, surname, username, email, phone, password, 2, status);
+        // Return true if both updateHistory and addUser are true, otherwise return false
+        return updateHistory && addUser;
     }
 
-    private void updateEmployeeHistory(EmploymentHistory history, String empRecordId, String empNo, String mfl, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active) throws SQLException {
+    private boolean updateEmployeeHistory(EmploymentHistory history, String empRecordId, String empNo, String mfl, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active) throws SQLException {
         history.setEmprecordid(empRecordId);
         history.setEmp_no(empNo);
         history.setMfl(mfl);
@@ -362,15 +409,35 @@ public class EmployeeController__ extends HttpServlet {
         history.setContract_end_date(contractEndDate);
         history.setExpected_months(expectedMonths);
         history.setActive(active);
-        employeeHistoryDAO.addEmployeeHistory(history);
+        return employeeHistoryDAO.updateEmployeeHistory(history);
     }
 
-    private void addUserAndHistory(Login loginDetails, EmploymentHistory history, String firstName, String otherName, String surname, String username, String email, String phone, String password, int level, String facility, String subcounty, int status) throws SQLException {
-        addUser(loginDetails, firstName, otherName, surname, username, email, phone, password, level, status);
-        updateEmployeeHistory(history, history.getEmprecordid(), history.getEmp_no(), history.getMfl(), history.getPosition_id(), history.getDate_started(), history.getDate_ended(), history.getFinancial_year(), history.getMonths_worked(), history.getCurrent_contract(), history.getContract_period(), history.getContract_end_date(), history.getExpected_months(), history.getActive());
+    private boolean addEmployeeHistory(EmploymentHistory history, String empRecordId, String empNo, String mfl, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active) throws SQLException {
+        history.setEmprecordid(empRecordId);
+        history.setEmp_no(empNo);
+        history.setMfl(mfl);
+        history.setPosition_id(position);
+        history.setDate_started(dateStarted);
+        history.setDate_ended(dateEnded);
+        history.setFinancial_year(financialYear);
+        history.setMonths_worked(monthsWorked);
+        history.setCurrent_contract(currentContract);
+        history.setContract_period(contractPeriod);
+        history.setContract_end_date(contractEndDate);
+        history.setExpected_months(expectedMonths);
+        history.setActive(active);
+        return employeeHistoryDAO.addEmployeeHistory(history);
     }
 
-    private void addUser(Login loginDetails, String firstName, String otherName, String surname, String username, String email, String phone, String password, int level, int status) throws SQLException {
+    private boolean addUserAndHistory(Login loginDetails, EmploymentHistory history, String userid, String empRecordId, String empNo, int position, String dateStarted, String dateEnded, String financialYear, int monthsWorked, String currentContract, String contractPeriod, String contractEndDate, int expectedMonths, int active, String firstName, String otherName, String surname, String username, String email, String phone, String password, String mfl, int ulevel, int status) throws SQLException {
+        ulevel = 2;
+        boolean addUser = addUser(loginDetails, userid, firstName, otherName, surname, username, email, phone, password, ulevel, status);
+        boolean addERecord = addEmployeeHistory(history, empRecordId, empNo, mfl, position, dateStarted, dateEnded, financialYear, monthsWorked, currentContract, contractPeriod, contractEndDate, expectedMonths, active);
+        return addERecord && addUser;
+    }
+
+    private boolean addUser(Login loginDetails, String userid, String firstName, String otherName, String surname, String username, String email, String phone, String password, int level, int status) throws SQLException {
+        loginDetails.setUserid(userid);
         loginDetails.setFname(firstName);
         loginDetails.setMname(otherName);
         loginDetails.setLname(surname);
@@ -381,15 +448,17 @@ public class EmployeeController__ extends HttpServlet {
         loginDetails.setPassword(password);
         loginDetails.setLevel(level);
         loginDetails.setStatus(status);
-        userDAO.addUser(loginDetails);
+        return userDAO.addUser(loginDetails);
     }
 
-    private void createEmployeeAndHistoryAndAddUser(Employee employee, EmploymentHistory history, String userId, String empNo, String firstName, String surname, String otherName, String gender, String phone, String altPhone, String email, String altEmail, String dob, String homeAddress, String postalCode, String nationality, String maritalStatus, String disability, String disabilityExplain, String kraPin, String nssfNo, String nhifNo, String certGoodConductNo, String helbClearanceNo, int helbBeneficiary, String bankName, String branch, String accountName, String accountNumber, String hireDate, String endDate, int empStatus, int active, Login loginDetails, String fName, String oName, String lName, String uName, String mail, String pNumber, String pass, String facility, String sCounty, int sStatus) throws SQLException {
-        createEmployee(employee, userId, empNo, firstName, surname, otherName, gender, phone, altPhone, email, altEmail, dob, homeAddress, postalCode, nationality, maritalStatus, disability, disabilityExplain, kraPin, nssfNo, nhifNo, certGoodConductNo, helbClearanceNo, helbBeneficiary, bankName, branch, accountName, accountNumber, hireDate, endDate, empStatus, active);
-        addUser(loginDetails, fName, oName, lName, uName, mail, pNumber, pass, 2, sStatus);
+    private boolean createEmployeeAndHistoryAndAddUser(Employee employee, EmploymentHistory history, String empRecordId, String userId, String empNo, String firstName, String surname, String otherName, String gender, String phone, String altPhone, String email, String altEmail, String dob, String homeAddress, String postalCode, String nationality, String maritalStatus, String disability, String disabilityExplain, String kraPin, String nssfNo, String nhifNo, String certGoodConductNo, String helbClearanceNo, int helbBeneficiary, String bankName, String branch, String accountName, String accountNumber, String hireDate, String endDate, int empStatus, int active, Login loginDetails, String fName, String oName, String lName, String uName, String mail, String pNumber, String pass, String facility, String sCounty, int sStatus) throws SQLException {
+        boolean createEmp = createEmployee(employee, userId, empNo, firstName, surname, otherName, gender, phone, altPhone, email, altEmail, dob, homeAddress, postalCode, nationality, maritalStatus, disability, disabilityExplain, kraPin, nssfNo, nhifNo, certGoodConductNo, helbClearanceNo, helbBeneficiary, bankName, branch, accountName, accountNumber, hireDate, endDate, empStatus, active);
+        boolean addUser = addUser(loginDetails, userId, fName, oName, lName, uName, mail, pNumber, pass, 2, sStatus);
+        boolean addHistory = addEmployeeHistory(history, empRecordId, empNo, facility, history.getPosition_id(), history.getDate_started(), history.getDate_ended(), history.getFinancial_year(), history.getMonths_worked(), history.getCurrent_contract(), history.getContract_period(), history.getContract_end_date(), history.getExpected_months(), history.getActive());
+        return createEmp && addUser && addHistory;
     }
 
-    private void createEmployee(Employee employee, String userid, String emp_no, String first_name, String surname, String other_name, String gender, String phone, String altPhone, String email, String altEmail, String dob, String home_address, String postal_code, String nationality, String marital_status, String disability, String disability_explain, String kra_pin, String nssfNo, String nhifNo, String certGoodConductNo, String helbClearanceNo, int helbBeneficiary, String bankName, String branch, String accountName, String accountNumber, String hireDate, String endDate, int empStatus, int active) {
+    private boolean createEmployee(Employee employee, String userid, String emp_no, String first_name, String surname, String other_name, String gender, String phone, String altPhone, String email, String altEmail, String dob, String home_address, String postal_code, String nationality, String marital_status, String disability, String disability_explain, String kra_pin, String nssf_no, String nhif_no, String cert_good_conduct_no, String helb_clearance_no, int helb_beneficiary, String bankName, String branch, String accountName, String accountNumber, String hireDate, String endDate, int empStatus, int active) {
         employee.setId(userid);
         employee.setEmp_no(emp_no);
         employee.setFirst_name(first_name);
@@ -421,23 +490,23 @@ public class EmployeeController__ extends HttpServlet {
         employee.setDate_started(hireDate);
         employee.setDate_ended(endDate);
         employee.setStatus(empStatus);
-        // ... (set other fields)
+        return employeeDAO.insertEmployee(employee);
+
     }
 
-    private String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes(), 0, password.length());
-            return new BigInteger(1, md.digest()).toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+    private String hashPassword(String pass) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(pass.getBytes());
+        byte[] bytes = md.digest();
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
         }
+        return sb.toString();
     }
 
-    private void updateEmployeeHistoryAndAddUser(EmploymentHistory history_, String emprecordid, String emp_no, String mfl, int position, String date_started, String date_ended, String financial_year, int months_worked, String current_contract, String contract_period, String contract_end_date, int expected_months, int active, Login loginDetails, String first_name, String other_name, String surname, String username, String email, String phone, String password, String mfl0, String subcounty, int status) throws SQLException {
-        updateEmployeeHistory(history_, emprecordid, emp_no, mfl, position, date_started, date_ended, financial_year, months_worked, current_contract, contract_period, contract_end_date, expected_months, active);
-        addUserAndHistory(loginDetails, history_, first_name, other_name, surname, username, email, phone, password, 2,mfl,subcounty, status);
+    private boolean addRelationship(String emp_no, String mfl) {
+        return userDAO.addFacilityRelation(emp_no, mfl);
     }
 
 }
