@@ -742,7 +742,7 @@
                                                             <input type="hidden" class="form-control  input-width-xlarge" name="emp_no" id="wemp_record" >
                                                             <div class="col-md-12">
                                                                 <select class="form-control"
-                                                                        onchange="pataStandard();" name='ddlEmployeeType'
+                                                                         name='ddlEmployeeType'
                                                                         id='wddlEmployeeType' autocomplete="off">
 
 
@@ -758,7 +758,7 @@
                                                                 Category <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" onchange='pataPositions();' name='ddlCadreCategory' id='wddlCadreCategory'>
+                                                                <select class="form-control"  name='ddlCadreCategory' id='wddlCadreCategory'>
 
                                                                 </select>
                                                             </div>
@@ -785,7 +785,7 @@
                                                             </label>
                                                             <div class="col-md-12">
                                                                 <select class="form-control"
-                                                                        onchange="patasubcounty();" name='ddlCounty'
+                                                                         name='ddlCounty'
                                                                         id='wddlCounty'>
 
 
@@ -800,7 +800,7 @@
                                                                 County<span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" onchange='patafacility();' name='ddlSubcounty' id='wddlSubcounty'>
+                                                                <select class="form-control" name='ddlSubcounty' id='wddlSubcounty'>
 
                                                                 </select>
                                                             </div>
@@ -842,7 +842,7 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label for="ddlFY">Contract Financial Year</label>
-                                                            <select name="ddlFY" id="wddlFY" class="form-control" onchange="patafydetails();" >
+                                                            <select name="ddlFY" id="wddlFY" class="form-control"  >
                                                                 <option selected>Choose...</option>
                                                             </select>
                                                             <!--<input type="hidden" class="form-control  input-width-xlarge" name="start_date" id="start_date" >-->

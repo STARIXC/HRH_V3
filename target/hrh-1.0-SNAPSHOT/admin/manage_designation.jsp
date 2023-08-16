@@ -185,7 +185,7 @@
 <script src="../assets/js/pages/positions.js"></script>
 <script type="text/javascript">
                                 $(document).ready(function () {
-
+                                    var base_url = "/hrh";
                                     $(document).on('click', '.edit-designation', function (e) {
                                         e.preventDefault();
                                         var typeId = $(this).data('id');
@@ -207,7 +207,7 @@
                                         var form = $("#scarder_cat_EForm_");
                                         var action = "process_Scarder";
                                         var data = form.serialize() + "&action=" + action;
-                                        var url = './StandardizedCarder';
+                                        var url = base_url + '/StandardizedCarder';
                                         // screenLock();
                                         $.ajax({
                                             type: "POST",
@@ -231,70 +231,80 @@
                                             }
                                         });
                                     });
+                                    function OpenBootstrapPopup(id) {
+                                        var designation_id = id;
 
+                                        $.ajax({
+                                            type: "GET",
+                                            url: base_url + '/Designation?action=edit&designation_id=' + designation_id,
+                                            contentType: "application/json; charset-utf-8",
+                                            dataType: "json",
+                                            //                            data: {
+                                            //                                'id': holiday_id
+                                            //                            },
+                                            success: function (data) {
+                                                console.log(eval(data));
+
+                                                // Pre-select the options when editing
+                                                var category_id = data.carder_category_id; // Replace with the value from your data
+                                                var standard_id = data.standardized_cadre_id; // Replace with the value from your data
+
+                                                document.getElementById('e_designation_id').value = data.id;
+                                                $('#inputcadrecat option[value="' + category_id + '"]').attr("selected", "selected");
+                                                // Wait for options to be populated before selecting the second option
+                                                setTimeout(function () {
+                                                    $('#inputStandCadre option[value="' + standard_id + '"]').attr("selected", "selected");
+
+                                                }, 500);
+                                                document.getElementById('inputPosition').value = data.position_title;
+                                                document.getElementById('inputBasic').value = data.basic_pay;
+
+                                            },
+                                            complete: function () {
+                                                $("#simpleModal").modal('show');
+                                            }
+                                        });
+
+                                    }
+                                    function SwalDelete(typeId) {
+
+                                        swal({
+                                            title: 'Are you sure?',
+                                            text: "It will be deleted permanently",
+                                            type: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6', //sweetalert confirm dialouge 
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Yes, delete it!',
+                                            showLoaderOnConfirm: true,
+
+                                            preConfirm: function () {
+                                                return new Promise(function (resolve) {    //Promise() function take care delete process done by ajax
+                                                    var action = "delete";
+                                                    var data = "deleteId=" + typeId + "&action=" + action;
+                                                    var url = url;
+                                                    $.ajax({
+                                                        url: './StandardizedCarder', //ajax codes start for delete data
+                                                        type: 'POST',
+                                                        data: data,
+                                                        dataType: 'JSON'
+                                                    })
+                                                            .done(function (response) {
+                                                                swal('Deleted!', response.message, response.status);    //after process done on delete.jsp file get JSON response display message "Fruit Delete Successfully"
+                                                                var url_ = "manage_standardised_carder.jsp";
+                                                                $(location).attr('href', url_);
+                                                                //  readFruit();
+                                                            })
+                                                            .fail(function () {
+                                                                swal('Oops...', 'Something went wrong with ajax !', 'error');    //if process fail on delete.jsp file get JSON response display message "Unable to delete fruit"
+                                                            });
+                                                });
+                                            },
+                                            allowOutsideClick: false
+                                        });
+                                    }
                                 });
-                                function OpenBootstrapPopup(id) {
-                                    var designation_id = id;
-                                    $.ajax({
-                                        type: "GET",
-                                        url: './Designation?action=edit&designation_id=' + designation_id,
-                                        contentType: "application/json; charset-utf-8",
-                                        dataType: "json",
-                                        //                            data: {
-                                        //                                'id': holiday_id
-                                        //                            },
-                                        success: function (data) {
-                                            console.log(eval(data));
-                                            document.getElementById('e_designation_id').value = data.id;
-                                            $('#inputcadrecat option[value="' + data.carder_category_id + '"]').attr("selected", "selected");
-                                            $('#inputStandCadre option[value="' + data.standardized_cadre_id + '"]').attr("selected", "selected");
-                                            document.getElementById('inputPosition').value = data.position_title;
-                                            document.getElementById('inputBasic').value = data.basic_pay;
 
-                                        },
-                                        complete: function () {
-                                            $("#simpleModal").modal('show');
-                                        }
-                                    });
-
-                                }
-                                function SwalDelete(typeId) {
-
-                                    swal({
-                                        title: 'Are you sure?',
-                                        text: "It will be deleted permanently",
-                                        type: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonColor: '#3085d6', //sweetalert confirm dialouge 
-                                        cancelButtonColor: '#d33',
-                                        confirmButtonText: 'Yes, delete it!',
-                                        showLoaderOnConfirm: true,
-
-                                        preConfirm: function () {
-                                            return new Promise(function (resolve) {    //Promise() function take care delete process done by ajax
-                                                var action = "delete";
-                                                var data = "deleteId=" + typeId + "&action=" + action;
-                                                var url = url;
-                                                $.ajax({
-                                                    url: './StandardizedCarder', //ajax codes start for delete data
-                                                    type: 'POST',
-                                                    data: data,
-                                                    dataType: 'JSON'
-                                                })
-                                                        .done(function (response) {
-                                                            swal('Deleted!', response.message, response.status);    //after process done on delete.jsp file get JSON response display message "Fruit Delete Successfully"
-                                                            var url_ = "manage_standardised_carder.jsp";
-                                                            $(location).attr('href', url_);
-                                                            //  readFruit();
-                                                        })
-                                                        .fail(function () {
-                                                            swal('Oops...', 'Something went wrong with ajax !', 'error');    //if process fail on delete.jsp file get JSON response display message "Unable to delete fruit"
-                                                        });
-                                            });
-                                        },
-                                        allowOutsideClick: false
-                                    });
-                                }
 </script>
 
 <%@include file="/_includes/include_footer.jsp"%>
