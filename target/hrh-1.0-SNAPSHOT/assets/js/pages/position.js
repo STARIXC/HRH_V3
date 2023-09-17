@@ -26,20 +26,19 @@ var app="/hrh";
                 "targets": 0,
                 "data": "id",
                 "render": function (data, type, row, meta) {
-                    return '<div class="d-flex"><a id="edit-designation" data-id="' + data + '" href="javascript:void(0)" class="edit-designation btn btn-md btn-success ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"><i class="fa fa-pen text-white"></i></a> <a id="delete-designation" data-id="' + data + '" href="javascript:void(0)" class="btn btn-md btn-danger ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a></div>';
+                    return '<div class="d-flex"><a  data-id="' + data + '" href="javascript:void(0)" class="edit-designation btn btn-md btn-success ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"><i class="fa fa-pen text-white"></i></a> <a id="" data-id="' + data + '" href="javascript:void(0)" class="btn btn-md btn-danger ms-1 delete-designation" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a></div>';
                 }
             }]
     });
 
 
-
-    // jQuery ajax form submit example, runs when form is submitted
+            // jQuery ajax form submit example, runs when form is submitted
     $("#positionForm").submit(function (e) {
         e.preventDefault(); // prevent actual form submit
-        var form = $("#timesheetForm");
-        var action = "save_log";
+        var form = $("#positionForm");
+        var action = "process_Designation";
         var data = form.serialize() + "&action=" + action;
-        var url = app+'/PositionServlet'; //get submit url [replace url here if desired]
+        var url = app+'/Designation'; //get submit url [replace url here if desired]
         // screenLock();
         $.ajax({
             type: "POST",
@@ -50,7 +49,7 @@ var app="/hrh";
                 console.log(data);
             },
             success: function (data) {
-                var url_ = "manage_timesheet.jsp";
+                var url_ = "manage_designation.jsp";
                 $(location).attr('href', url_);
             },
             error: function error(result) {
@@ -63,6 +62,10 @@ var app="/hrh";
         });
 
     });
+	
+        
+
+
 
 
 

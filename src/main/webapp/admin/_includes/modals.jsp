@@ -37,9 +37,6 @@
                                                         Basic <span>Information</span>
                                                     </h4>
                                                 </div>
-                                                <!-- Error message -->
-                                                <div id="message_modal" class="alert alert-danger d-none" role="alert"></div>
-
                                             </div>
                                             <div class="card-content">
                                                 <div class="row">
@@ -130,7 +127,8 @@
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" name='ddlEmployeeType'
+                                                                <select class="form-control"
+                                                                        name='ddlEmployeeType'
                                                                         id='ddlEmployeeType' autocomplete="off">
 
 
@@ -214,7 +212,7 @@
                                                                 Category <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" name='ddlCadreCategory' id='ddlCadreCategory'>
+                                                                <select class="form-control"  name='ddlCadreCategory' id='ddlCadreCategory'>
 
                                                                 </select>
                                                             </div>
@@ -240,7 +238,8 @@
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" name='ddlCounty'
+                                                                <select class="form-control"
+                                                                        onchange="patasubcounty();" name='ddlCounty'
                                                                         id='ddlCounty'>
 
 
@@ -255,7 +254,7 @@
                                                                 County<span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control"  name='ddlSubcounty' id='ddlSubcounty'>
+                                                                <select class="form-control" onchange='patafacility();' name='ddlSubcounty' id='ddlSubcounty'>
 
                                                                 </select>
                                                             </div>
@@ -297,7 +296,7 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label for="ddlFY">Contract Financial Year</label>
-                                                            <select name="ddlFY" id="ddlFY" class="form-control"  >
+                                                            <select name="ddlFY" id="ddlFY" class="form-control" onchange="patafydetails();" >
                                                                 <option selected>Choose...</option>
                                                             </select>
                                                             <!--<input type="hidden" class="form-control  input-width-xlarge" name="start_date" id="start_date" >-->
@@ -790,7 +789,7 @@
                                                             <input type="hidden" class="form-control  input-width-xlarge" name="emp_no" id="wemp_record" >
                                                             <div class="col-md-12">
                                                                 <select class="form-control"
-                                                                         name='ddlEmployeeType'
+                                                                        onchange="pataStandard();" name='ddlEmployeeType'
                                                                         id='wddlEmployeeType' autocomplete="off">
 
 
@@ -806,7 +805,7 @@
                                                                 Category <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control"  name='ddlCadreCategory' id='wddlCadreCategory'>
+                                                                <select class="form-control" onchange='pataPositions();' name='ddlCadreCategory' id='wddlCadreCategory'>
 
                                                                 </select>
                                                             </div>
@@ -833,7 +832,7 @@
                                                             </label>
                                                             <div class="col-md-12">
                                                                 <select class="form-control"
-                                                                         name='ddlCounty'
+                                                                        onchange="patasubcounty();" name='ddlCounty'
                                                                         id='wddlCounty'>
 
 
@@ -848,7 +847,7 @@
                                                                 County<span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control"  name='ddlSubcounty' id='wddlSubcounty'>
+                                                                <select class="form-control" onchange='patafacility();' name='ddlSubcounty' id='wddlSubcounty'>
 
                                                                 </select>
                                                             </div>
@@ -890,7 +889,7 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label for="ddlFY">Contract Financial Year</label>
-                                                            <select name="ddlFY" id="wddlFY" class="form-control"  >
+                                                            <select name="ddlFY" id="wddlFY" class="form-control" onchange="patafydetails();" >
                                                                 <option selected>Choose...</option>
                                                             </select>
                                                             <!--<input type="hidden" class="form-control  input-width-xlarge" name="start_date" id="start_date" >-->
@@ -1257,4 +1256,358 @@
 
     </div>
 </div>
+<div id="simpleModalLB" class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog" role="leave_balance">
 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update /Recreate Leave Balances</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <div class="row">
+                <div class="card__">
+                    <form   id="lbForm" class="form-horizontal" autocomplete="off">
+                        <div class="modal-body">
+
+
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-12">
+                                        <div class="form-group">
+                                            <label for="yearSelect">Select year:</label>
+                                            <div class="col">
+                                                <select id="yearSelect" name="year" class="form-control">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <div class="col">
+
+                                                <input  type="radio" id="allEmployeesRadio" name="employee" value="all" checked>
+                                                <label for="allEmployeesRadio">Update leave balance for all employees</label>
+                                            </div>
+
+                                            <div class="col">
+                                                <input  type="radio" id="selectEmployeeRadio" name="employee" value="select">
+                                                <label for="selectEmployeeRadio">Update leave balance for a specific employee:</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <select class="from-control employeeSelect" id="employeeSelect" name="employeeId" disabled>
+                                                <option value="-1" selected>Select employee</option>
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+<div id="ModalCarderType" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST"  enctype="multipart/form-data" id="carderForm_" class="form-horizontal" autocomplete="off">  
+                <div class="modal-header">
+                    <h5 class="modal-title">Carder Type Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="carder_name">Carder Name </label>
+                                    <input type="hidden" class="form-control carder_t_id input-width-xlarge" name="e_carder_id" id="e_carder_id" >
+                                    <input type="text" class="form-control carder_name input-width-xlarge" name="e_carder_name" id="e_carder_name" placeholder="Carder Name" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="hrs_per_week">Hours per Week </label>
+                                    <input type="text" class="form-control hrs_per_week input-width-xlarge" name="e_hrs_per_week" id="e_hrs_per_week" placeholder="Expected Work Hours Per Week" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                            <div class="form-actions">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-offset-4 col-md-8">
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn_style saveButton"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="modalCarderCat" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <form method="POST"  enctype="multipart/form-data" id="carder_cat_EForm_" class="form-horizontal" autocomplete="off">  
+                <div class="modal-header">
+                    <h5 class="modal-title">Carder Category Update Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="form-body">
+                        <div class="row p-2">
+
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="carder_name">Carder Name </label>
+
+                                    <input type="hidden" class="form-control carder_t_id input-width-xlarge" name="e_cadre_category_id" id="e_cadre_category_id" >
+                                    <input type="text" class="form-control carder_category_name input-width-xlarge" name="carder_category_name" id="carder_category_name" placeholder="Carder Name" autocomplete="off">
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>   
+                </div>
+            </form> 
+        </div>
+
+
+    </div>
+</div>
+<div id="sCarderModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <form method="POST"  enctype="multipart/form-data" id="scarder_cat_EForm_" class="form-horizontal" autocomplete="off">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Standardized Carder Update Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-body">
+                        <input type="hidden" class="form-control carder_t_id input-width-xlarge" name="e_standard_category_id" id="e_standard_category_id" >
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="emp_type">Employee Type Cadre</label>
+                                <select id="emp_type" name="emp_type" class="form-control" >
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputcadrecat">Cadre Category</label>
+                                <select name="carder_category_id" id="carder_category_id" class="form-control" >
+                                    <option selected>Choose...</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputPosition">standardized Carder Name</label> <input
+                                    type="text" class="form-control" id="standardized_cadre_name" name="standardized_cadre_name"
+                                    placeholder="Standardized Carder Name">
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="positionModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Designation/Position Update Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <form method="POST"  enctype="multipart/form-data" id="positionForm" class="form-horizontal" autocomplete="off">
+                <div class="modal-body">
+
+                    <div class="form-body">
+                        <input type="hidden" class="form-control e_designation_id input-width-xlarge" name="e_designation_id" id="e_designation_id" >
+                        <div class="form-group">
+                            <label for="inputcadrecat">Cadre Category</label>
+                            <select name="carder_category_id" id="inputcadrecat" class="form-control" >
+                                <option selected>Choose...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputStandCadre">Standardized Cadre</label> <select
+                                id="inputStandCadre" name="standardized_cadre_id" class="form-control" >
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPosition">Position</label> <input
+                                type="text" class="form-control" id="inputPosition" name="position_title"
+                                placeholder="Designation">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputBasic">Basic Pay</label> <input
+                                type="text" class="form-control" id="inputBasic" name="basic_pay"
+                                placeholder="Designation">
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="modalRole" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            
+              <div class="modal-header">
+                <h5 class="modal-title">Role Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <div class="modal-body">
+                 <form method="POST"  accept-charset="UTF-8" enctype="multipart/form-data" class="form-horizontal">
+                <input name="_id" id="role_id" type="hidden">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4 offset-md-2"></div>
+                        <div class="col-md-8 ">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Role Name<span class="validateRq">*</span></label>
+                                <div class="col-md-8">
+                                    <input class="form-control required role_name" id="role_name" placeholder="Role Name" name="role_name" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-offset-4 col-md-8">
+                                    <button type="submit" class="btn btn-info btn_style saveButton"><i class="fa fa-check"></i>Save</button>
+                                    <!--<button type="hidden" class="btn btn-info btn_style"><i class="fa fa-check"></i>Save</button>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+           
+        </div>
+
+
+    </div>
+</div>

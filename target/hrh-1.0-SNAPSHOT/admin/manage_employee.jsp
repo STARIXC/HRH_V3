@@ -254,52 +254,48 @@
                     $('#txtEmail').val(data.email);
                     $('#txtNationalID').val(data.national_id);
                     $('#txtEmployeeNumber').val(data.emp_no);
-                    $('#ddlEmployeeType option[value="' + data.typeId + '"]').attr("selected", "selected");
-                    // Trigger the onchange event for #ddlCadreCategory
-                    $('#ddlEmployeeType').trigger('change');
+
                     $('#eStatus option[value="' + data.status + '"]').attr("selected", "selected");
                     $('#hiredate').val(data.date_started);
                     $('#endDate').val(data.date_ended);
 
-                    $('#ddlCounty').change(function () {
-                        patasubcounty();
-
-                    });
-                    $('#ddlSubcounty').change(function () {
-                        patafacility();
-
-                    });
-                    $('#ddlFY').change(function () {
-                        patafydetails();
-
-                    });
-                    $('#ddlEmployeeType').change(function () {
-                        pataStandard();
-
-                    });
-                    $('#ddlCadreCategory').change(function () {
-                        pataPositions();
-
-                    });
-                    // Populate the #ddlCadreCategory select element
-                    $('#ddlCadreCategory option[value="' + data.standardId + '"]').attr("selected", "selected");
+                    $('#ddlEmployeeType').val(data.typeId);
                     // Trigger the onchange event for #ddlCadreCategory
-                    $('#ddlCadreCategory').trigger('change');
+                    $('#ddlEmployeeType').trigger('change');
 
-                    $('#ddlPos option[value="' + data.positionId + '"]').attr("selected", "selected");
+                    // Delay setting the value of 'inputStandCadre' to allow dependent options to load
+                    setTimeout(function () {
+                        $('#ddlCadreCategory').val(data.standardId).trigger('change'); // Trigger the change event for selected value
+                    }, 500);
+
+                    // Populate the #ddlCadreCategory select element
+//                    $('#ddlCadreCategory').val(data.standardId);
+                    // Trigger the onchange event for #ddlCadreCategory
+//                    $('#ddlCadreCategory').trigger('change');
+                    // Delay setting the value of 'inputStandCadre' to allow dependent options to load
+                    setTimeout(function () {
+                        $('#ddlPos').val(data.positionId).trigger('change'); // Trigger the change event for selected value
+                    }, 500); // Adjust the delay time (in milliseconds) if needed
+
 
                     // Populate the #ddlCounty select element
                     $('#ddlCounty option[value="' + data.county + '"]').attr("selected", "selected");
 
-                    // Trigger the onchange event for #ddlCounty
+
                     $('#ddlCounty').trigger('change');
+
                     // Populate the #ddlSubcounty select element
-                    $('#ddlSubcounty option[value="' + data.subcounty + '"]').attr("selected", "selected");
-                    // Trigger the onchange event for #ddlSubcounty
-                    $('#ddlSubcounty').trigger('change');
+                    // Trigger the onchange event for #ddlCounty
+                    setTimeout(function () {
+                        $('#ddlSubcounty').val(data.subcounty).trigger('change'); // Trigger the change event for selected value
+                    }, 500); // Adjust the delay time (in milliseconds) if needed
                     // Wait for subcounty select to populate facility options before setting selected facility
-                                  // Populate the #ddlSubcounty select element
-                    $('#ddlFacility option[value="' + data.mflcode + '"]').attr("selected", "selected");
+                    // Populate the #ddlSubcounty select element
+                    // Trigger the onchange event for #ddlCounty
+                    setTimeout(function () {
+                        $('#ddlFacility').val(data.mflcode).trigger('change'); // Trigger the change event for selected value
+                    }, 500); // Adjust the delay time (in milliseconds) if needed
+//                    $('#ddlFacility option[value="' + data.mflcode + '"]').attr("selected", "selected");
 //                    $('#ddlSupervisor option[value="' + data.emp_type + '"]').attr("selected", "selected");
                     $('#ddlFY option[value="' + data.emp_type + '"]').attr("selected", "selected");
                     // Trigger the onchange event for #ddlCadreCategory
@@ -361,6 +357,8 @@
             });
 
         }
+
+     
         function SwalDelete(typeId) {
 
             swal({

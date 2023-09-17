@@ -115,8 +115,8 @@ public class EmployeeController__ extends HttpServlet {
         if (action != null && action.equals("getEmployee")) {
 
             empno = request.getParameter("emp_no");
-            emp__no = IG.Decode(empno);
-            emp_no = emp__no;
+//            emp__no = IG.Decode(empno);
+//            emp_no = emp__no;
             defaultValues.setEmp_no(empno);
             defaultValues.setFacility("N/A");
             defaultValues.setPosition("N/A");

@@ -24,6 +24,14 @@
         <servlet-name>GetHours</servlet-name>
         <servlet-class>org.usaidtujengejamii.hrh.controller.GetHours</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MenusController</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.MenusController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MenuModulesController</servlet-name>
+        <servlet-class>org.usaidtujengejamii.hrh.controller.MenuModulesController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StatServlet</servlet-name>
         <url-pattern>/StatServlet</url-pattern>
@@ -362,6 +370,14 @@
     <servlet-mapping>
         <servlet-name>GetHours</servlet-name>
         <url-pattern>/getHours</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MenusController</servlet-name>
+        <url-pattern>/MenusController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MenuModulesController</servlet-name>
+        <url-pattern>/menuModulesController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

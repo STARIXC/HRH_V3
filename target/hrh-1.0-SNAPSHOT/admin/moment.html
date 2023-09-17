@@ -1,35 +1,672 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>How to get all dates between two dates using moment js</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-</head>
-<body>
-    <h1>How to get all dates between two dates using moment js</h1>
-    <div id="displayDates"></div>
-</body>
-<script type="text/javascript">
-    
-    function getTwoDatesBetweenDates (start, end) {
-        var now = start.clone();
-        var getDates = [];
-  
-        while (now.isSameOrBefore(end)) {
-            getDates.push(now.format('MM/DD/YYYY') + "<br>");
-            now.add(1, 'days');
+<html lang="en">
+    <!--@php
+        $front_setting = getFrontData();
+    @endphp-->
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--<meta name="csrf-token" content="{{ csrf_token() }}">-->
+        <link rel="shortcut icon" href="../assets/admin_assets/img/logo.png" type="image/x-icon" />
+
+        <title>New View</title>
+        <!-- Bootstrap Core CSS -->
+        <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"> -->
+        <!-- Menu CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="../assets/admin_assets/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+        <!-- toast CSS -->
+        <link href="../assets/admin_assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+        <!-- morris CSS -->
+        <link href="../assets/admin_assets/plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
+        <!-- animation CSS -->
+        <link href="../assets/admin_assets/css/animate.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="../assets/admin_assets/css/style.css" rel="stylesheet">
+        <!-- color CSS -->
+        <link href="../assets/admin_assets/css/colors/megna.css" id="theme" rel="stylesheet">
+        <!-- data table CSS -->
+        <link href="../assets/admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+        <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet"
+              type="text/css" />
+        <!-- Date Picker -->
+        <link rel="stylesheet" href="../assets/admin_assets/plugins/bower_components/datepicker/datepicker3.css">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="../assets/admin_assets/plugins/bower_components/daterangepicker/daterangepicker-bs3.css">
+        <!-- time picker-->
+        <link rel="stylesheet" href="../assets/admin_assets/plugins/bower_components/timepicker/bootstrap-timepicker.min.css">
+        <!-- sweetalert-->
+        <link rel="stylesheet" href="../assets/admin_assets/plugins/bower_components/sweetalert/sweetalert.css">
+        <!-- select 2 -->
+        <link rel="stylesheet" href="../assets/admin_assets/plugins/bower_components/select2/select2.min.css">
+        <!-- toast CSS -->
+        <link href="../assets/admin_assets/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+        <!-- Star Ratings -->
+        <link href="../assets/admin_assets/plugins/bower_components/rateyo/jquery.rateyo.min.css" rel="stylesheet">
+
+
+        <script src="../assets/admin_assets/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <script type="text/javascript">
+            var base_url = "/hrh";
+        </script>
+        <style>
+            /*for yellow bg*/
+            #side-menu li a {
+                color: #41b3f9 !important;
+                border-left: 0px solid #2f323e;
+                display: flex;
+                align-items: center;
+                justify-items: center;
+
+            }
+
+            .top-left-part .dark-logo {
+                display: block;
+
+            }
+
+            .tiMenu {
+                color: #3e5de8;
+            }
+
+            .sidebar {
+                background-color: #fff;
+                border-right: 1px solid #eee;
+                box-shadow: 0 0 10px #ececec;
+                /*box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);*/
+            }
+
+            .hideMenu {
+                color: #0d6efd;
+                margin-right: 8px;
+            }
+
+            #side-menu ul>li>a.active {
+                color: #053382;
+                font-weight: 400;
+            }
+
+            #side-menu ul>li>a:hover {
+                color: #053382;
+            }
+
+            /*for yellow bg*/
+
+            .bg-title .breadcrumb {
+                background: 0 0;
+                margin-bottom: 0;
+                float: none;
+                padding: 0;
+                margin-bottom: 9px;
+                font-weight: 700;
+                color: #777;
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                height: auto;
+                margin-top: -6px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .select2-container .select2-selection--single {
+                box-sizing: border-box;
+                cursor: pointer;
+                display: block;
+                height: 35px;
+            }
+
+            .select2-container--default .select2-selection--single,
+            .select2-selection .select2-selection--single {
+                border: 1px solid #d2d6de;
+                border-radius: 0;
+                padding: 8px 11px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 4px;
+                right: 1px;
+                width: 20px;
+            }
+
+            .breadcrumbColor a {
+                color: #41b3f9 !important;
+            }
+
+            tr td {
+                color: black !important;
+            }
+
+            .tr_header {
+                background-color: #EDF1F5;
+            }
+
+            table.dataTable thead th,
+            table.dataTable thead td {
+                padding: 10px 18px;
+                border-bottom: 1px solid #e4e7ea;
+            }
+
+            .btnColor {
+                color: #fff !important;
+            }
+
+            .validateRq {
+                color: red;
+            }
+
+            .panel .panel-heading {
+                border-radius: 0;
+                font-weight: 500;
+                font-size: 16px;
+                padding: 10px 25px;
+            }
+
+            .btn_style {
+                min-width: 106px;
+            }
+
+            .error {
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body class="fix-header" onload="addMenuClass()">
+        <!-- ============================================================== -->
+        <!-- Preloader -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                    stroke-miterlimit="10" />
+            </svg>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Wrapper -->
+        <!-- ============================================================== -->
+        <div id="wrapper">
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- Left Sidebar - style you can find in sidebar.scss  -->
+            <!-- ============================================================== -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav slimscrollsidebar">
+                    <div class="user-profile">
+                        <div class="dropdown user-pro-body">
+                            <div>
+                                <img src="../assets/admin_assets/img/default.png" alt="user-img" class="img-circle">
+                            </div>
+
+                            <a href="#" class="dropdown-toggle u-dropdown " data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false"><span
+                                    class="hideMenu">User Name</span> </a>
+
+                        </div>
+                    </div>
+                    <ul class="nav" id="side-menu">
+                        <li><a href="/dashboard" class="waves-effect"><i class="mdi mdi-home hideMenu" data-icon="v"></i> <span class="hide-menu hideMenu"> Dashboard
+                                </span></a>
+                        </li>
+                        <li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-contacts hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Administration<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Manage Role</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/userRole"> <i class="fa fa-circle-o"></i> &nbsp;Add Role</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/rolePermission"> <i class="fa fa-circle-o"></i> &nbsp;Add Role Permission</a>
+
+                                        </li></ul></li><li>
+                                    <a href="/changePassword">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Change Passowrd</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-account-multiple-plus hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Employee Management<span class="fa arrow"></span></span>
+                            </a>
+                            <ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="/department">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Department</span></a></li><li>
+                                    <a href="/designation">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Designation</span></a></li><li>
+                                    <a href="/branch">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Branch</span></a></li><li>
+                                    <a href="/employee">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Manage Employee</span></a></li><li>
+                                    <a href="/warning">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Warning</span></a></li><li>
+                                    <a href="/termination">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Termination</span></a></li><li>
+                                    <a href="/promotion">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Promotion</span></a></li><li>
+                                    <a href="/permanent">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Employee Permanent</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-format-line-weight hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Leave Management<span class="fa arrow"></span></span>
+                            </a>
+                            <ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Setup</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/manageHoliday"> <i class="fa fa-circle-o"></i> &nbsp;Manage Holiday</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/publicHoliday"> <i class="fa fa-circle-o"></i> &nbsp;Public Holiday</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/weeklyHoliday"> <i class="fa fa-circle-o"></i> &nbsp;Weekly Holiday</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/leaveType"> <i class="fa fa-circle-o"></i> &nbsp;Leave Type</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/earnLeaveConfigure"> <i class="fa fa-circle-o"></i> &nbsp;Earn Leave Configure</a>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Leave Applicatiton</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/applyForLeave"> <i class="fa fa-circle-o"></i> &nbsp;Apply for Leave</a>
+
+                                        </li>
+                                        <li class="">
+                                            <a class="hideMenu" href="/requestedApplication"> <i class="fa fa-circle-o"></i> &nbsp;Requested Application</a>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Report</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/leaveReport"> <i class="fa fa-circle-o"></i> &nbsp;Leave Report</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/summaryReport"> <i class="fa fa-circle-o"></i> &nbsp;Summary Report</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/myLeaveReport"> <i class="fa fa-circle-o"></i> &nbsp;My Leave Report</a>
+
+                                        </li></ul></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-clock-fast hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Attendance<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Setup</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/workShift"> <i class="fa fa-circle-o"></i> &nbsp;Manage Work Shift</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/setup-employee-attendance"> <i class="fa fa-circle-o"></i> &nbsp;Dashboard Attendance</a>
+
+                                        </li></ul></li><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Report</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/dailyAttendance"> <i class="fa fa-circle-o"></i> &nbsp;Daily Attendance</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/monthlyAttendance"> <i class="fa fa-circle-o"></i> &nbsp;Monthly Attendance</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/myAttendanceReport"> <i class="fa fa-circle-o"></i> &nbsp;My Attendance Report</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/attendanceSummaryReport"> <i class="fa fa-circle-o"></i> &nbsp;Summary Report</a>
+
+                                        </li></ul></li><li>
+                                    <a href="/manualAttendance">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Manual Attendance</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-cash hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Payroll<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Setup</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/taxSetup"> <i class="fa fa-circle-o"></i> &nbsp;Tax Rule Setup</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/salaryDeductionRuleForLateAttendance"> <i class="fa fa-circle-o"></i> &nbsp;Late Configration</a>
+
+                                        </li></ul></li><li>
+                                    <a href="/allowance">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Allowance</span></a></li><li>
+                                    <a href="/deduction">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Deduction</span></a></li><li>
+                                    <a href="/payGrade">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Monthly Pay Grade</span></a></li><li>
+                                    <a href="/hourlyWages">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Hourly Pay Grade</span></a></li><li>
+                                    <a href="/generateSalarySheet">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Generate Salary Sheet</span></a></li><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Report</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/paymentHistory"> <i class="fa fa-circle-o"></i> &nbsp;Payment History</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/myPayroll"> <i class="fa fa-circle-o"></i> &nbsp;My Payroll</a>
+
+                                        </li></ul></li><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Manage Work Hour</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/workHourApproval"> <i class="fa fa-circle-o"></i> &nbsp;Approve Work Hour</a>
+
+                                        </li></ul></li><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Manage Bonus</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/bonusSetting"> <i class="fa fa-circle-o"></i> &nbsp;Bonus Setting</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/generateBonus"> <i class="fa fa-circle-o"></i> &nbsp;Generate Bonus</a>
+
+                                        </li></ul></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-calculator hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Performance<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="/performanceCategory">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Performance Category</span></a></li><li>
+                                    <a href="/performanceCriteria">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Performance Criteria</span></a></li><li>
+                                    <a href="/empPerformance">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Employee Performance</span></a></li><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Report</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/performanceSummaryReport"> <i class="fa fa-circle-o"></i> &nbsp;Summary Report</a>
+
+                                        </li></ul></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-newspaper hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Recruitement<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="/jobPost">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Job Post</span></a></li><li>
+                                    <a href="/jobCandidate">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Job Candidate</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module active">
+                                <i class="iconFontSize mdi mdi-web hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Training<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse in"><li>
+                                    <a href="/trainingType">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Training Type</span></a></li><li>
+                                    <a href="/trainingInfo">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Training List</span></a></li><li>
+                                    <a href="/trainingReport" class="active">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Training Report</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-trophy-variant hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Award<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="/award">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Award</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-flag hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Notice Board<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="/notice">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Notice</span></a></li></ul></li><li class="treeview waves-effect">
+                            <a href="javascript:void(0)" class="module">
+                                <i class="iconFontSize mdi mdi-settings hideMenu"></i> <span class="hide-menu hideMenu">&nbsp;Settings<span class="fa arrow"></span></span>
+                            </a><ul class="treeview-menu nav nav-second-level collapse"><li>
+                                    <a href="/generalSettings">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Settings</span></a></li><li>
+                                    <a href="javascript:void(0)">
+                                        <i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+                                        <span class="hideMenu">Front Setting</span><i class="fa arrow"></i></a><ul class="treeview-menu nav nav-third-level collapse"><li class="">
+                                            <a class="hideMenu" href="/setting-front-page"> <i class="fa fa-circle-o"></i> &nbsp;General Setting</a>
+
+                                        </li><li class="">
+                                            <a class="hideMenu" href="/service"> <i class="fa fa-circle-o"></i> &nbsp;Front  Services</a>
+
+                                        </li></ul></li></ul></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div id="page-wrapper">
+                <!-- Topbar header - style you can find in pages.scss -->
+                <!-- ============================================================== -->
+                <nav class="navbar navbar-default navbar-static-top navbar-light m-b-0">
+                    <div class="navbar-header d-flex">
+                        <!-- Search input and Toggle icon -->
+                        <ul class="nav navbar-top-links">
+                            <li>
+                                <a href="javascript:void(0)" class="open-close waves-effect waves-light">
+                                    <i class="ti-menu tiMenu"></i>
+                                </a>
+                            </li>
+
+                        </ul>
+                        <ul class="nav navbar-top-links">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#">
+                                    <img src="../assets/admin_assets/img/default.png" alt="user-img" width="36" class="img-circle">
+                                    <b class="hidden-xs" >
+                                        <span class="hideMenu">Name</span>
+                                    </b>
+                                    <span class="caret hideMenu"></span> 
+                                </a>
+                                <ul class="dropdown-menu dropdown-user animated flipInY">
+                                    <li><a href="profile.jsp"><i class="ti-user"></i> Profile</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="changePassword.jsp"><i class="ti-settings"></i>
+                                            Change Password</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="/logout"><i class="fa fa-power-off"></i>
+                                            Logout</a></li>
+                                </ul>
+
+                            </li>
+                            <!-- /.dropdown -->
+                        </ul>
+                    </div>
+                    <!-- /.navbar-header -->
+                    <!-- /.navbar-top-links -->
+                    <!-- /.navbar-static-side -->
+                </nav>
+                <!-- End Top Navigation -->
+                <!--@yield('content')-->
+            </div>
+            <!-- /.container-fluid -->
+            <footer class="footer text-center">
+                <!--            {{ date('Y') }} &copy; <strong><a href="https://codecanyon.net/user/bd-webtricks"
+                                    target="_blank">BD-Webtricks</a>-->
+                </strong> All rights reserved.
+            </footer>
+        </div>
+
+    </div>
+    <!-- Bootstrap Core JavaScript -->
+
+    <script src="../assets/admin_assets/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="../assets/admin_assets/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="../assets/admin_assets/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="../assets/admin_assets/js/waves.js"></script>
+    <!--Counter js -->
+    <script src="../assets/admin_assets/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="../assets/admin_assets/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+    <!-- Sparkline chart JavaScript -->
+    <script src="../assets/admin_assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="../assets/admin_assets/js/custom.min.js"></script>
+    <script src="../assets/admin_assets/js/dashboard1.js"></script>
+    <script src="../assets/admin_assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+    <script src="../assets/admin_assets/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <script src="../assets/admin_assets/plugins/bower_components/sweetalert/sweetalert-dev.js"></script>
+    <!-- bootstrap-datepicker -->
+    <script src="../assets/admin_assets/plugins/bower_components/datepicker/bootstrap-datepicker.js"></script>
+    <!--TIme picker js-->
+    <script src="../assets/admin_assets/plugins/bower_components/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- select2 -->
+    <script src="../assets/admin_assets/plugins/bower_components/select2/select2.full.min.js"></script>
+
+    <script src="../assets/admin_assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+    <script src="../assets/admin_assets/js/toastr.js"></script>
+
+    <!-- jquery-validator -->
+    <script type="text/javascript" src="../assets/admin_assets/plugins/bower_components/jquery-validator/jquery-validator.1.15.0.js"></script>
+    <script type="text/javascript" src="../assets/admin_assets/plugins/bower_components/jquery-validator/jquery-additional-method.1.15.0.min.js"></script>
+    <!-- Star Ratings -->
+    <script src="../assets/admin_assets/plugins/bower_components/rateyo/jquery.rateyo.js"></script>
+
+
+
+    <script>
+        $(function () {
+            $(".select2").select2();
+            $('#myTable').DataTable({
+                "ordering": false,
+            });
+
+        });
+
+        function addMenuClass() {
+            var segment3 = '{{ Request::segment(1) }}';
+            var url = base_url + segment3;
+            // var navItem = $(this).find("[href='" + url + "']");
+
+            $('a[href="' + url + '"]').parents('.treeview-menu').addClass('collapse in');
+            $('a[href="' + url + '"]').parents('.treeview-menu').parent().children('.module').addClass('active');
         }
-        return getDates;
-    };
-  
-    var start = moment('2022-02-13');
-    var end = moment('2022-02-26');
-  
-    var dateList = getTwoDatesBetweenDates(start, end);
-    $('#displayDates').html(dateList);
-         
-</script>
+
+        $(".alert-success").delay(2000).fadeOut("slow");
+        //   $(".alert-danger").delay(2000).fadeOut("slow");
+        $(document).on("focus", ".yearPicker", function () {
+            $(this).datepicker({
+                format: 'yyyy',
+                minViewMode: 2
+            }).on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            });
+        });
+        $(document).on("focus", ".dateField", function () {
+            $(this).datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                clearBtn: true
+            }).on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            });
+        });
+        $(document).on("focus", ".timePicker", function () {
+            $(this).timepicker({
+                showInputs: false,
+                minuteStep: 1
+            });
+        });
+        $(".monthField").datepicker({
+            format: "yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months"
+        }).on('changeDate', function (e) {
+            $(this).datepicker('hide');
+        });
+
+        $(document).on('click', '.delete', function () {
+            var actionTo = $(this).attr('href');
+            var token = $(this).attr('data-token');
+            var id = $(this).attr('data-id');
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                url: actionTo,
+                                type: 'post',
+                                data: {
+                                    _method: 'delete',
+                                    _token: token
+                                },
+                                success: function (data) {
+                                    if (data == 'hasForeignKey') {
+                                        swal({
+                                            title: "Oops!",
+                                            text: "This data is used anywhere",
+                                            type: "error"
+                                        });
+                                    } else if (data == 'success') {
+                                        swal({
+                                            title: "Deleted!",
+                                            text: "Your information delete successfully.",
+                                            type: "success"
+                                        },
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        $('.' + id).fadeOut();
+                                                    }
+                                                });
+                                    } else {
+                                        swal({
+                                            title: "Error!",
+                                            text: "application is demo mode or something went wrong!.",
+                                            type: "error"
+                                        });
+                                    }
+                                }
+
+                            });
+                        } else {
+                            swal("Cancelled", "Your data is safe .", "error");
+                        }
+                    });
+            return false;
+        });
+    </script>
+
+
+
+</body>
+
 </html>

@@ -146,13 +146,11 @@ function pataStandard() {
         dataType: "json",
         success: function (data) {
             $('#ddlCadreCategory').empty();
-            $('#wddlCadreCategory').empty();
-            $('#wddlCadreCategory').append('<option>---Select Standard Cadre---</option>');
             $('#ddlCadreCategory').append('<option>---Select Standard Cadre---</option>');
             $.each(data, function (key, value)
             {
                 $('#ddlCadreCategory').append('<option value="' + value.id + '">' + value.standardized_cadre_name + '</option>');
-                $('#wddlCadreCategory').append('<option value="' + value.id + '">' + value.standardized_cadre_name + '</option>');
+
             });
 
         }
@@ -173,11 +171,11 @@ function pataPositions() {
             $('#ddlPos').empty();
             $('#wddlPos').empty();
             $('#ddlPos').append('<option value="">--- Select One---</option>');
-            $('#wddlPos').append('<option value="">--- Select One---</option>');
+//            $('#wddlPos').append('<option value="">--- Select One---</option>');
             $.each(data, function (key, value)
             {
                 $('#ddlPos').append('<option value="' + value.id + '">' + value.position_title + '</option>');
-                $('#wddlPos').append('<option value="' + value.id + '">' + value.position_title + '</option>');
+//                $('#wddlPos').append('<option value="' + value.id + '">' + value.position_title + '</option>');
             });
 
         },

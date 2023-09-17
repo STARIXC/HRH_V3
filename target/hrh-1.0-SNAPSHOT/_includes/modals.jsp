@@ -127,7 +127,11 @@
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control"  name='ddlEmployeeType' id='ddlEmployeeType' autocomplete="off">
+                                                                <select class="form-control"
+                                                                        name='ddlEmployeeType'
+                                                                        id='ddlEmployeeType' autocomplete="off">
+
+
                                                                 </select>
 
                                                             </div>
@@ -209,7 +213,7 @@
                                                             </label>
                                                             <div class="col-md-12">
                                                                 <select class="form-control"  name='ddlCadreCategory' id='ddlCadreCategory'>
-                                                                    <option selected>Choose...</option>
+
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -221,7 +225,7 @@
                                                             <div class="col-md-12">
                                                                 <select class="form-control" name='ddlPos'
                                                                         id='ddlPos'>
-                                                                    <option selected>Choose...</option>
+
                                                                 </select>
                                                                 <span id="Pos"></span>
 
@@ -234,7 +238,8 @@
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" name='ddlCounty'
+                                                                <select class="form-control"
+                                                                         name='ddlCounty'
                                                                         id='ddlCounty'>
 
 
@@ -250,7 +255,7 @@
                                                             </label>
                                                             <div class="col-md-12">
                                                                 <select class="form-control"  name='ddlSubcounty' id='ddlSubcounty'>
-                                                                    <option selected>--Select County First--</option>
+
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -263,7 +268,7 @@
                                                             <div class="col-md-12">
                                                                 <select class="form-control"  name='ddlFacility'
                                                                         id='ddlFacility'>
-                                                                    <option selected>--Select County First--</option>
+
                                                                 </select>
                                                                 <span id="facil"></span>
 
@@ -271,6 +276,23 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label"> Reporting To <span class="required">*</span>
+                                                            </label>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" name='ddlSupervisor'
+                                                                        id='ddlSupervisor'>
+
+                                                                </select>
+                                                                <span id="superviros"></span>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label for="ddlFY">Contract Financial Year</label>
@@ -285,6 +307,31 @@
 
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group ">
+                                                            <label for="contractStartDate">Contract Start Date </label>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control datepicker input-width-xlarge" name="contractStartDate" id="contractStartDate" placeholder="Hire date" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group ">
+                                                            <label for="endDate">Contract End Date </label>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control datepicker input-width-xlarge" name="contractEndDate" id="contractEndDate" placeholder="Hire date" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!--                                                    //    var start_date = $('#ddlFY').data("start_date");
+                                                                                                        //    var contract_period = $('#ddlFY').data("period");
+                                                                                                        //    var end_date = $('#ddlFY').data("end_date");
+                                                                                                        //    var contract_no_months = $('#ddlFY').data("expected_months");
+                                                                                                        //    var year = $('#ddlFY').data("year");-->
+
+
                                                 </div>
                                             </div>
 
@@ -742,7 +789,7 @@
                                                             <input type="hidden" class="form-control  input-width-xlarge" name="emp_no" id="wemp_record" >
                                                             <div class="col-md-12">
                                                                 <select class="form-control"
-                                                                         name='ddlEmployeeType'
+                                                                     name='ddlEmployeeType'
                                                                         id='wddlEmployeeType' autocomplete="off">
 
 
@@ -785,7 +832,7 @@
                                                             </label>
                                                             <div class="col-md-12">
                                                                 <select class="form-control"
-                                                                         name='ddlCounty'
+                                                                        name='ddlCounty'
                                                                         id='wddlCounty'>
 
 
@@ -800,7 +847,7 @@
                                                                 County<span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" name='ddlSubcounty' id='wddlSubcounty'>
+                                                                <select class="form-control"  name='ddlSubcounty' id='wddlSubcounty'>
 
                                                                 </select>
                                                             </div>
@@ -1294,3 +1341,341 @@
 
     </div>
 </div>
+<div id="ModalCarderType" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST"  enctype="multipart/form-data" id="carderForm_" class="form-horizontal" autocomplete="off">  
+                <div class="modal-header">
+                    <h5 class="modal-title">Carder Type Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="carder_name">Carder Name </label>
+                                    <input type="hidden" class="form-control carder_t_id input-width-xlarge" name="e_carder_id" id="e_carder_id" >
+                                    <input type="text" class="form-control carder_name input-width-xlarge" name="e_carder_name" id="e_carder_name" placeholder="Carder Name" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="hrs_per_week">Hours per Week </label>
+                                    <input type="text" class="form-control hrs_per_week input-width-xlarge" name="e_hrs_per_week" id="e_hrs_per_week" placeholder="Expected Work Hours Per Week" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                            <div class="form-actions">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-offset-4 col-md-8">
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn_style saveButton"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="modalCarderCat" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <form method="POST"  enctype="multipart/form-data" id="carder_cat_EForm_" class="form-horizontal" autocomplete="off">  
+                <div class="modal-header">
+                    <h5 class="modal-title">Carder Category Update Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="form-body">
+                        <div class="row p-2">
+
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="carder_name">Carder Name </label>
+
+                                    <input type="hidden" class="form-control carder_t_id input-width-xlarge" name="e_cadre_category_id" id="e_cadre_category_id" >
+                                    <input type="text" class="form-control carder_category_name input-width-xlarge" name="carder_category_name" id="carder_category_name" placeholder="Carder Name" autocomplete="off">
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>   
+                </div>
+            </form> 
+        </div>
+
+
+    </div>
+</div>
+<div id="sCarderModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <form method="POST"  enctype="multipart/form-data" id="scarder_cat_EForm_" class="form-horizontal" autocomplete="off">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Standardized Carder Update Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-body">
+                        <input type="hidden" class="form-control carder_t_id input-width-xlarge" name="e_standard_category_id" id="e_standard_category_id" >
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="emp_type">Employee Type Cadre</label>
+                                <select id="emp_type" name="emp_type" class="form-control" >
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputcadrecat">Cadre Category</label>
+                                <select name="carder_category_id" id="carder_category_id" class="form-control" >
+                                    <option selected>Choose...</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputPosition">standardized Carder Name</label> <input
+                                    type="text" class="form-control" id="standardized_cadre_name" name="standardized_cadre_name"
+                                    placeholder="Standardized Carder Name">
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="positionModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Designation/Position Update Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <form method="POST"  enctype="multipart/form-data" id="positionForm" class="form-horizontal" autocomplete="off">
+                <div class="modal-body">
+
+                    <div class="form-body">
+                        <input type="hidden" class="form-control e_designation_id input-width-xlarge" name="e_designation_id" id="e_designation_id" >
+                        <div class="form-group">
+                            <label for="inputcadrecat">Cadre Category</label>
+                            <select name="carder_category_id" id="inputcadrecat" class="form-control" >
+                                <option selected>Choose...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputStandCadre">Standardized Cadre</label> <select
+                                id="inputStandCadre" name="standardized_cadre_id" class="form-control" >
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPosition">Position</label> <input
+                                type="text" class="form-control" id="inputPosition" name="position_title"
+                                placeholder="Designation">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputBasic">Basic Pay</label> <input
+                                type="text" class="form-control" id="inputBasic" name="basic_pay"
+                                placeholder="Designation">
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn_style"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="modalRole" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            
+              <div class="modal-header">
+                <h5 class="modal-title">Role Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <div class="modal-body">
+                 <form method="POST"  accept-charset="UTF-8" enctype="multipart/form-data" class="form-horizontal">
+                <input name="_id" id="role_id" type="hidden">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4 offset-md-2"></div>
+                        <div class="col-md-8 ">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Role Name<span class="validateRq">*</span></label>
+                                <div class="col-md-8">
+                                    <input class="form-control required role_name" id="role_name" placeholder="Role Name" name="role_name" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-offset-4 col-md-8">
+                                    <button type="submit" class="btn btn-info btn_style saveButton"><i class="fa fa-check"></i>Save</button>
+                                    <!--<button type="hidden" class="btn btn-info btn_style"><i class="fa fa-check"></i>Save</button>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+           
+        </div>
+
+
+    </div>
+</div>
+
+                <div id="docModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal-title">Create New  Document Type</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="body">
+                                <form method="POST" id="DocumentForm" accept-charset="UTF-8">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <input type="hidden" class="form-control doc_id input-width-xlarge" name="doc_id" id="doc_id" >
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="name" class="form-label">Name</label>
+                                                    <div class="form-icon-user">
+                                                        <input class="form-control" placeholder="Enter Document Name" name="name" type="text" id="name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-md-12 control-label"> Description
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <textarea value="" maxlength="200" id="description_" class="form-control input-width-xlarge" name="description_" rows="5" cols="10"></textarea>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="is_required" class="form-label">Required Field</label>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <select class="form-control"  name='is_required'
+                                                                    id='is_required'>
+                                                                <option value="">- Select -</option>
+                                                                <option value="1">Required</option>
+                                                                <option value="0">Not Required</option>
+
+                                                            </select>
+                                                            <span id="is_required_"></span>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary"  id="saveButton">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            

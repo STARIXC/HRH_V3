@@ -31,7 +31,7 @@
        <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-item  ">
-                    <a href="index.jsp" class='sidebar-link'> <i class="fa fa-home breadcrumbColor"></i>
+                    <a href="index.jsp" class='sidebar-link'> <i class="fa fa-home "></i>
                         <span>Dashboard</span>
                     </a></li>
 

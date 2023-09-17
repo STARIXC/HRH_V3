@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package org.usaidtujengejamii.hrh.controller;
 
 import utils.JSONConverter;
@@ -10,6 +6,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -30,112 +27,112 @@ public class Designation extends HttpServlet {
     Gson gson = new Gson();
     public JSONConverter json;
     public PositionDAO dao;
+    Position pos = new Position();
     PrintWriter out;
     int status = 0;
- 
-    public Designation(){
-    dao = new PositionDAO();
+    JSONObject obj = new JSONObject();
+
+    public Designation() {
+        dao = new PositionDAO();
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-     
+
         String action = request.getParameter("action");
-          response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         out = response.getWriter();
-           String deleteId = request.getParameter("deleteId");
-        if (action.equalsIgnoreCase("delete")) {
-            int pos_id = Integer.parseInt(deleteId);
-            System.out.println(pos_id);
-            status = dao.deletePosition(pos_id);
-            JSONObject obj = new JSONObject();   //create globally JSONObject and name is "obj"
+        String deleteId = request.getParameter("deleteId");
 
-            if (status != 0) {   //check if condition variable "i" not equal to zero after continue
+        switch (action.toLowerCase()) {
+            case "delete":
+                int pos_id = Integer.parseInt(deleteId);
+                System.out.println(pos_id);
+                status = dao.deletePosition(pos_id);
+                obj = new JSONObject();
 
-                obj.put("status", "success");
-                obj.put("message", "Leave Type Delete Successfully");    //create json object "status","message" and apply custome messages for "delete data"
-            } else {
+                if (status != 0) {
+                    obj.put("status", "success");
+                    obj.put("message", "Record Deleted Successfully");
+                } else {
+                    obj.put("status", "error");
+                    obj.put("message", "Unable to delete Record....");
+                }
 
+                out.print(obj);
+                break;
+
+            case "edit":
+                String carder_id = request.getParameter("designation_id");
+                int id = Integer.parseInt(carder_id);
+                pos = dao.getPositionById(id);
+                String result = JSONConverter.convert(pos);
+                out.println(result);
+                break;
+            case "getBySC":
+                String scarder_id = request.getParameter("standardCarder");
+//                int sid = Integer.parseInt(scarder_id);
+               List <Position> scarderPositions = dao.getPositionBySId(scarder_id);
+                String result_ = JSONConverter.convert(scarderPositions);
+                out.println(result_);
+                break;
+            case "process_designation":
+
+                String carder_category_id = request.getParameter("carder_category_id");
+                String standardized_cadre_id = request.getParameter("standardized_cadre_id");
+                String position_title = request.getParameter("position_title");
+                String basic_pay = request.getParameter("basic_pay");
+                String id_ = request.getParameter("e_designation_id");
+
+                if (id_ == null || id_.isEmpty()) {
+                    pos.setCarder_category_id(Integer.parseInt(carder_category_id));
+                    pos.setStandardized_cadre_id(Integer.parseInt(standardized_cadre_id));
+                    pos.setPosition_title(position_title);
+                    pos.setBasic_pay(Integer.parseInt(basic_pay));
+                    System.out.println(pos);
+
+                    status = dao.addPosition(pos);
+
+                    if (status != 0) {
+                        obj.put("status", "success");
+                        obj.put("message", "Record Added Successfully");
+                        System.out.println(obj);
+                    } else {
+                        obj.put("status", "error");
+                        obj.put("message", "Unable to Add Record");
+                        System.out.println(obj);
+                    }
+
+                    out.print(obj);
+                } else {
+                    // code for updating position
+                    pos.setId(Integer.parseInt(id_));
+                    pos.setCarder_category_id(Integer.parseInt(carder_category_id));
+                    pos.setStandardized_cadre_id(Integer.parseInt(standardized_cadre_id));
+                    pos.setPosition_title(position_title);
+                    pos.setBasic_pay(Integer.parseInt(basic_pay));
+                    status = dao.updatePosition(pos);
+                    obj = new JSONObject();
+                    if (status != 0) {
+                        obj.put("status", "success");
+                        obj.put("message", "Record Updated Successfully");
+                        System.out.println(obj);
+                    } else {
+                        obj.put("status", "error");
+                        obj.put("message", "Unable to Update Record");
+                        System.out.println(obj);
+                    }
+                    out.print(obj);
+                }
+                break;
+
+            default:
+                obj = new JSONObject();
                 obj.put("status", "error");
-                obj.put("message", "Unable to delete Leave Type....");   //create json object "status","message" and apply custome messages for "unable to delete data"
-            }
-
-            out.print(obj); //finally print the "obj" object
-
-        } else if (action.equalsIgnoreCase("edit")) {
-            String carder_id = request.getParameter("designation_id");
-            int id = Integer.parseInt(carder_id);
-            Position pos = dao.getPositionById(id);
-            String result = JSONConverter.convert(pos);
-            out.println(result);
-
-        } else if (action.equalsIgnoreCase("process_Designation")) {
-            Position pos = new Position();
-            String carder_category_id = request.getParameter("carder_category_id");
-            String standardized_cadre_id = request.getParameter("standardized_cadre_id");
-            String position_title = request.getParameter("position_title");
-            String basic_pay = request.getParameter("basic_pay");
-            String id = request.getParameter("e_position_id");
-
-            if (id == null || id.isEmpty()) {
-                pos.setCarder_category_id(Integer.parseInt(carder_category_id));
-                pos.setStandardized_cadre_id(Integer.parseInt(standardized_cadre_id));
-                pos.setPosition_title(position_title);
-//                pos.setCadre_type_id(Integer.parseInt(cadre_type_id));
-                pos.setBasic_pay(Integer.parseInt(basic_pay));
-                 System.out.println(pos);
-//                
-  status = dao.addPosition(pos);
-            JSONObject obj = new JSONObject();   //create globally JSONObject and name is "obj"
-
-            if (status != 0) {   //check if condition variable "i" not equal to zero after continue
-
-                obj.put("status", "success");
-                obj.put("message", "Record Added Successfully");    //create json object "status","message" and apply custome messages for "delete data"
-                System.out.println(obj);
-            } else {
-
-                obj.put("status", "error");
-                obj.put("message", "Unable to Add Record");   //create json object "status","message" and apply custome messages for "unable to delete data"
-                System.out.println(obj);
-            }
-
-            out.print(obj); //finally print the "obj" object
-            } else {
-                pos.setId(Integer.parseInt(id));
-                pos.setCarder_category_id(Integer.parseInt(carder_category_id));
-                pos.setStandardized_cadre_id(Integer.parseInt(standardized_cadre_id));
-                pos.setPosition_title(position_title);
-//                pos.setCadre_type_id(Integer.parseInt(cadre_type_id));
-                pos.setBasic_pay(Integer.parseInt(basic_pay));
-                
-//                
- status = dao.updatePosition(pos);
-            JSONObject obj = new JSONObject();   //create globally JSONObject and name is "obj"
-
-            if (status != 0) {   //check if condition variable "i" not equal to zero after continue
-
-                obj.put("status", "success");
-                obj.put("message", "Record Added Successfully");    //create json object "status","message" and apply custome messages for "delete data"
-                System.out.println(obj);
-            } else {
-
-                obj.put("status", "error");
-                obj.put("message", "Unable to Add Record");   //create json object "status","message" and apply custome messages for "unable to delete data"
-                System.out.println(obj);
-            }
-
-            out.print(obj); //finally print the "obj" object
-
-            }
-        } else {
-//            String ccate = json.convert(
-//                    dao.getAllStandardCarder()
-//            );
-//            System.out.println(ccate);
-//            out.println(ccate);
+                obj.put("message", "Invalid action");
+                out.print(obj);
+                break;
         }
-        
-     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
